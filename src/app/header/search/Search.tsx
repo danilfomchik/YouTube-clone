@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-// import { useAppSelector, useAppDispatch } from "../../hooks";
-// import {
-//     useNavigate,
-//     useLocation,
-// } from "react-router-dom";
-// import qs from "query-string";
+import { useAppSelector, useAppDispatch } from "../../../hooks";
+import { useNavigate, useLocation } from "react-router-dom";
+import qs from "query-string";
 
 import { Input, Box, Tooltip } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,28 +9,28 @@ import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 // import SuggestionsDropDown from "../suggestionsDropDown/SuggestionsDropDown";
 
-// import { onSearch } from "./searchSlice";
+import { onSearch, selectSearchValue } from "./searchSlice";
 // import { changeCurrentCategory } from "../../../pages/home/categories-filter/categoriesSlice";
 
 const Search = () => {
-    // const navigate = useNavigate();
-    // const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
 
-    // const dispatch = useAppDispatch();
-    // const searchValue = useAppSelector((state) => state.search.searchValue);
+    const dispatch = useAppDispatch();
+    const searchValue = useAppSelector(selectSearchValue);
 
-    const [value, setValue] = useState("");
-    const [isFocus, setIsFocus] = useState(false);
+    const [value, setValue] = useState<string>("");
+    const [isFocus, setIsFocus] = useState<boolean>(false);
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    // useEffect(() => {
-    //     const { searchQuery } = qs.parse(document.location.search);
+    useEffect(() => {
+        const { searchQuery } = qs.parse(document.location.search);
 
-    //     if (searchQuery) {
-    //         setValue(searchQuery);
-    //     }
-    // }, []);
+        if (searchQuery) {
+            setValue(searchQuery as string);
+        }
+    }, []);
 
     return (
         <div className="header__search">
@@ -42,14 +39,14 @@ const Search = () => {
                 onSubmit={(e) => {
                     e.preventDefault();
 
-                    // if (pathname !== "/") {
-                    //     dispatch(changeCurrentCategory("0"));
-                    //     navigate(`/`);
-                    // }
+                    if (pathname !== "/") {
+                        // dispatch(changeCurrentCategory("0"));
+                        navigate(`/`);
+                    }
 
-                    // if (searchValue !== value) {
-                    //     dispatch(onSearch(inputRef.current.value));
-                    // }
+                    if (searchValue !== value) {
+                        dispatch(onSearch(inputRef!.current!.value));
+                    }
                 }}
             >
                 <Input
@@ -83,7 +80,7 @@ const Search = () => {
                                 icon={faXmark}
                                 onClick={() => {
                                     setValue("");
-                                    // inputRef.current.focus();
+                                    inputRef!.current!.focus();
                                 }}
                             />
                             <div className="divider"></div>
