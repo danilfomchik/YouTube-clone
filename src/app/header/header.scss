@@ -1,0 +1,60 @@
+@import "/src/style/variables.scss";
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    &__wrapper {
+        // width: calc(100% - $navbar-width);
+        background: $main-bg-color;
+        border-bottom: 2px solid $secondary-bg-color;
+        z-index: 100;
+        max-height: $header-height;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+    }
+
+    &__logo {
+        margin: 0px 20px;
+        // min-width: 100px;
+    }
+
+    &__search {
+        flex: 0 1 732px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        // margin: 0px 50px;
+
+        input {
+            padding: 0px calc(8% + 10px + 15px) 0px 0px;
+        }
+
+        .form-controlls {
+            position: absolute;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            width: 8%;
+            justify-content: space-between;
+
+            .divider {
+                height: 24px;
+                width: 1px;
+                background-color: #ffffff;
+            }
+        }
+
+        .fa-xmark,
+        .fa-magnifying-glass {
+            color: #ffffff;
+            width: 19px;
+            height: 19px;
+            cursor: pointer;
+        }
+    }
+}
