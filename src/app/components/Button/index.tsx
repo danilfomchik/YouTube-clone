@@ -3,9 +3,9 @@ import {type ButtonProps, Button as MuiButton} from '@mui/material';
 
 import {CustomButtonProps} from './types';
 
-const Index = ({
+const Button = ({
     variant = 'contained',
-    color,
+    color = 'primary',
     children,
     minWidth = '0',
     icon = null,
@@ -25,4 +25,4 @@ const Index = ({
     );
 };
 
-export default Index;
+export default Button;

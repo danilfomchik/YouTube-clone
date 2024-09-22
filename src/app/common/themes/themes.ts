@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {Theme, createTheme} from '@mui/material';
 
-import lightPalette from './lightPalette';
+import customThemeValues from './customThemeValues';
 
 export const toolbarHeights = {
     mobilePortrait: 60,
@@ -12,15 +12,6 @@ export const toolbarHeights = {
 const createCommonTheme = (theme: Theme) =>
     createTheme({
         ...theme,
-        breakpoints: {
-            values: {
-                xs: 0,
-                sm: 576,
-                md: 768,
-                lg: 1086,
-                xl: 1537,
-            },
-        },
         spacing: 8,
         mixins: {
             toolbar: {
@@ -46,7 +37,7 @@ const createCommonTheme = (theme: Theme) =>
                 styleOverrides: {
                     root: {
                         fontFamily: 'inherit',
-                        color: theme.palette.background.black,
+                        color: theme.palette.text.primary,
                     },
                     h1: {
                         fontSize: '3.8rem',
@@ -87,7 +78,7 @@ const createCommonTheme = (theme: Theme) =>
                         fontWeight: '500',
                     },
                     body2: {
-                        fontSize: '1.13rem',
+                        fontSize: '1rem',
                         lineHeight: '150%',
                         fontWeight: '400',
 
@@ -102,7 +93,211 @@ const createCommonTheme = (theme: Theme) =>
                     },
                 },
             },
+            MuiFormLabel: {
+                styleOverrides: {
+                    root: {
+                        color: theme.palette.background.black,
+                        fontFamily: 'inherit',
+                        fontWeight: '600',
+                        '&.Mui-error': {
+                            color: theme.palette.error.main,
+                        },
+                    },
+                },
+            },
+            MuiInputBase: {
+                styleOverrides: {
+                    input: {
+                        '&::placeholder': {
+                            fontWeight: '400',
+                        },
+                    },
+                    root: {
+                        color: theme.palette.background.black,
+                        background: 'inherit',
+                        fontFamily: 'inherit',
+                        fontSize: 18,
+                        fontStyle: 'normal',
+                        fontWeight: '600',
+                        minHeight: 60,
+                    },
+                },
+            },
+            MuiOutlinedInput: {
+                styleOverrides: {
+                    root: {
+                        '& fieldset': {
+                            borderColor: theme.palette.background.grey,
+                        },
+                        '&:hover fieldset': {
+                            borderColor: theme.palette.secondary.main,
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: theme.palette.secondary.main,
+                        },
+                    },
+                },
+            },
+            MuiFormControl: {
+                styleOverrides: {
+                    root: {
+                        width: '100%',
+                        maxWidth: 600,
+                    },
+                },
+            },
+            MuiInputLabel: {
+                styleOverrides: {
+                    outlined: {
+                        '&.MuiInputLabel-marginDense': {
+                            transform: 'translate(14px, 9px) scale(1)',
+                        },
+                        '&.MuiInputLabel-shrink': {
+                            transform: 'translate(14px, -6px) scale(0.75)',
+                        },
+                    },
+                },
+            },
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        textTransform: 'none',
+                    },
+                    text: {
+                        minWidth: 140,
+                        height: 40,
+                        background: theme.palette.primary.main,
+                    },
+                    containedPrimary: {
+                        color: theme.palette.background.black,
+
+                        '& .MuiButton-endIcon': {
+                            backgroundColor: theme.palette.secondary.main,
+                            color: `${theme.palette.background.black}`,
+                        },
+                    },
+                    containedSecondary: {
+                        '& .MuiButton-endIcon': {
+                            background: theme.palette.primary.main,
+                        },
+
+                        '&:hover': {
+                            background: theme.palette.secondary.dark,
+                        },
+                    },
+                    outlinedSecondary: {
+                        '& .MuiTypography-root': {
+                            color: theme.palette.secondary.main,
+                        },
+                        padding: theme.spacing(1, 2),
+                        borderRadius: theme.spacing(3),
+                    },
+                },
+            },
+            MuiIconButton: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(1),
+                    },
+                },
+            },
+            MuiDrawer: {
+                styleOverrides: {
+                    paper: {
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                    },
+                },
+            },
+            MuiList: {
+                styleOverrides: {
+                    padding: {
+                        padding: theme.spacing(2, 0),
+                    },
+                },
+            },
+            MuiListItem: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(1.5, 2),
+                        borderRadius: theme.spacing(2),
+
+                        variants: [
+                            {
+                                props: ({open = true}) => open,
+                                style: {
+                                    '& .MuiListItemIcon-root': {
+                                        marginRight: theme.spacing(3),
+                                    },
+
+                                    '& .MuiListItemText-root': {
+                                        '& .MuiTypography-root': {
+                                            fontSize: '1rem',
+                                        },
+                                    },
+
+                                    '& .MuiListItemButton-root': {
+                                        flexDirection: 'row',
+                                    },
+                                },
+                            },
+                            {
+                                props: ({open = true}) => !open,
+                                style: {
+                                    '& .MuiListItemIcon-root': {
+                                        marginRight: theme.spacing(0),
+                                    },
+
+                                    '& .MuiListItemText-root': {
+                                        marginBottom: theme.spacing(0),
+
+                                        '& .MuiTypography-root': {
+                                            fontSize: '.8rem',
+                                        },
+                                    },
+
+                                    '& .MuiListItemButton-root': {
+                                        flexDirection: 'column',
+                                    },
+
+                                    [theme.breakpoints.down('sm')]: {
+                                        padding: theme.spacing(1.25, 2.75),
+
+                                        '& .MuiListItemText-root': {
+                                            display: 'none',
+                                        },
+                                    },
+                                },
+                            },
+                        ],
+
+                        '&:has(.MuiButtonBase-root.Mui-selected)': {
+                            backgroundColor: theme.palette.background.black,
+
+                            '& .MuiButtonBase-root': {
+                                backgroundColor: theme.palette.background.black,
+                            },
+                        },
+
+                        '& .MuiButtonBase-root': {
+                            padding: theme.spacing(0),
+                        },
+
+                        '& .MuiListItemIcon-root': {
+                            minWidth: 0,
+                            justifyContent: 'center',
+                        },
+                    },
+                },
+            },
+            MuiDivider: {
+                styleOverrides: {
+                    root: {
+                        borderColor: theme.palette.background.lightGrey,
+                    },
+                },
+            },
         },
     });
 
-export const lightTheme = createTheme(createCommonTheme(lightPalette));
+export const lightTheme = createTheme(createCommonTheme(customThemeValues));

@@ -1,52 +1,58 @@
 'use client';
 
 import React from 'react';
-import {Grid, Typography, Divider, Chip} from '@mui/material';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
-import Link from 'next/link';
+import {useForm, FormProvider} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Grid2, Typography} from '@mui/material';
 
+import {defaultValues, validation} from './form';
 import Button from '../../components/Button';
+import InputControl from '@/app/components/form/InputControl';
 
 const SignIn = () => {
+    const methods = useForm({
+        resolver: yupResolver(validation),
+        defaultValues,
+        mode: 'onChange',
+    });
+
+    const {control, handleSubmit} = methods;
+
+    const onSubmit = () => {};
+
     return (
-        <>
-            <Grid item xs={12} pb={6}>
-                <Link href="/" className="exit-form">
-                    <Chip
-                        icon={<ArrowBackIosNewRoundedIcon />}
-                        size="small"
-                        variant="outlined"
-                        label="Повернутися на головну сторінку"
-                    />
-                </Link>
-            </Grid>
-
-            <Grid item xs={12} xl={11} container justifyContent="center">
-                <Grid item xs={12} lg={9} xl={8} container alignItems="center" justifyContent="center">
-                    <Grid item pb={3} xs={12} justifyContent="center">
-                        <Divider>{'або'}</Divider>
-                    </Grid>
-
-                    <Grid item pb={3} xs={12}>
-                        <Button
-                            type="submit"
-                            className="signin__button"
-                            fullWidth
-                            color="secondary"
-                            startIcon={<FacebookIcon />}>
-                            {'Авторизуватися через Facebook'}
-                        </Button>
-                    </Grid>
-
-                    <Grid item xs={12} container justifyContent="center">
-                        <Link href="/signup" className="help-link">
-                            <Typography variant="body1">{'В мене немає профілю'}</Typography>
-                        </Link>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </>
+        <Grid2 container alignItems="center" p={2}>
+            <Grid2 container size={10} spacing={2} px={2} alignItems="center">
+                <Grid2 size={12}>
+                    <Typography variant="h2">{'profile'}</Typography>
+                </Grid2>
+                <Grid2 size={12}>
+                    <FormProvider {...methods}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Grid2 container spacing={2}>
+                                <Grid2 size={12}>
+                                    <Grid2 container justifyContent="space-between" alignItems="center">
+                                        <Grid2 size={8}>
+                                            <InputControl
+                                                control={control}
+                                                label={'newName'}
+                                                name="newName"
+                                                fullWidth
+                                            />
+                                        </Grid2>
+                                        <Grid2 size={3}>
+                                            <Button type="submit" color="primary">
+                                                {'save'}
+                                            </Button>
+                                        </Grid2>
+                                    </Grid2>
+                                </Grid2>
+                            </Grid2>
+                        </form>
+                    </FormProvider>
+                </Grid2>
+            </Grid2>
+        </Grid2>
     );
 };
 

@@ -86,6 +86,16 @@
                 "beforeClosing": "allow"
             }
         ],
-        "react/react-in-jsx-scope": 0
+        "react/react-in-jsx-scope": 0,
+        "import/order": [
+            "warn",
+            {
+                "groups": ["external"],
+                "newlines-between": "always"
+            }
+        ]
+    },
+    "globals": {
+        "google": "readonly"
     }
 }

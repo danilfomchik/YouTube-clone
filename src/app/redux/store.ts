@@ -3,11 +3,11 @@ import {useDispatch} from 'react-redux';
 
 import {snackbarData} from './snackbar/snackbarSlice';
 import {snackbarMiddleware} from './snackbar/middleware';
-import {commonData} from './common/commonSlice';
+import {navbarData} from './navbar/navbarSlice';
 
 const combinedReducer = combineReducers({
     snackbar: snackbarData.reducer,
-    common: commonData.reducer,
+    navbar: navbarData.reducer,
 });
 
 const store = configureStore({
