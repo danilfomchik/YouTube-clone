@@ -15,6 +15,14 @@ const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(snackbarMiddleware),
 });
 
+export const getStoreWithState = (preloadedState?: ReturnType<typeof store.getState>) => {
+    return configureStore({
+        reducer: combinedReducer,
+        middleware: getDefaultMiddleware => getDefaultMiddleware(),
+        preloadedState,
+    });
+};
+
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 

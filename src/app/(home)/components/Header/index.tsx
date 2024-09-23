@@ -64,6 +64,7 @@ const Header = () => {
                     LOGO
                 </Typography>
 
+                {/* eslint-disable-next-line max-len */}
                 {/* <LogInButton fullWidth variant="outlined" color="secondary" startIcon={<AccountCircleOutlinedIcon />}>
                     Log in
                 </LogInButton> */}

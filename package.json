@@ -51,6 +51,7 @@
     "eslint-plugin-react": "^7.33.2",
     "husky": "^9.0.11",
     "jsdom": "^24.0.0",
+    "next-router-mock": "^0.9.13",
     "prettier": "^3.0.3",
     "typescript": "^5.4.2",
     "vitest": "^1.4.0"

@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect} from 'react';
-import {Box, useMediaQuery, useTheme} from '@mui/material';
+import {Box, Grid2, useMediaQuery, useTheme} from '@mui/material';
 
 import Navbar from './components/Navbar';
 import Header from './components/Header';
@@ -28,11 +28,11 @@ const MainPageLayout = ({children}: Props) => {
     }, [screenUpperMd, dispatch]);
 
     return (
-        <Box sx={{display: 'flex'}}>
+        <Grid2 container flexWrap="nowrap">
             <Header />
             <Navbar />
 
-            <Box component="main" sx={{flexGrow: 1, p: 3}}>
+            <Box component="main" p={3}>
                 <DrawerHeader />
                 {children}
                 {children}
@@ -40,7 +40,7 @@ const MainPageLayout = ({children}: Props) => {
                 {children}
                 {children}
             </Box>
-        </Box>
+        </Grid2>
     );
 };
 
