@@ -28,24 +28,24 @@ const customThemeValues = createTheme({
             contrastText: '#000000',
         },
         secondary: {
-            main: '#3ea6ff',
-            light: '#d9d9d9',
-            dark: '#263850',
+            main: '#ec625c',
+            light: '#fcefee',
+            dark: '#ed67671a',
             contrastText: '#ffffff',
         },
         error: {
             main: '#ed6767',
             light: '#ed67671a',
             dark: '#f56969',
-            contrastText: '#000000',
+            contrastText: '#ffffff',
         },
         info: {
             main: '#3ea6ff',
-            contrastText: '#000000',
+            contrastText: '#ffffff',
         },
         success: {
             main: '#63c7b2',
-            contrastText: '#000000',
+            contrastText: '#ffffff',
         },
         background: {
             default: '#121214',
