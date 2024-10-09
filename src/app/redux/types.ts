@@ -36,6 +36,7 @@ export enum ISlicesNames {
     snackbar = 'snackbar',
     stories = 'stories',
     navbar = 'navbar',
+    accountMenu = 'accountMenu',
 }
 
 export type SliceNames = ISlicesNames;
