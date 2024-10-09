@@ -20,11 +20,7 @@ const MainPageLayout = ({children}: Props) => {
     const screenUpperMd = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
-        if (screenUpperMd) {
-            dispatch(setNavbarStatus(true));
-        } else {
-            dispatch(setNavbarStatus(false));
-        }
+        dispatch(setNavbarStatus(screenUpperMd));
     }, [screenUpperMd, dispatch]);
 
     return (
@@ -34,10 +30,6 @@ const MainPageLayout = ({children}: Props) => {
 
             <Box component="main" p={3}>
                 <DrawerHeader />
-                {children}
-                {children}
-                {children}
-                {children}
                 {children}
             </Box>
         </Grid2>
