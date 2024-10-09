@@ -36,7 +36,7 @@ describe('Navbar component', () => {
             expect(link).toBeDefined();
         });
 
-        it(`Link should href that route to ${page.path}`, async () => {
+        it(`Link should have href that route to ${page.path}`, async () => {
             const {getByRole} = renderWithProvider(<Navbar />, {} as any, {wrapper: MemoryRouterProvider});
 
             const link = getByRole('link', {

@@ -46,11 +46,9 @@ const Input = ({
             onChange={handleChange}
             variant="standard"
             label={label}
-            size="small"
             value={currentValue}
             color="secondary"
             type={type}
-            InputLabelProps={{shrink: true}}
             {...textFieldProps}
         />
     );

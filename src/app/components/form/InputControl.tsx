@@ -6,10 +6,9 @@ import {get} from 'lodash';
 
 import Input from '../inputs/Input';
 
-interface IInputProps {
+export interface IInputProps {
     control: Control<any>;
     name: string;
-    isInt?: boolean;
 }
 
 const InputControl = ({control, name, label, defaultValue, ...restProps}: IInputProps & TextFieldProps) => {

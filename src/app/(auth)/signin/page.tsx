@@ -6,7 +6,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Grid2, Typography} from '@mui/material';
 
 import {defaultValues, validation} from './form';
-import Button from '../../components/Button';
+import Button from '../../components/Buttons';
 import InputControl from '@/app/components/form/InputControl';
 
 const SignIn = () => {

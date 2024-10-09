@@ -4,7 +4,7 @@ import React from 'react';
 import {Grid2, Typography} from '@mui/material';
 import Link from 'next/link';
 
-import Button from '@/app/components/Button';
+import Button from '@/app/components/Buttons';
 
 const Main = () => {
     return (
