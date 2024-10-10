@@ -2,19 +2,16 @@
 
 import React from 'react';
 
-import ReturnBack from '../../ReturnBack';
 import {useAppDispatch} from '@/app/redux/store';
 import MenuItem from '../../MenuItem';
 import {TMenu} from '../../types';
 import {handleMenuItemClick} from '../../utils';
 
-const SettingsMenu = ({menuOptions}: TMenu) => {
+const SettingsMenu = ({menuOptions, name}: TMenu) => {
     const dispatch = useAppDispatch();
 
     return (
         <>
-            <ReturnBack />
-
             {menuOptions.map(item => {
                 const {icon, text, hasNested} = item;
 
@@ -23,7 +20,7 @@ const SettingsMenu = ({menuOptions}: TMenu) => {
                         key={text}
                         icon={icon}
                         text={text}
-                        onClick={() => handleMenuItemClick(dispatch, item)}
+                        onClick={() => handleMenuItemClick({dispatch, item, name})}
                         hasNested={hasNested}
                     />
                 );

@@ -3,13 +3,13 @@ import {MenuItem, ListItemIcon, Typography, Grid2, Divider} from '@mui/material'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 
 import {useAppDispatch} from '@/app/redux/store';
-import {returnToPrevMenuIndex} from '@/app/redux/accountMenu/accountMenuSlice';
+import {returnToPrevMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 
 const ReturnBack = () => {
     const dispatch = useAppDispatch();
 
     const onReturn = () => {
-        dispatch(returnToPrevMenuIndex());
+        dispatch(returnToPrevMenu());
     };
 
     return (

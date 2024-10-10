@@ -12,7 +12,6 @@ export const menusOptions: {[key in MenusEnum]: TMenuOption[]} = {
         {
             icon: <PersonAdd fontSize="small" />,
             text: 'Add another account',
-            hasNested: false,
             onClick: () => console.log('Add another account'),
         },
         {
@@ -24,7 +23,6 @@ export const menusOptions: {[key in MenusEnum]: TMenuOption[]} = {
         {
             icon: <Logout fontSize="small" />,
             text: 'Logout',
-            hasNested: false,
             onClick: () => console.log('Logout'),
         },
     ],
@@ -45,29 +43,23 @@ export const menusOptions: {[key in MenusEnum]: TMenuOption[]} = {
     [MenusEnum.languageMenu]: [
         {
             text: 'English',
-            hasNested: false,
         },
         {
             text: 'Ukrainian',
-            hasNested: false,
         },
         {
             text: 'Italian',
-            hasNested: false,
         },
     ],
     [MenusEnum.themeMenu]: [
         {
             text: 'Dark',
-            hasNested: false,
         },
         {
             text: 'Light',
-            hasNested: false,
         },
         {
             text: 'Device',
-            hasNested: false,
         },
     ],
 };

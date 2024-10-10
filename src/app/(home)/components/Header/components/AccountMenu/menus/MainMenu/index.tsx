@@ -8,7 +8,7 @@ import {useAppDispatch} from '@/app/redux/store';
 import {handleMenuItemClick} from '../../utils';
 import MenuItem from '../../MenuItem';
 
-const MainMenu = ({menuOptions}: TMenu) => {
+const MainMenu = ({menuOptions, name}: TMenu) => {
     const dispatch = useAppDispatch();
 
     return (
@@ -30,7 +30,7 @@ const MainMenu = ({menuOptions}: TMenu) => {
                         key={text}
                         icon={icon}
                         text={text}
-                        onClick={() => handleMenuItemClick(dispatch, item)}
+                        onClick={() => handleMenuItemClick({dispatch, item, name})}
                         hasNested={hasNested}
                     />
                 );

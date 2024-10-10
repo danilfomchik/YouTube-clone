@@ -1,3 +1,6 @@
+import {MenusEnum} from '@/app/(home)/components/Header/components/AccountMenu/types';
+
 export interface ICommonState {
-    currentMenuIndex: number;
+    currentMenu: MenusEnum;
+    prevMenus: MenusEnum[] | null;
 }

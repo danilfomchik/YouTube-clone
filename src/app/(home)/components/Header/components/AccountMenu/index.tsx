@@ -2,18 +2,18 @@ import React, {useState} from 'react';
 import {Tooltip, IconButton, Avatar, Menu, Grid2} from '@mui/material';
 import {useSelector} from 'react-redux';
 
-import {selectCurrentMenuIndex} from '@/app/redux/accountMenu/selectors';
+import {selectCurrentMenu, selectPrevMenu} from '@/app/redux/accountMenu/selectors';
 import {useAppDispatch} from '@/app/redux/store';
-import {resetMenuIndex} from '@/app/redux/accountMenu/accountMenuSlice';
+import {resetMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 import {menus} from './menus';
-
-// TODO: undo commit and add more files
+import ReturnBack from './ReturnBack';
 
 const AccountMenu = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const dispatch = useAppDispatch();
-    const currentMenuIndex = useSelector(selectCurrentMenuIndex);
+    const currentMenu = useSelector(selectCurrentMenu);
+    const prevMenus = useSelector(selectPrevMenu)?.length;
 
     const open = !!anchorEl;
 
@@ -26,8 +26,8 @@ const AccountMenu = () => {
     };
 
     const onMenuClose = () => {
-        if (currentMenuIndex > 0) {
-            dispatch(resetMenuIndex());
+        if (prevMenus) {
+            dispatch(resetMenu());
         }
     };
 
@@ -66,7 +66,9 @@ const AccountMenu = () => {
                         },
                     },
                 }}>
-                {menus[currentMenuIndex].menuComponent}
+                {!!prevMenus && <ReturnBack />}
+
+                {menus[currentMenu]}
             </Menu>
         </>
     );

@@ -1,28 +1,35 @@
+import {MenusEnum} from '@/app/(home)/components/Header/components/AccountMenu/types';
 import createGenericSlice from '../createGenericSlice';
 import {ISlicesNames} from '../types';
 import {ICommonState} from './types';
 
+const defaultMenu = MenusEnum.mainMenu;
+
 const reducers = {
-    setCurrentMenuIndex: (state: any, {payload}: {payload: number}) => {
-        const currentIndex = state.data.currentMenuIndex;
+    changeCurrentMenu: (state: any, {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}}) => {
+        const {prevMenu, nextMenu} = payload;
 
-        state.data.currentMenuIndex = payload;
-        state.data.prevMenuIndex = currentIndex;
-    },
-    returnToPrevMenuIndex: (state: any) => {
-        const prevMenuIndex = state.data.prevMenuIndex;
+        const prevMenuState = state.data.prevMenus;
 
-        state.data.currentMenuIndex = prevMenuIndex;
-        state.data.prevMenuIndex = prevMenuIndex > 0 ? prevMenuIndex - 1 : prevMenuIndex;
+        state.data.currentMenu = nextMenu;
+        state.data.prevMenus = [...prevMenuState, prevMenu];
     },
-    resetMenuIndex: (state: any) => {
-        state.data.currentMenuIndex = 0;
+    resetMenu: (state: any) => {
+        state.data.currentMenu = defaultMenu;
+        state.data.prevMenus = [];
+    },
+    returnToPrevMenu: (state: any) => {
+        const prevMenuState = state.data.prevMenus;
+        const prevMenuStateLastItem = prevMenuState.length - 1;
+
+        state.data.currentMenu = prevMenuState[prevMenuStateLastItem];
+        state.data.prevMenus.pop();
     },
 };
 
 const initialData = {
-    currentMenuIndex: 0,
-    prevMenuIndex: 0,
+    currentMenu: defaultMenu,
+    prevMenus: [],
 };
 
 export const accountMenuData = createGenericSlice<ICommonState, typeof reducers>({
@@ -37,5 +44,5 @@ export const accountMenuData = createGenericSlice<ICommonState, typeof reducers>
     extraReducers: () => {},
 });
 
-export const {resetSlice, setCurrentMenuIndex, returnToPrevMenuIndex, resetMenuIndex} = accountMenuData.actions;
+export const {resetSlice, returnToPrevMenu, resetMenu, changeCurrentMenu} = accountMenuData.actions;
 export default accountMenuData.reducer;

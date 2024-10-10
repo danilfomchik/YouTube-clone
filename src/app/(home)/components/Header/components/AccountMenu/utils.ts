@@ -1,19 +1,18 @@
-import {setCurrentMenuIndex} from '@/app/redux/accountMenu/accountMenuSlice';
+import {changeCurrentMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 import {MenusEnum, TMenuOption} from './types';
 import {AppDispatch} from '@/app/redux/store';
-import {menus} from './menus';
 
-export const getMenuIndex = (menuName: MenusEnum) => {
-    return menus.map(menu => menu.name).indexOf(menuName);
+type THandleMenuItemClick = {
+    dispatch: AppDispatch;
+    item: TMenuOption;
+    name: MenusEnum;
 };
 
-export const handleMenuItemClick = (dispatch: AppDispatch, item: TMenuOption) => {
+export const handleMenuItemClick = ({dispatch, item, name}: THandleMenuItemClick) => {
     const {hasNested, nextMenu, onClick} = item;
 
-    const nextMenuIndex = menus.map(menu => menu.name).indexOf(nextMenu as MenusEnum);
-
-    if (hasNested) {
-        dispatch(setCurrentMenuIndex(nextMenuIndex));
+    if (hasNested && nextMenu) {
+        dispatch(changeCurrentMenu({nextMenu, prevMenu: name}));
     }
 
     if (onClick) {

@@ -19,19 +19,34 @@ export enum MenusEnum {
 
 export type MenuEnumValues = EnumAsUnion<typeof MenusEnum>;
 
+// export type TMenuOption = {
+//     icon?: ReactElement | null;
+//     text: string;
+//     hasNested: boolean;
+//     nextMenu?: MenusEnum;
+//     onClick?: () => void;
+// };
+type OptionalMenuOption =
+    | {
+          hasNested: true;
+          nextMenu: MenusEnum;
+      }
+    | {
+          hasNested?: undefined;
+          nextMenu?: undefined;
+      };
+
 export type TMenuOption = {
     icon?: ReactElement | null;
     text: string;
-    hasNested: boolean;
-    nextMenu?: MenusEnum;
     onClick?: () => void;
-};
+} & OptionalMenuOption;
 
 export type TMenu = {
     menuOptions: TMenuOption[];
+    name: MenusEnum;
 };
 
 export interface IMenuItem {
-    name: MenusEnum;
-    menuComponent: ReactElement<ComponentType<TMenu>>;
+    [key: string]: ReactElement<ComponentType<TMenu>>;
 }
