@@ -109,6 +109,7 @@ const AutocompleteControl = ({
                                         <IconButton
                                             edge="end"
                                             type="submit"
+                                            data-testid="Search submit"
                                             onClick={e => {
                                                 e.stopPropagation();
 

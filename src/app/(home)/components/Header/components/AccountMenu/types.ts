@@ -19,13 +19,6 @@ export enum MenusEnum {
 
 export type MenuEnumValues = EnumAsUnion<typeof MenusEnum>;
 
-// export type TMenuOption = {
-//     icon?: ReactElement | null;
-//     text: string;
-//     hasNested: boolean;
-//     nextMenu?: MenusEnum;
-//     onClick?: () => void;
-// };
 type OptionalMenuOption =
     | {
           hasNested: true;

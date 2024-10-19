@@ -22,7 +22,7 @@ const store = configureStore({
 export const getStoreWithState = (preloadedState?: ReturnType<typeof store.getState>) => {
     return configureStore({
         reducer: combinedReducer,
-        middleware: getDefaultMiddleware => getDefaultMiddleware(),
+        middleware: getDefaultMiddleware => getDefaultMiddleware().concat(suggestionApi.middleware),
         preloadedState,
     });
 };

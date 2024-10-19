@@ -21,7 +21,6 @@ const MenuItem = ({icon = null, text, hasNested = false, ...restProps}: MenuItem
                 </Typography>
             </Grid2>
 
-            {/* TODO: add animation on hover -> arrow slides to the right */}
             {hasNested && (
                 <ListItemIcon sx={{marginLeft: 2}}>
                     <ArrowForwardIosRoundedIcon fontSize="small" />
