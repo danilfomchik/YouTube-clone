@@ -379,12 +379,19 @@ const createCommonTheme = (theme: Theme) =>
                         '&:has(.MuiButtonBase-root.Mui-selected)': {
                             backgroundColor: theme.palette.background.black,
 
-                            '& .MuiButtonBase-root': {
-                                backgroundColor: theme.palette.background.black,
+                            '&:hover': {
+                                '& .MuiButtonBase-root': {
+                                    backgroundColor: 'transparent',
+                                },
                             },
                         },
 
+                        '&:not(:has(.MuiButtonBase-root.Mui-selected)):hover': {
+                            backgroundColor: theme.palette.background.grey,
+                        },
+
                         '& .MuiButtonBase-root': {
+                            backgroundColor: 'transparent',
                             padding: theme.spacing(0),
                         },
 
