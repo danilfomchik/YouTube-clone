@@ -3,17 +3,29 @@ import {useDispatch} from 'react-redux';
 
 import {snackbarData} from './snackbar/snackbarSlice';
 import {snackbarMiddleware} from './snackbar/middleware';
-import {commonData} from './common/commonSlice';
+import {navbarData} from './navbar/navbarSlice';
+import {accountMenuData} from './accountMenu/accountMenuSlice';
+import {suggestionApi} from './suggestions/api';
 
 const combinedReducer = combineReducers({
     snackbar: snackbarData.reducer,
-    common: commonData.reducer,
+    navbar: navbarData.reducer,
+    accountMenu: accountMenuData.reducer,
+    [suggestionApi.reducerPath]: suggestionApi.reducer,
 });
 
 const store = configureStore({
     reducer: combinedReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(snackbarMiddleware),
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(snackbarMiddleware, suggestionApi.middleware),
 });
+
+export const getStoreWithState = (preloadedState?: ReturnType<typeof store.getState>) => {
+    return configureStore({
+        reducer: combinedReducer,
+        middleware: getDefaultMiddleware => getDefaultMiddleware().concat(suggestionApi.middleware),
+        preloadedState,
+    });
+};
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();

@@ -1,0 +1,65 @@
+/* eslint-disable no-console */
+import TranslateRoundedIcon from '@mui/icons-material/TranslateRounded';
+import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+
+import {MenusEnum, TMenuOption} from './types';
+
+export const menusOptions: {[key in MenusEnum]: TMenuOption[]} = {
+    [MenusEnum.mainMenu]: [
+        {
+            icon: <PersonAdd fontSize="small" />,
+            text: 'Add another account',
+            onClick: () => console.log('Add another account'),
+        },
+        {
+            icon: <Settings fontSize="small" />,
+            text: 'Settings',
+            hasNested: true,
+            nextMenu: MenusEnum.settingsMenu,
+        },
+        {
+            icon: <Logout fontSize="small" />,
+            text: 'Logout',
+            onClick: () => console.log('Logout'),
+        },
+    ],
+    [MenusEnum.settingsMenu]: [
+        {
+            icon: <TranslateRoundedIcon fontSize="small" />,
+            text: 'Language',
+            hasNested: true,
+            nextMenu: MenusEnum.languageMenu,
+        },
+        {
+            icon: <ContrastRoundedIcon fontSize="small" />,
+            text: 'Theme',
+            hasNested: true,
+            nextMenu: MenusEnum.themeMenu,
+        },
+    ],
+    [MenusEnum.languageMenu]: [
+        {
+            text: 'English',
+        },
+        {
+            text: 'Ukrainian',
+        },
+        {
+            text: 'Italian',
+        },
+    ],
+    [MenusEnum.themeMenu]: [
+        {
+            text: 'Dark',
+        },
+        {
+            text: 'Light',
+        },
+        {
+            text: 'Device',
+        },
+    ],
+};

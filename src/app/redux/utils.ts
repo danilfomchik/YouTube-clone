@@ -1,7 +1,7 @@
 import {Dispatch} from 'react';
+import type {AnyAction} from '@reduxjs/toolkit';
 
 import {IGenericState} from './createGenericSlice';
-import type {AnyAction} from '@reduxjs/toolkit';
 import {StatusesTypes, IRootState} from './types';
 
 export interface ICommonThunkParams {

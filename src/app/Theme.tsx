@@ -4,6 +4,7 @@ import React, {ReactNode} from 'react';
 import {ThemeProvider} from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import {SnackbarProvider} from 'notistack';
+
 import {lightTheme} from './common/themes/themes';
 import Snackbar from './snackbar';
 

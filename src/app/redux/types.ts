@@ -1,4 +1,5 @@
 import type {AsyncThunk} from '@reduxjs/toolkit';
+
 import store from '@/app/redux/store';
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
@@ -34,7 +35,8 @@ export interface ErrorState {
 export enum ISlicesNames {
     snackbar = 'snackbar',
     stories = 'stories',
-    common = 'common',
+    navbar = 'navbar',
+    accountMenu = 'accountMenu',
 }
 
 export type SliceNames = ISlicesNames;

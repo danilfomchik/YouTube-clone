@@ -1,10 +1,11 @@
+'use client';
+
 import React, {Suspense} from 'react';
 import {Mulish} from 'next/font/google';
 
 import ReduxProvider from './redux/redux-provider';
 import Theme from './Theme';
 import Loading from './loading';
-
 import {MainContainer, Main} from './Styles';
 
 const mulish = Mulish({
@@ -18,7 +19,7 @@ type LocaleLayoutProps = {
     children: React.ReactNode;
 };
 
-const RootLayout = async ({children}: LocaleLayoutProps) => {
+const RootLayout = ({children}: LocaleLayoutProps) => {
     return (
         <html>
             <body suppressHydrationWarning={true} className={mulish.className}>
