@@ -196,32 +196,40 @@ const createCommonTheme = (theme: Theme) =>
                         background: theme.palette.primary.main,
                     },
                     containedPrimary: {
-                        color: theme.palette.background.black,
+                        color: theme.palette.background.white,
+                        background: theme.palette.background.default,
+                        borderRadius: theme.spacing(3),
+                        padding: theme.spacing(1, 6),
+                        border: `1px solid ${theme.palette.secondary.main}`,
 
-                        '& .MuiButton-endIcon': {
-                            backgroundColor: theme.palette.info.main,
-                            color: `${theme.palette.background.black}`,
+                        '&:hover': {
+                            background: theme.palette.secondary.light,
                         },
                     },
                     containedSecondary: {
-                        '& .MuiButton-endIcon': {
-                            background: theme.palette.primary.main,
-                        },
-
-                        '&:hover': {
-                            background: theme.palette.secondary.dark,
-                        },
+                        color: theme.palette.background.white,
+                        background: theme.palette.secondary.main,
                     },
-                    outlinedSecondary: {
+                    outlined: {
                         color: theme.palette.info.main,
                         borderColor: theme.palette.info.main,
                         padding: theme.spacing(1, 2),
                         borderRadius: theme.spacing(3),
+                        background: theme.palette.background.default,
+
+                        '&:hover': {
+                            background: theme.palette.info.light,
+                        },
 
                         '& .MuiTypography-root': {
                             color: theme.palette.info.main,
                         },
 
+                        '& .MuiButton-startIcon .MuiSvgIcon-root': {
+                            color: theme.palette.info.main,
+                        },
+                    },
+                    outlinedSecondary: {
                         variants: [
                             {
                                 props: ({open}) => open,
@@ -254,10 +262,6 @@ const createCommonTheme = (theme: Theme) =>
                                 },
                             },
                         ],
-                    },
-                    outlinedPrimary: {
-                        color: theme.palette.primary.dark,
-                        borderColor: theme.palette.primary.dark,
                     },
                 },
             },
@@ -301,6 +305,57 @@ const createCommonTheme = (theme: Theme) =>
                             },
                             [theme.breakpoints.down('sm')]: {
                                 width: '90%',
+                            },
+                        },
+
+                        '& .MuiButtonBase-root.MuiButton-outlinedSecondary': {
+                            flexDirection: 'row',
+                            padding: theme.spacing(1, 6),
+                            width: 'auto',
+                            borderRadius: theme.spacing(3),
+
+                            '& .MuiButton-icon': {
+                                marginRight: theme.spacing(1),
+                            },
+
+                            [theme.breakpoints.down('lg')]: {
+                                padding: theme.spacing(1, 3),
+                            },
+
+                            [theme.breakpoints.down('sm')]: {
+                                borderRadius: theme.spacing(2),
+                                padding: theme.spacing(1.5),
+
+                                '& .MuiTypography-body1': {
+                                    display: 'none',
+                                },
+                                '& .MuiButton-icon': {
+                                    marginRight: theme.spacing(0),
+                                    marginLeft: theme.spacing(0),
+                                },
+                            },
+                        },
+
+                        '& .MuiSvgIcon-colorSecondary': {
+                            display: 'flex',
+                            marginRight: theme.spacing(2),
+
+                            [theme.breakpoints.down('md')]: {
+                                display: 'none',
+                            },
+                        },
+
+                        '& .MuiTypography-h6': {
+                            display: 'flex',
+                            marginRight: theme.spacing(2),
+                            fontFamily: 'monospace',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: theme.palette.text.primary,
+                            textDecoration: 'none',
+
+                            [theme.breakpoints.down('md')]: {
+                                display: 'none',
                             },
                         },
                     },
@@ -412,11 +467,6 @@ const createCommonTheme = (theme: Theme) =>
             },
             MuiMenu: {
                 styleOverrides: {
-                    root: {
-                        '& .MuiMenuItem-root .MuiListItemIcon-root': {
-                            minWidth: 0,
-                        },
-                    },
                     paper: {
                         background: 'transparent',
                     },
@@ -427,6 +477,26 @@ const createCommonTheme = (theme: Theme) =>
 
                         svg: {
                             color: theme.palette.text.primary,
+                        },
+                    },
+                },
+            },
+            MuiMenuItem: {
+                styleOverrides: {
+                    root: {
+                        '&:not(.MuiMenuItem-dense)': {
+                            justifyContent: 'space-between',
+                        },
+
+                        '& .MuiTypography-root': {
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            maxWidth: theme.spacing(20),
+                        },
+
+                        '& .MuiListItemIcon-root': {
+                            marginRight: theme.spacing(2),
+                            minWidth: 0,
                         },
                     },
                 },
@@ -505,6 +575,96 @@ const createCommonTheme = (theme: Theme) =>
                     },
                     endAdornment: {
                         transform: 'none',
+                    },
+                },
+            },
+            MuiDialog: {
+                styleOverrides: {
+                    paper: {
+                        overflow: 'visible',
+                        background: theme.palette.background.black,
+
+                        [theme.breakpoints.down('sm')]: {
+                            margin: theme.spacing(2),
+                        },
+                    },
+                },
+            },
+            MuiDialogContent: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(3),
+
+                        '& .MuiDivider-root': {
+                            color: theme.palette.background.white,
+                            ':before, :after': {borderTop: `thin solid ${theme.palette.background.white}`},
+                        },
+
+                        '& .MuiBadge-root': {
+                            position: 'absolute',
+                            top: 0,
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1202,
+
+                            '& .MuiIconButton-root': {
+                                padding: theme.spacing(0.5),
+                                background: theme.palette.background.lightGrey,
+                                border: `1px solid ${theme.palette.background.black}`,
+                                transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+
+                                '& .MuiSvgIcon-root': {
+                                    width: 20,
+                                    height: 20,
+                                    color: theme.palette.background.black,
+                                },
+
+                                '&:hover': {
+                                    border: `1px solid ${theme.palette.error.main}`,
+
+                                    '& .MuiSvgIcon-root': {
+                                        color: theme.palette.error.main,
+                                    },
+                                },
+                            },
+
+                            '& .MuiAvatar-root': {
+                                width: 100,
+                                height: 100,
+                            },
+                        },
+                    },
+                },
+            },
+            MuiDialogActions: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(0, 3, 2),
+
+                        '& .MuiButtonBase-root': {
+                            padding: theme.spacing(1, 2),
+                            minWidth: '100px',
+                        },
+                    },
+                },
+            },
+            MuiAlert: {
+                styleOverrides: {
+                    root: {
+                        margin: theme.spacing(3, 0, 0),
+                        background: theme.palette.error.light,
+                    },
+                    message: {
+                        color: theme.palette.error.main,
+                    },
+                },
+            },
+            MuiBackdrop: {
+                styleOverrides: {
+                    root: {
+                        position: 'absolute',
+                        color: theme.palette.background.white,
+                        zIndex: theme.zIndex.drawer + 1,
                     },
                 },
             },
