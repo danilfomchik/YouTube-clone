@@ -14,8 +14,8 @@ const ReturnBack = () => {
 
     return (
         <>
-            <MenuItem onClick={onReturn}>
-                <ListItemIcon sx={{marginRight: 2}}>
+            <MenuItem dense onClick={onReturn}>
+                <ListItemIcon>
                     <ArrowBackIosNewRoundedIcon fontSize="small" />
                 </ListItemIcon>
 

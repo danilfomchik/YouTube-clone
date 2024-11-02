@@ -29,18 +29,19 @@ const customThemeValues = createTheme({
         },
         secondary: {
             main: '#ec625c',
-            light: '#fcefee',
+            light: '#ec625c29',
             dark: '#ed67671a',
             contrastText: '#ffffff',
         },
         error: {
             main: '#ed6767',
             light: '#ed67671a',
-            dark: '#f56969',
+            dark: '#b80f0a',
             contrastText: '#ffffff',
         },
         info: {
             main: '#3ea6ff',
+            light: '#3ea6ff17',
             contrastText: '#ffffff',
         },
         success: {

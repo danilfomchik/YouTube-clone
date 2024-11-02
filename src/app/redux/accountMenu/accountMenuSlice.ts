@@ -1,29 +1,35 @@
 import {MenusEnum} from '@/app/(home)/components/Header/components/AccountMenu/types';
-import createGenericSlice from '../createGenericSlice';
+import createGenericSlice, {IGenericState} from '../createGenericSlice';
 import {ISlicesNames} from '../types';
 import {ICommonState} from './types';
 
 const defaultMenu = MenusEnum.mainMenu;
 
 const reducers = {
-    changeCurrentMenu: (state: any, {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}}) => {
+    changeCurrentMenu: (
+        state: IGenericState<ICommonState>,
+        {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}},
+    ) => {
         const {prevMenu, nextMenu} = payload;
 
         const prevMenuState = state.data.prevMenus;
 
         state.data.currentMenu = nextMenu;
-        state.data.prevMenus = [...prevMenuState, prevMenu];
+        state.data.prevMenus = [...(prevMenuState || []), prevMenu];
     },
-    resetMenu: (state: any) => {
+    resetMenu: (state: IGenericState<ICommonState>) => {
         state.data.currentMenu = defaultMenu;
         state.data.prevMenus = [];
     },
-    returnToPrevMenu: (state: any) => {
+    returnToPrevMenu: (state: IGenericState<ICommonState>) => {
         const prevMenuState = state.data.prevMenus;
-        const prevMenuStateLastItem = prevMenuState.length - 1;
+        const prevMenuStateLastItem = prevMenuState!.length - 1;
 
-        state.data.currentMenu = prevMenuState[prevMenuStateLastItem];
-        state.data.prevMenus.pop();
+        state.data.currentMenu = prevMenuState![prevMenuStateLastItem];
+
+        if (state.data.prevMenus.length > 0) {
+            state.data.prevMenus.pop();
+        }
     },
 };
 

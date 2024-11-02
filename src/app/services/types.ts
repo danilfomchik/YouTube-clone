@@ -17,3 +17,12 @@ export interface IFetch {
 export interface IError {
     message: string | string[];
 }
+
+export enum SearchParamsKeys {
+    authKey = 'auth',
+    searchKey = 'search_query',
+}
+
+export enum StorageKeys {
+    userId = 'userId',
+}

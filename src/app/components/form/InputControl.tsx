@@ -9,6 +9,7 @@ import Input from '../inputs/Input';
 export interface IInputProps {
     control: Control<any>;
     name: string;
+    accept?: string;
 }
 
 const InputControl = ({control, name, label, defaultValue, ...restProps}: IInputProps & TextFieldProps) => {

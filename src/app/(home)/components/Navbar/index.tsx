@@ -12,8 +12,6 @@ import {DrawerHeader} from '../Header/Styles';
 import NotAuthorized from './NotAuthorized';
 import {selectNavbarStatus} from '@/app/redux/navbar/selectors';
 
-// TODO: add bg color on items on hover
-
 const Navbar = () => {
     const [selectedIndex, setSelectedIndex] = useState(defaultPageIndex);
 

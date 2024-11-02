@@ -1,12 +1,12 @@
-import createGenericSlice from '../createGenericSlice';
+import createGenericSlice, {IGenericState} from '../createGenericSlice';
 import {ISlicesNames} from '../types';
 import {ICommonState} from './types';
 
 const reducers = {
-    toggleNavbar: (state: any) => {
+    toggleNavbar: (state: IGenericState<ICommonState>) => {
         state.data.isNavbarOpen = !state.data.isNavbarOpen;
     },
-    setNavbarStatus: (state: any, {payload}: {payload: boolean}) => {
+    setNavbarStatus: (state: IGenericState<ICommonState>, {payload}: {payload: boolean}) => {
         state.data.isNavbarOpen = payload;
     },
 };

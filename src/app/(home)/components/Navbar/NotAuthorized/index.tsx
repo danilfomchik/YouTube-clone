@@ -9,7 +9,7 @@ const NotAuthorized = ({navbarStatus}: NotAuthorizedProps) => {
     return (
         <>
             {navbarStatus && (
-                <Typography variant="body2">Sign in to rate videos, add comments and subscribe to channels.</Typography>
+                <Typography variant="body2">Log in to rate videos, add comments and subscribe to channels.</Typography>
             )}
             <LoginButton open={navbarStatus} startIcon={<AccountCircleOutlinedIcon />} />
         </>

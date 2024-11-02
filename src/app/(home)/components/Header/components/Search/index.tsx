@@ -1,15 +1,17 @@
-import React, {useCallback, useEffect} from 'react';
+'use client';
+
+import React, {useEffect} from 'react';
 import {Grid2} from '@mui/material';
 import {FormProvider, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {useRouter, useSearchParams} from 'next/navigation';
 
 import {validation, defaultValues} from './form';
 import Suggestions from './Suggestions';
+import {useChangeParams} from '@/app/services/hooks/useChangeParams';
+import {SearchParamsKeys} from '@/app/services/types';
 
 const Search = () => {
-    const searchParams = useSearchParams();
-    const {replace} = useRouter();
+    const {searchParams, addParams, deleteParams} = useChangeParams();
 
     const methods = useForm({
         resolver: yupResolver(validation),
@@ -20,22 +22,7 @@ const Search = () => {
     const {control, handleSubmit, watch, setValue} = methods;
 
     const searchValue = watch('search');
-    const searchQuery = searchParams.get('search_query');
-
-    const handleSearch = useCallback(
-        (query: string) => {
-            const params = new URLSearchParams(searchParams as unknown as string);
-
-            if (query) {
-                params.set('search_query', query);
-            } else {
-                params.delete('search_query');
-            }
-
-            replace(`/?${params.toString()}`);
-        },
-        [replace, searchParams],
-    );
+    const searchQuery = searchParams.get(SearchParamsKeys.searchKey);
 
     useEffect(() => {
         if (searchQuery) {
@@ -44,7 +31,11 @@ const Search = () => {
     }, [searchQuery, setValue]);
 
     const onSubmit = () => {
-        handleSearch(searchValue);
+        if (searchValue) {
+            addParams([SearchParamsKeys.searchKey, searchValue]);
+        } else {
+            deleteParams(SearchParamsKeys.searchKey);
+        }
     };
 
     return (

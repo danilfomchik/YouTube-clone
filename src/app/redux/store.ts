@@ -6,11 +6,13 @@ import {snackbarMiddleware} from './snackbar/middleware';
 import {navbarData} from './navbar/navbarSlice';
 import {accountMenuData} from './accountMenu/accountMenuSlice';
 import {suggestionApi} from './suggestions/api';
+import {authData} from './auth/authSlice';
 
 const combinedReducer = combineReducers({
     snackbar: snackbarData.reducer,
     navbar: navbarData.reducer,
     accountMenu: accountMenuData.reducer,
+    auth: authData.reducer,
     [suggestionApi.reducerPath]: suggestionApi.reducer,
 });
 

@@ -7,12 +7,14 @@ import {useAppDispatch} from '@/app/redux/store';
 import {resetMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 import {menus} from './menus';
 import ReturnBack from './ReturnBack';
+import {selectUserData} from '@/app/redux/auth/selectors';
 
 const AccountMenu = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const dispatch = useAppDispatch();
     const currentMenu = useSelector(selectCurrentMenu);
+    const {photoURL, displayName} = useSelector(selectUserData)!;
     const prevMenus = useSelector(selectPrevMenu)?.length;
 
     const open = !!anchorEl;
@@ -41,7 +43,7 @@ const AccountMenu = () => {
                         aria-controls={open ? 'account-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}>
-                        <Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
+                        <Avatar alt={displayName} src={photoURL} />
                     </IconButton>
                 </Tooltip>
             </Grid2>

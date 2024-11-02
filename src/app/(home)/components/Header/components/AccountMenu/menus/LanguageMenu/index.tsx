@@ -3,13 +3,24 @@
 import React from 'react';
 
 import MenuItem from '../../MenuItem';
-import {TMenu} from '../../types';
 
-const LanguageMenu = ({menuOptions}: TMenu) => {
+const languages = [
+    {
+        text: 'English',
+    },
+    {
+        text: 'Ukrainian',
+    },
+    {
+        text: 'Italian',
+    },
+];
+
+const LanguageMenu = () => {
     return (
         <>
-            {menuOptions.map(({text, hasNested}) => (
-                <MenuItem key={text} text={text} hasNested={hasNested} />
+            {languages.map(({text}) => (
+                <MenuItem key={text} text={text} hasNested={false} />
             ))}
         </>
     );

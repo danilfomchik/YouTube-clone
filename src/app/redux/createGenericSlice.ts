@@ -56,6 +56,13 @@ const createGenericSlice = <T, Reducers extends SliceCaseReducers<IGenericState<
                 state.errors = {};
                 state.lastRequestId = {};
             },
+            resetError: (state: IGenericState<T>, action) => {
+                const thunkName = action.payload;
+
+                if (thunkName) {
+                    delete state.errors[thunkName];
+                }
+            },
             ...reducers,
         },
         extraReducers: builder => {

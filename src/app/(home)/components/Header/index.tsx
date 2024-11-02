@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import {Grid2, IconButton, Toolbar, Typography, Link as MuiLink} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -16,12 +16,11 @@ import {selectNavbarStatus} from '@/app/redux/navbar/selectors';
 import AccountMenu from './components/AccountMenu';
 import LoginButton from '@/app/components/Buttons/LoginButton';
 import Search from './components/Search';
+import {selectIsUserLoggedIn} from '@/app/redux/auth/selectors';
 
 const Header = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [isAuth, setIsAuth] = useState(true);
-
     const dispatch = useAppDispatch();
+    const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
     const isNavbarOpen = useSelector(selectNavbarStatus);
 
     const onDrawerOpen = () => {
@@ -40,22 +39,8 @@ const Header = () => {
 
                     <MuiLink href="/" underline="none" component={Link}>
                         <Grid2 container alignItems="center">
-                            <SmartDisplayRoundedIcon
-                                color="secondary"
-                                sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}
-                            />
-                            <Typography
-                                variant="h6"
-                                noWrap
-                                sx={{
-                                    mr: 2,
-                                    display: {xs: 'none', md: 'flex'},
-                                    fontFamily: 'monospace',
-                                    fontWeight: 700,
-                                    letterSpacing: '.3rem',
-                                    color: '#ffffff',
-                                    textDecoration: 'none',
-                                }}>
+                            <SmartDisplayRoundedIcon color="secondary" />
+                            <Typography variant="h6" noWrap>
                                 LOGO
                             </Typography>
                         </Grid2>
@@ -66,10 +51,13 @@ const Header = () => {
                     </Grid2>
 
                     <Grid2>
-                        {isAuth ? (
+                        {isUserLoggedIn ? (
                             <AccountMenu />
                         ) : (
-                            <LoginButton open={isNavbarOpen} startIcon={<AccountCircleOutlinedIcon />} />
+                            <LoginButton
+                                open={isNavbarOpen}
+                                startIcon={<AccountCircleOutlinedIcon color="secondary" />}
+                            />
                         )}
                     </Grid2>
                 </Toolbar>

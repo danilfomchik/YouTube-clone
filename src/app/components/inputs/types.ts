@@ -4,9 +4,10 @@ import {ControllerRenderProps, FieldValues} from 'react-hook-form';
 export interface IInputProps {
     field?: ControllerRenderProps<FieldValues, string>;
     value?: any;
-    onChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+    onChange?: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
     isInt?: boolean;
     defaultValue?: string | undefined;
+    accept?: string;
 }
 
 export interface IInputEndAdornmentProps {

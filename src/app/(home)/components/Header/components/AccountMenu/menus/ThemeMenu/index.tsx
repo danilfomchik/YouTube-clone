@@ -3,13 +3,24 @@
 import React from 'react';
 
 import MenuItem from '../../MenuItem';
-import {TMenu} from '../../types';
 
-const ThemeMenu = ({menuOptions}: TMenu) => {
+const themes = [
+    {
+        text: 'Dark',
+    },
+    {
+        text: 'Light',
+    },
+    {
+        text: 'Device',
+    },
+];
+
+const ThemeMenu = () => {
     return (
         <>
-            {menuOptions.map(({text, hasNested}) => (
-                <MenuItem key={text} text={text} hasNested={hasNested} />
+            {themes.map(({text}) => (
+                <MenuItem key={text} text={text} hasNested={false} />
             ))}
         </>
     );
