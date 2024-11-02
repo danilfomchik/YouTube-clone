@@ -36,7 +36,6 @@ export type TMenuOption = {
 } & OptionalMenuOption;
 
 export type TMenu = {
-    menuOptions: TMenuOption[];
     name: MenusEnum;
 };
 

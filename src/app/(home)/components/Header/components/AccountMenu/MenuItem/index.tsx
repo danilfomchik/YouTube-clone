@@ -12,9 +12,9 @@ import {MenuItemProps} from './types';
 
 const MenuItem = ({icon = null, text, hasNested = false, ...restProps}: MenuItemProps & MuiMenuItemProps) => {
     return (
-        <MuiMenuItem sx={{justifyContent: 'space-between'}} {...restProps}>
-            <Grid2 container alignItems="center">
-                {icon && <ListItemIcon sx={{marginRight: 2}}>{icon}</ListItemIcon>}
+        <MuiMenuItem {...restProps}>
+            <Grid2 container flexWrap="nowrap" alignItems="center">
+                {icon && <ListItemIcon>{icon}</ListItemIcon>}
 
                 <Typography component="span" variant="body2">
                     {text}
@@ -22,7 +22,7 @@ const MenuItem = ({icon = null, text, hasNested = false, ...restProps}: MenuItem
             </Grid2>
 
             {hasNested && (
-                <ListItemIcon sx={{marginLeft: 2}}>
+                <ListItemIcon>
                     <ArrowForwardIosRoundedIcon fontSize="small" />
                 </ListItemIcon>
             )}

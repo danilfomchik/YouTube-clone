@@ -2,39 +2,41 @@
 
 import React from 'react';
 import {Avatar, Divider, Grid2} from '@mui/material';
+import {useSelector} from 'react-redux';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
-import {TMenu} from '../../types';
+import {MenusEnum, TMenu} from '../../types';
 import {useAppDispatch} from '@/app/redux/store';
-import {handleMenuItemClick} from '../../utils';
 import MenuItem from '../../MenuItem';
+import {selectUserData} from '@/app/redux/auth/selectors';
+import {changeCurrentMenu} from '@/app/redux/accountMenu/accountMenuSlice';
+import {onUserSignOut} from '@/app/redux/auth/thunks';
 
-const MainMenu = ({menuOptions, name}: TMenu) => {
+const MainMenu = ({name}: TMenu) => {
     const dispatch = useAppDispatch();
+    const {photoURL, displayName} = useSelector(selectUserData)!;
+
+    const onOpenSettings = () => {
+        dispatch(changeCurrentMenu({nextMenu: MenusEnum.settingsMenu, prevMenu: name}));
+    };
+
+    const handleUserSignOut = () => {
+        dispatch(onUserSignOut());
+    };
 
     return (
         <>
-            <MenuItem
-                icon={<Avatar alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />}
-                text="Ali Connors"
-            />
+            <MenuItem icon={<Avatar alt={displayName} src={photoURL} />} text={displayName} />
 
             <Grid2 my={2}>
                 <Divider />
             </Grid2>
 
-            {menuOptions.map(item => {
-                const {icon, text, hasNested} = item;
-
-                return (
-                    <MenuItem
-                        key={text}
-                        icon={icon}
-                        text={text}
-                        onClick={() => handleMenuItemClick({dispatch, item, name})}
-                        hasNested={hasNested}
-                    />
-                );
-            })}
+            <MenuItem icon={<PersonAdd fontSize="small" />} text="Add another account" hasNested={false} />
+            <MenuItem icon={<Settings fontSize="small" />} text="Settings" onClick={onOpenSettings} hasNested={true} />
+            <MenuItem icon={<Logout fontSize="small" />} text="Logout" onClick={handleUserSignOut} hasNested={false} />
         </>
     );
 };
