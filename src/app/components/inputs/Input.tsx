@@ -10,7 +10,8 @@ const Input = ({
     value,
     defaultValue = '',
     onChange,
-    type = 'text',
+    type,
+    inputRef,
     ...textFieldProps
 }: IInputProps & TextFieldProps) => {
     const [currentValue, setCurrentValue] = useState(defaultValue);
@@ -24,12 +25,20 @@ const Input = ({
             }
 
             if (field?.onChange) {
-                field.onChange(eventValue);
-            }
+                if (type !== 'file') {
+                    field.onChange(eventValue);
+                    setCurrentValue(eventValue);
+                } else {
+                    const file = (e.currentTarget as HTMLInputElement).files?.[0];
 
-            setCurrentValue(eventValue);
+                    if (file) {
+                        field.onChange(file);
+                        setCurrentValue(file.name);
+                    }
+                }
+            }
         },
-        [field, onChange],
+        [field, onChange, type],
     );
 
     const initValue = useCallback(() => {
@@ -46,9 +55,10 @@ const Input = ({
             onChange={handleChange}
             variant="standard"
             label={label}
-            value={currentValue}
+            value={type !== 'file' ? currentValue : undefined}
             color="secondary"
             type={type}
+            inputRef={inputRef}
             {...textFieldProps}
         />
     );
