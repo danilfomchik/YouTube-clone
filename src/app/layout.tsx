@@ -2,11 +2,14 @@
 
 import React, {Suspense} from 'react';
 import {Mulish} from 'next/font/google';
+import dynamic from 'next/dynamic';
 
 import ReduxProvider from './redux/redux-provider';
 import Theme from './Theme';
 import Loading from './loading';
 import {MainContainer, Main} from './Styles';
+
+const AuthProvider = dynamic(() => import('./AuthProvider'), {ssr: false});
 
 const mulish = Mulish({
     subsets: ['cyrillic', 'latin'],
@@ -24,13 +27,15 @@ const RootLayout = ({children}: LocaleLayoutProps) => {
         <html>
             <body suppressHydrationWarning={true} className={mulish.className}>
                 <ReduxProvider>
-                    <Theme>
-                        <MainContainer>
-                            <Suspense fallback={<Loading />}>
-                                <Main>{children}</Main>
-                            </Suspense>
-                        </MainContainer>
-                    </Theme>
+                    <AuthProvider>
+                        <Theme>
+                            <MainContainer>
+                                <Suspense fallback={<Loading />}>
+                                    <Main>{children}</Main>
+                                </Suspense>
+                            </MainContainer>
+                        </Theme>
+                    </AuthProvider>
                 </ReduxProvider>
             </body>
         </html>

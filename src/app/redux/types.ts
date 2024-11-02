@@ -32,11 +32,19 @@ export interface ErrorState {
     requestId: string;
 }
 
+export interface IThunkErrorState {
+    name: string;
+    message: string;
+    stack: string;
+    code: string;
+}
+
 export enum ISlicesNames {
     snackbar = 'snackbar',
     stories = 'stories',
     navbar = 'navbar',
     accountMenu = 'accountMenu',
+    auth = 'auth',
 }
 
 export type SliceNames = ISlicesNames;
