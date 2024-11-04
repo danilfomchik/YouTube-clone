@@ -39,7 +39,7 @@ const Header = () => {
 
                     <MuiLink href="/" underline="none" component={Link}>
                         <Grid2 container alignItems="center">
-                            <SmartDisplayRoundedIcon color="secondary" />
+                            <SmartDisplayRoundedIcon color="secondary" sx={{display: {xs: 'none', md: 'flex'}}} />
                             <Typography variant="h6" noWrap>
                                 LOGO
                             </Typography>

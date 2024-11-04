@@ -4,14 +4,14 @@ import {useController, useFormContext, Control} from 'react-hook-form';
 import {ErrorMessage} from '@hookform/error-message';
 import {get} from 'lodash';
 
-import Input from '../inputs/Input';
+import FileInput from '../inputs/FileInput';
 
 export interface IInputProps {
     control: Control<any>;
     name: string;
 }
 
-const InputControl = ({control, name, label, defaultValue, ...restProps}: IInputProps & TextFieldProps) => {
+const FileInputControl = ({control, name, label, defaultValue, ...restProps}: IInputProps & TextFieldProps) => {
     const {formState} = useFormContext();
 
     const {errors} = formState;
@@ -27,17 +27,8 @@ const InputControl = ({control, name, label, defaultValue, ...restProps}: IInput
     };
 
     return (
-        <Input
-            field={field}
-            onChange={field.onChange}
-            value={field.value}
-            variant="outlined"
-            size="small"
-            label={label}
-            {...restProps}
-            {...errorProps}
-        />
+        <FileInput field={field} onChange={field.onChange} type="file" label={label} {...restProps} {...errorProps} />
     );
 };
 
-export default InputControl;
+export default FileInputControl;

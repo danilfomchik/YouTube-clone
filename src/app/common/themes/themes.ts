@@ -209,6 +209,11 @@ const createCommonTheme = (theme: Theme) =>
                     containedSecondary: {
                         color: theme.palette.background.white,
                         background: theme.palette.secondary.main,
+
+                        '&:hover': {
+                            background: theme.palette.background.default,
+                            boxShadow: `0px 0px 1px 1px ${theme.palette.secondary.main} inset`,
+                        },
                     },
                     outlined: {
                         color: theme.palette.info.main,
@@ -333,15 +338,6 @@ const createCommonTheme = (theme: Theme) =>
                                     marginRight: theme.spacing(0),
                                     marginLeft: theme.spacing(0),
                                 },
-                            },
-                        },
-
-                        '& .MuiSvgIcon-colorSecondary': {
-                            display: 'flex',
-                            marginRight: theme.spacing(2),
-
-                            [theme.breakpoints.down('md')]: {
-                                display: 'none',
                             },
                         },
 
@@ -584,27 +580,11 @@ const createCommonTheme = (theme: Theme) =>
                         overflow: 'visible',
                         background: theme.palette.background.black,
 
-                        [theme.breakpoints.down('sm')]: {
-                            margin: theme.spacing(2),
-                        },
-                    },
-                },
-            },
-            MuiDialogContent: {
-                styleOverrides: {
-                    root: {
-                        padding: theme.spacing(3),
-
-                        '& .MuiDivider-root': {
-                            color: theme.palette.background.white,
-                            ':before, :after': {borderTop: `thin solid ${theme.palette.background.white}`},
-                        },
-
                         '& .MuiBadge-root': {
                             position: 'absolute',
-                            top: 0,
+                            top: -20,
                             left: '50%',
-                            transform: 'translate(-50%, -50%)',
+                            transform: 'translate(-50%, 0%)',
                             zIndex: 1202,
 
                             '& .MuiIconButton-root': {
@@ -627,11 +607,27 @@ const createCommonTheme = (theme: Theme) =>
                                     },
                                 },
                             },
+                        },
+                    },
+                },
+            },
+            MuiDialogContent: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(0, 3, 3),
 
-                            '& .MuiAvatar-root': {
-                                width: 100,
-                                height: 100,
-                            },
+                        [theme.breakpoints.down('sm')]: {
+                            padding: theme.spacing(4, 3, 3),
+                        },
+
+                        '& .MuiDivider-root': {
+                            color: theme.palette.background.white,
+                            ':before, :after': {borderTop: `thin solid ${theme.palette.background.white}`},
+                        },
+
+                        '& .MuiAvatar-root': {
+                            width: 100,
+                            height: 100,
                         },
                     },
                 },
@@ -645,6 +641,13 @@ const createCommonTheme = (theme: Theme) =>
                             padding: theme.spacing(1, 2),
                             minWidth: '100px',
                         },
+                    },
+                },
+            },
+            MuiDialogTitle: {
+                styleOverrides: {
+                    root: {
+                        padding: theme.spacing(2, 3, 0),
                     },
                 },
             },
