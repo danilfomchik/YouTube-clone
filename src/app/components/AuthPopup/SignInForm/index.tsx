@@ -62,7 +62,12 @@ const SignInForm = () => {
     return (
         <>
             <DialogContent>
-                <DialogContentText>Sign in to rate videos, add comments and subscribe to channels.</DialogContentText>
+                <DialogContentText component={Grid2} display="flex" flexDirection="column" gap={2}>
+                    <Typography variant="h2">Welcome!</Typography>
+                    <Typography variant="body1">
+                        Sign in to rate videos, add comments and subscribe to channels.
+                    </Typography>
+                </DialogContentText>
 
                 {signInError && (
                     <Alert severity="error" variant="outlined">
@@ -73,7 +78,7 @@ const SignInForm = () => {
                 <FormProvider {...methods}>
                     <form style={{width: '100%'}} onSubmit={handleSubmit(onSubmit)}>
                         <Grid2 container justifyContent="center" flexDirection="column" alignItems="center" size={12}>
-                            <Grid2 pb={2} pt={!signInError ? 3 : 0} size={{xs: 12, sm: 10}}>
+                            <Grid2 pb={2} pt={!signInError ? 3 : 0} size={{xs: 12}}>
                                 <InputControl
                                     control={control}
                                     margin="dense"
@@ -84,7 +89,7 @@ const SignInForm = () => {
                                 />
                             </Grid2>
 
-                            <Grid2 pb={3} size={{xs: 12, sm: 10}}>
+                            <Grid2 pb={3} size={{xs: 12}}>
                                 <InputPasswordControl
                                     control={control}
                                     margin="dense"
@@ -94,7 +99,7 @@ const SignInForm = () => {
                                 />
                             </Grid2>
 
-                            <Grid2 size={6}>
+                            <Grid2 size={{xs: 12, sm: 6}}>
                                 <Button fullWidth variant="outlined" color="secondary" type="submit">
                                     Log In
                                 </Button>
@@ -103,29 +108,18 @@ const SignInForm = () => {
                     </form>
                 </FormProvider>
 
-                <Grid2
-                    container
-                    flexDirection="column"
-                    flexWrap="nowrap"
-                    alignItems="center"
-                    alignContent="center"
-                    justifyContent="center"
-                    size={12}>
-                    <Grid2 py={3} size={{xs: 12, sm: 10}}>
+                <Grid2 container columnSpacing={2} justifyContent="center" size={12}>
+                    <Grid2 py={3} size={{xs: 10}}>
                         <Divider>or</Divider>
                     </Grid2>
 
-                    <Grid2
-                        container
-                        flexDirection="row"
-                        flexWrap="nowrap"
-                        gap={2}
-                        alignContent="center"
-                        justifyContent="space-evenly"
-                        size={{xs: 12, sm: 10}}>
+                    <Grid2 py={2} size={{xs: 12, sm: 6}}>
                         <Button fullWidth variant="contained" color="primary" startIcon={<GoogleIcon />}>
                             Google
                         </Button>
+                    </Grid2>
+
+                    <Grid2 py={2} size={{xs: 12, sm: 6}}>
                         <Button fullWidth variant="contained" color="primary" startIcon={<FacebookIcon />}>
                             Facebook
                         </Button>

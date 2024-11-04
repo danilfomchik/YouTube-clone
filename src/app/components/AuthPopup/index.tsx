@@ -1,5 +1,5 @@
 import React from 'react';
-import {Backdrop, Dialog, DialogTitle, Grid2, IconButton, Typography} from '@mui/material';
+import {Backdrop, Dialog, DialogTitle, Grid2, IconButton} from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useSelector} from 'react-redux';
@@ -25,8 +25,7 @@ const AuthPopup = ({authParam, isPopupOpen, toggleAuthPopupOpen}: AuthPopupProps
             {authParam && (
                 <>
                     <DialogTitle>
-                        <Grid2 container flexWrap="nowrap" justifyContent="space-between" alignItems="center">
-                            <Typography variant="h2">Welcome!</Typography>
+                        <Grid2 container flexWrap="nowrap" justifyContent="flex-end" alignItems="center">
                             <IconButton color="inherit" onClick={toggleAuthPopupOpen}>
                                 <CloseRoundedIcon />
                             </IconButton>
