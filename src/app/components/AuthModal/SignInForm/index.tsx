@@ -76,7 +76,7 @@ const SignInForm = () => {
                 )}
 
                 <FormProvider {...methods}>
-                    <form style={{width: '100%'}} onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} data-testid="Sign in form">
                         <Grid2 container justifyContent="center" flexDirection="column" alignItems="center" size={12}>
                             <Grid2 pb={2} pt={!signInError ? 3 : 0} size={{xs: 12}}>
                                 <InputControl
