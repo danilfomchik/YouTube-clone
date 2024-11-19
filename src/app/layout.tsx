@@ -27,15 +27,15 @@ const RootLayout = ({children}: LocaleLayoutProps) => {
         <html>
             <body suppressHydrationWarning={true} className={mulish.className}>
                 <ReduxProvider>
-                    <AuthProvider>
-                        <Theme>
+                    <Theme>
+                        <AuthProvider>
                             <MainContainer>
                                 <Suspense fallback={<Loading />}>
                                     <Main>{children}</Main>
                                 </Suspense>
                             </MainContainer>
-                        </Theme>
-                    </AuthProvider>
+                        </AuthProvider>
+                    </Theme>
                 </ReduxProvider>
             </body>
         </html>

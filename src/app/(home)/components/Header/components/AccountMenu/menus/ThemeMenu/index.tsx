@@ -4,7 +4,7 @@ import React from 'react';
 
 import MenuItem from '../../MenuItem';
 
-const themes = [
+export const themes = [
     {
         text: 'Dark',
     },
