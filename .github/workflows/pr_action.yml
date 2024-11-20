@@ -7,6 +7,9 @@ on:
         branches:
             - dev
 
+env:
+    NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -24,13 +27,8 @@ jobs:
             - name: Lint code
               run: npm run lint
 
-            - name: Create .env with Github Secrets and run script
-              run: |
-                  touch .env
-                  echo NEXT_PUBLIC_FIREBASE_API_KEY=$NEXT_PUBLIC_FIREBASE_API_KEY >> .env
-                  npm run test
-              env:
-                  NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.NEXT_PUBLIC_FIREBASE_API_KEY }}
+            - name: Test code
+              run: npm run test
 
             - name: Prepare
               run: npm run prepare
