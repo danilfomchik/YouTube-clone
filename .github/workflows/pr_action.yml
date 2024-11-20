@@ -10,6 +10,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        env:
+            NODE_ENV: production
+            NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
 
         steps:
             - name: Checkout code
@@ -25,8 +28,6 @@ jobs:
               run: npm run lint
 
             - name: Test code
-              with:
-              firebase_api_key: ${{ secrets.FIREBASE_API_KEY }}
               run: npm run test
 
             - name: Prepare
