@@ -29,8 +29,8 @@ jobs:
 
             - name: Test code
               run: npm run test
-              with:
-                  repoToken: '${{ secrets.GITHUB_TOKEN }}'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Prepare
               run: npm run prepare
