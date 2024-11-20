@@ -1,34 +1,36 @@
 name: PR ACTION
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+    pull_request:
+        types: [opened, synchronize]
 
-    branches:
-      - dev
+        branches:
+            - dev
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+            - name: Install dependencies
+              run: npm install
 
-      - name: Check format
-        run: npm run format
+            - name: Check format
+              run: npm run format
 
-      - name: Lint code
-        run: npm run lint
+            - name: Lint code
+              run: npm run lint
 
-      - name: Test code
-        run: npm run test
+            - name: Test code
+              with:
+              firebase_api_key: ${{ secrets.FIREBASE_API_KEY }}
+              run: npm run test
 
-      - name: Prepare
-        run: npm run prepare
+            - name: Prepare
+              run: npm run prepare
 
-      - name: Build the React app
-        run: npm run build
+            - name: Build the React app
+              run: npm run build
