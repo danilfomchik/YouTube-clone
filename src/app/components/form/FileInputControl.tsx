@@ -9,6 +9,7 @@ import FileInput from '../inputs/FileInput';
 export interface IInputProps {
     control: Control<any>;
     name: string;
+    accept?: string | undefined;
 }
 
 const FileInputControl = ({control, name, label, defaultValue, ...restProps}: IInputProps & TextFieldProps) => {

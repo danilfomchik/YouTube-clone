@@ -159,12 +159,19 @@ const SignUpForm = () => {
                             </Grid2>
 
                             <Grid2 py={2} size={{xs: 12}}>
-                                <FileInputControl control={control} margin="dense" variant="outlined" name="photoURL" />
+                                <FileInputControl
+                                    control={control}
+                                    margin="dense"
+                                    variant="outlined"
+                                    name="photoURL"
+                                    accept="image/*">
+                                    Choose profile photo
+                                </FileInputControl>
                             </Grid2>
 
                             <Grid2 pt={2} size={{xs: 12, sm: 6}}>
                                 <Button fullWidth variant="outlined" color="secondary" type="submit">
-                                    Register
+                                    Sign up
                                 </Button>
                             </Grid2>
                         </Grid2>

@@ -7,7 +7,15 @@ import {filesize} from 'filesize';
 import {IInputProps} from './types';
 import Button from '../Buttons';
 
-const FileInput = ({field, label, onChange, type, ...textFieldProps}: IInputProps & TextFieldProps) => {
+const FileInput = ({
+    field,
+    label,
+    onChange,
+    type,
+    accept = '*',
+    children,
+    ...textFieldProps
+}: IInputProps & TextFieldProps) => {
     const inputFileRef = useRef<HTMLInputElement | null>(null);
     const fileSize = useMemo(() => filesize(field?.value.size || 0, {standard: 'jedec'}), [field?.value.size]);
 
@@ -48,7 +56,7 @@ const FileInput = ({field, label, onChange, type, ...textFieldProps}: IInputProp
                     }
                 }}
                 startIcon={<FileUploadOutlinedIcon />}>
-                Choose profile photo
+                {children}
                 <TextField
                     {...field}
                     onChange={handleChange}
@@ -60,7 +68,7 @@ const FileInput = ({field, label, onChange, type, ...textFieldProps}: IInputProp
                     inputRef={inputFileRef}
                     slotProps={{
                         htmlInput: {
-                            accept: 'image/*',
+                            accept,
                         },
                     }}
                     sx={{display: 'none'}}

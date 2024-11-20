@@ -20,11 +20,10 @@ export const validation = object().shape({
         .matches(nameRegexp, 'Only Latin letters, spaces and hyphens are allowed'),
     lastname: string()
         .required('Enter your lastname')
-        .min(2, 'First name should be greater than 2 characters')
-        .max(45, 'First name should be less than 45 characters')
+        .min(2, 'Last name should be greater than 2 characters')
+        .max(45, 'Last name should be less than 45 characters')
         .matches(nameRegexp, 'Only Latin letters, spaces and hyphens are allowed'),
     email: string().email('Enter correct email').required('Email is required'),
-
     password: string()
         .required('Password is required')
         .matches(
@@ -46,8 +45,6 @@ export const validation = object().shape({
             passwordRegexp,
             'The password must contain Latin letters and numbers and be at least 6 characters long',
         )
-        .min(6, 'First name should be greater than 6 characters')
-        .max(255, 'First name should be less than 255 characters')
-        .oneOf([ref('password')], 'Паролі не співпадають'),
+        .oneOf([ref('password')], 'Passwords do not match'),
     photoURL: mixed(),
 });

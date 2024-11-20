@@ -1,7 +1,9 @@
+'use client';
+
 import {initializeApp} from 'firebase/app';
-import {getFirestore} from 'firebase/firestore';
-import {getAuth, GoogleAuthProvider} from 'firebase/auth';
-import {getStorage} from 'firebase/storage';
+import {getFirestore, connectFirestoreEmulator} from 'firebase/firestore';
+import {getAuth, GoogleAuthProvider, connectAuthEmulator} from 'firebase/auth';
+import {getStorage, connectStorageEmulator} from 'firebase/storage';
 
 import 'firebase/compat/auth';
 
@@ -20,3 +22,11 @@ export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage();
+
+// Connect to Firebase Emulators for local development
+if (process.env.NODE_ENV === 'development') {
+    const auth = getAuth();
+    connectAuthEmulator(auth, 'http://127.0.0.1:9099');
+    connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    connectStorageEmulator(storage, '127.0.0.1', 9199);
+}

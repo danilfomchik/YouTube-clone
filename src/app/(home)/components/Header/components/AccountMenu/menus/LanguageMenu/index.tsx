@@ -4,15 +4,12 @@ import React from 'react';
 
 import MenuItem from '../../MenuItem';
 
-const languages = [
+export const languages = [
     {
         text: 'English',
     },
     {
         text: 'Ukrainian',
-    },
-    {
-        text: 'Italian',
     },
 ];
 

@@ -10,7 +10,7 @@ export const useChangeParams = () => {
     const searchParams = useSearchParams();
     const {replace} = useRouter();
 
-    const params = useMemo(() => new URLSearchParams(searchParams as unknown as string), [searchParams]);
+    const params = useMemo(() => new URLSearchParams(searchParams.toString()), [searchParams]);
 
     const addParams = useCallback(
         ([key, value]: [SearchParamsKeys, string]) => {

@@ -7,6 +7,7 @@ export interface IInputProps {
     onChange?: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
     isInt?: boolean;
     defaultValue?: string | undefined;
+    accept?: string | undefined;
 }
 
 export interface IInputEndAdornmentProps {
