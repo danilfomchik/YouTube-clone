@@ -1,7 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 
-import {AuthSearchParamsValues} from './app/components/Buttons/LoginButton/types';
-import {SearchParamsKeys, StorageKeys} from './app/services/types';
+import {AuthSearchParamsValues, SearchParamsKeys, StorageKeys} from './app/services/types';
 
 const protectedRoutes = ['/profile'];
 export const authRoutes = [

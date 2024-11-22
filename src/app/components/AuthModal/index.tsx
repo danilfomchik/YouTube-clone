@@ -6,17 +6,18 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CircularProgress from '@mui/material/CircularProgress';
 import {useSelector} from 'react-redux';
 
-import {AuthSearchParamsValues} from '../Buttons/LoginButton/types';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import {selectSignInStatus, selectSignUpStatus} from '@/app/redux/auth/selectors';
+import {selectResetPasswordStatus, selectSignInStatus, selectSignUpStatus} from '@/app/redux/auth/selectors';
 import {StatusesTypes} from '@/app/redux/types';
 import {useChangeParams} from '@/app/services/hooks/useChangeParams';
-import {SearchParamsKeys} from '@/app/services/types';
+import {AuthSearchParamsValues, SearchParamsKeys} from '@/app/services/types';
+import ResetPasswordForm from './ResetPasswordForm';
 
 const currentAuthForm = {
     [AuthSearchParamsValues.signInValue]: <SignInForm />,
     [AuthSearchParamsValues.signUpValue]: <SignUpForm />,
+    [AuthSearchParamsValues.resetPasswordValue]: <ResetPasswordForm />,
 };
 
 const AuthModal = () => {
@@ -24,6 +25,7 @@ const AuthModal = () => {
 
     const signUpStatus = useSelector(selectSignUpStatus);
     const signInStatus = useSelector(selectSignInStatus);
+    const resetPasswordStatus = useSelector(selectResetPasswordStatus);
 
     const {searchParams, deleteParams} = useChangeParams();
     const authParam = searchParams.get(SearchParamsKeys.authKey);
@@ -55,7 +57,7 @@ const AuthModal = () => {
                     {currentAuthForm[authParam as AuthSearchParamsValues]}
                 </>
             )}
-            {signUpStatus === StatusesTypes.loading || signInStatus === StatusesTypes.loading ? (
+            {[signInStatus, signUpStatus, resetPasswordStatus].includes(StatusesTypes.loading) ? (
                 <Backdrop open>
                     <CircularProgress color="inherit" />
                 </Backdrop>

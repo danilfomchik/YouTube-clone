@@ -155,12 +155,18 @@ const createCommonTheme = (theme: Theme) =>
             },
             MuiInputLabel: {
                 styleOverrides: {
+                    root: {
+                        transform: 'none',
+                        pointerEvents: 'all',
+                    },
                     outlined: {
-                        '&.MuiInputLabel-marginDense': {
-                            transform: 'translate(14px, 9px) scale(1)',
-                        },
-                        '&.MuiInputLabel-shrink': {
-                            transform: 'translate(14px, -6px) scale(0.75)',
+                        position: 'relative',
+                        right: 0,
+                        maxWidth: '100%',
+                        margin: theme.spacing(0),
+
+                        '&.Mui-focused': {
+                            color: theme.palette.text.primary,
                         },
                     },
                 },
@@ -168,7 +174,7 @@ const createCommonTheme = (theme: Theme) =>
             MuiInputAdornment: {
                 styleOverrides: {
                     root: {
-                        margin: 0,
+                        margin: theme.spacing(0),
                         padding: theme.spacing(0, 1),
 
                         svg: {
@@ -577,6 +583,7 @@ const createCommonTheme = (theme: Theme) =>
             MuiDialog: {
                 styleOverrides: {
                     paper: {
+                        width: '100%',
                         overflow: 'visible',
                         background: theme.palette.background.black,
 

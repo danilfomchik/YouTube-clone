@@ -24,6 +24,7 @@ export enum IThunkNames {
     signUp = 'signUp',
     signIn = 'signIn',
     signOut = 'signOut',
+    resetPassword = 'resetPassword',
 }
 
 export enum FirebaseErrors {
@@ -34,6 +35,10 @@ export interface ISignInWithEmailAndPasswordThunkProps {
     email: string;
     password: string;
     deleteParams: (key: string) => void;
+}
+export interface IResetPasswordThunkProps {
+    email: string;
+    addParams: ([key, value]: [SearchParamsKeys, string]) => void;
 }
 
 interface ISignUpUserData {

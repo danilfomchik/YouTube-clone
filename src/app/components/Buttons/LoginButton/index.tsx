@@ -1,11 +1,11 @@
 import {Typography, ButtonProps} from '@mui/material';
 
 import Button from '..';
-import {AuthSearchParamsValues, LoginButtonProps} from './types';
+import {LoginButtonProps} from './types';
 import {StartIconButton} from '../types';
 import AuthModal from '../../AuthModal';
 import {useChangeParams} from '@/app/services/hooks/useChangeParams';
-import {SearchParamsKeys} from '@/app/services/types';
+import {SearchParamsKeys, AuthSearchParamsValues} from '@/app/services/types';
 
 const LoginButton = ({open, startIcon, ...restProps}: LoginButtonProps & StartIconButton & ButtonProps) => {
     const {addParams} = useChangeParams();
