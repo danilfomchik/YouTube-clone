@@ -26,3 +26,9 @@ export enum SearchParamsKeys {
 export enum StorageKeys {
     userId = 'userId',
 }
+
+export enum AuthSearchParamsValues {
+    signInValue = 'sign-in',
+    signUpValue = 'sign-up',
+    resetPasswordValue = 'reset-password',
+}

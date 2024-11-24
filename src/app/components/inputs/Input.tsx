@@ -11,6 +11,7 @@ const Input = ({
     defaultValue = '',
     onChange,
     type,
+    slotProps,
     ...textFieldProps
 }: IInputProps & TextFieldProps) => {
     const [currentValue, setCurrentValue] = useState(defaultValue);
@@ -49,6 +50,12 @@ const Input = ({
             value={currentValue}
             color="secondary"
             type={type}
+            slotProps={{
+                ...slotProps,
+                inputLabel: {
+                    shrink: true,
+                },
+            }}
             {...textFieldProps}
         />
     );

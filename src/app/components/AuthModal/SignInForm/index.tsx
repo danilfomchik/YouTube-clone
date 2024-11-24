@@ -18,8 +18,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import Button from '../../Buttons';
 import InputControl from '../../form/InputControl';
 import {useChangeParams} from '@/app/services/hooks/useChangeParams';
-import {SearchParamsKeys} from '@/app/services/types';
-import {AuthSearchParamsValues} from '../../Buttons/LoginButton/types';
+import {SearchParamsKeys, AuthSearchParamsValues} from '@/app/services/types';
 import InputPasswordControl from '../../form/InputPasswordControl';
 import {validation, defaultValues} from './form';
 import {useAppDispatch} from '@/app/redux/store';
@@ -49,6 +48,10 @@ const SignInForm = () => {
 
     const onOpenSignUpForm = () => {
         addParams([SearchParamsKeys.authKey, AuthSearchParamsValues.signUpValue]);
+    };
+
+    const onOpenResetPasswordForm = () => {
+        addParams([SearchParamsKeys.authKey, AuthSearchParamsValues.resetPasswordValue]);
     };
 
     useEffect(() => {
@@ -93,8 +96,22 @@ const SignInForm = () => {
                                 <InputPasswordControl
                                     control={control}
                                     margin="dense"
-                                    variant="outlined"
                                     name="password"
+                                    label={
+                                        <Grid2
+                                            container
+                                            textAlign="center"
+                                            justifyContent="flex-end"
+                                            alignItems="center">
+                                            <MuiLink
+                                                component="button"
+                                                type="button"
+                                                variant="body2"
+                                                onClick={onOpenResetPasswordForm}>
+                                                <Typography variant="caption">Forgot password</Typography>
+                                            </MuiLink>
+                                        </Grid2>
+                                    }
                                     placeholder="Enter password"
                                 />
                             </Grid2>

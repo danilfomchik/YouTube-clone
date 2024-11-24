@@ -3,7 +3,7 @@ import {onAuthStateChanged, User} from 'firebase/auth';
 import Cookies from 'js-cookie';
 
 import {useAppDispatch} from './redux/store';
-import {auth} from './firebase-config';
+import {auth} from './firebase/firebase-config';
 import {resetSlice, setUserData} from './redux/auth/authSlice';
 import {StorageKeys} from './services/types';
 import {prepareUserData} from './redux/auth/utils';

@@ -1,5 +1,4 @@
 import {User} from 'firebase/auth';
-import {v4 as uuidv4} from 'uuid';
 
 import {IUser} from './types';
 
@@ -19,10 +18,4 @@ export const prepareUserData = (userData: User): IUser => {
         uid,
         photoURL: photoURL || '',
     };
-};
-
-export const createNewImageName = (photoURL: File | undefined) => {
-    const imageName = uuidv4() + '.' + photoURL?.name?.split('.')?.pop();
-
-    return imageName;
 };
