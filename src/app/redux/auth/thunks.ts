@@ -17,42 +17,32 @@ import {
     ISignUpWithEmailAndPasswordThunkProps,
     IResetPasswordThunkProps,
 } from './types';
-import {auth} from '@/app/firebase-config';
+import {auth} from '@/app/firebase/firebase-config';
 import {SearchParamsKeys, StorageKeys, AuthSearchParamsValues} from '@/app/services/types';
 import {prepareUserData} from './utils';
+import {onAddImageToStorage, onAddUserToDatabase} from '@/app/firebase/firebase-utils';
 
 export const onUserSignUpWithEmailAndPassword = createAsyncThunk(
     `${ISlicesNames.auth}/${IThunkNames.signUp}`,
-    async (
-        {
-            userData,
-            addParams,
-            onAddUserToDatabase,
-            onAddImageToStorage,
-            setError,
-        }: ISignUpWithEmailAndPasswordThunkProps,
-        {rejectWithValue, dispatch},
-    ) => {
+    async ({userData, addParams, setError}: ISignUpWithEmailAndPasswordThunkProps, {rejectWithValue, dispatch}) => {
         try {
             const {displayName, email, password, photoURL} = userData;
 
             const {user} = await createUserWithEmailAndPassword(auth, email, password);
             const imageUrl = await onAddImageToStorage(photoURL, user.uid);
 
-            if (user) {
-                onAddUserToDatabase(
-                    {
-                        email,
-                        uid: user.uid,
-                    },
-                    user.uid,
-                );
+            onAddUserToDatabase(
+                {
+                    email,
+                    uid: user.uid,
+                },
+                user.uid,
+            );
 
-                updateProfile(user, {
-                    photoURL: imageUrl,
-                    displayName,
-                });
-            }
+            updateProfile(user, {
+                photoURL: imageUrl,
+                displayName,
+            });
 
             addParams([SearchParamsKeys.authKey, AuthSearchParamsValues.signInValue]);
             dispatch(showSuccess({message: 'User successfully registered.'}));

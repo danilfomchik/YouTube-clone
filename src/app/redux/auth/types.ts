@@ -54,7 +54,5 @@ export interface ISignUpWithEmailAndPasswordThunkProps {
         email: string;
         password: string;
     }>;
-    onAddUserToDatabase: (user: IDataBaseUser, userId: string) => Promise<void>;
-    onAddImageToStorage: (file: File | undefined, filePath: string) => Promise<string>;
     addParams: ([key, value]: [SearchParamsKeys, string]) => void;
 }

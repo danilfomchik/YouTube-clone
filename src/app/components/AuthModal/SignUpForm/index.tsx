@@ -24,7 +24,6 @@ import InputPasswordControl from '../../form/InputPasswordControl';
 import {validation, defaultValues} from './form';
 import {useAppDispatch} from '@/app/redux/store';
 import {onUserSignUpWithEmailAndPassword} from '@/app/redux/auth/thunks';
-import {useFirebase} from '@/app/services/hooks/useFirebase';
 import {selectSignUpStatus} from '@/app/redux/auth/selectors';
 import {StatusesTypes} from '@/app/redux/types';
 import {IUserFormData} from '../types';
@@ -34,7 +33,6 @@ const SignUpForm = () => {
     const dispatch = useAppDispatch();
     const signUpStatus = useSelector(selectSignUpStatus);
 
-    const {onAddUserToDatabase, onAddImageToStorage} = useFirebase();
     const {addParams} = useChangeParams();
 
     const methods = useForm({
@@ -62,8 +60,6 @@ const SignUpForm = () => {
             onUserSignUpWithEmailAndPassword({
                 userData,
                 addParams,
-                onAddUserToDatabase,
-                onAddImageToStorage,
                 setError,
             }),
         );
