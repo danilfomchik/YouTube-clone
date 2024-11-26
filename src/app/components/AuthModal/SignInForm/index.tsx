@@ -23,15 +23,20 @@ import InputPasswordControl from '../../form/InputPasswordControl';
 import {validation, defaultValues} from './form';
 import {useAppDispatch} from '@/app/redux/store';
 import {onUserSignInWithEmailAndPassword} from '@/app/redux/auth/thunks';
-import {selectSignInError} from '@/app/redux/auth/selectors';
+import {selectLoginAttemptsCount, selectMaxAttemptsCountAchieved, selectSignInError} from '@/app/redux/auth/selectors';
 import {resetError} from '@/app/redux/auth/authSlice';
 import {IThunkNames} from '@/app/redux/auth/types';
+import {maxLoginAttempts} from '@/app/services/constants';
+import SignInAttempts from './SignInAttempts';
 
 const SignInForm = () => {
     const dispatch = useAppDispatch();
-    const signInError = useSelector(selectSignInError);
-    const {addParams, deleteParams} = useChangeParams();
 
+    const loginAttemptsCount = useSelector(selectLoginAttemptsCount);
+    const signInError = useSelector(selectSignInError);
+    const maxAttemptsCountAchieved = useSelector(selectMaxAttemptsCountAchieved);
+
+    const {addParams, deleteParams} = useChangeParams();
     const methods = useForm({
         resolver: yupResolver(validation),
         defaultValues,
@@ -72,11 +77,13 @@ const SignInForm = () => {
                     </Typography>
                 </DialogContentText>
 
-                {signInError && (
+                {signInError && !maxAttemptsCountAchieved && (
                     <Alert severity="error" variant="outlined">
-                        Incorrect email or password
+                        Incorrect email or password. Attempt {loginAttemptsCount}/{maxLoginAttempts}
                     </Alert>
                 )}
+
+                {maxAttemptsCountAchieved && <SignInAttempts />}
 
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmit)} data-testid="Sign in form">
@@ -117,7 +124,12 @@ const SignInForm = () => {
                             </Grid2>
 
                             <Grid2 size={{xs: 12, sm: 6}}>
-                                <Button fullWidth variant="outlined" color="secondary" type="submit">
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    color="secondary"
+                                    type="submit"
+                                    disabled={maxAttemptsCountAchieved}>
                                     Log In
                                 </Button>
                             </Grid2>
