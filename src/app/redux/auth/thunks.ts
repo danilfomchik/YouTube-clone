@@ -78,6 +78,16 @@ export const onUserSignInWithEmailAndPassword = createAsyncThunk(
         } catch (error) {
             const {name, message, stack, code} = error as IThunkErrorState;
 
+            const loginAttempts = Cookies.get(StorageKeys.loginAttempts);
+
+            if (loginAttempts) {
+                let loginAttemptsCount = JSON.parse(loginAttempts);
+
+                Cookies.set(StorageKeys.loginAttempts, JSON.stringify(++loginAttemptsCount));
+            } else {
+                Cookies.set(StorageKeys.loginAttempts, JSON.stringify(1));
+            }
+
             return rejectWithValue({name, message, stack, code});
         }
     },

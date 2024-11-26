@@ -241,6 +241,10 @@ const createCommonTheme = (theme: Theme) =>
                         },
                     },
                     outlinedSecondary: {
+                        '&.Mui-disabled': {
+                            color: theme.palette.text.disabled,
+                        },
+
                         variants: [
                             {
                                 props: ({open}) => open,

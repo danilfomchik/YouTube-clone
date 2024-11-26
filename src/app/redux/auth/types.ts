@@ -18,6 +18,9 @@ export interface IDataBaseUser {
 export interface ICommonState {
     userLoggedIn: boolean;
     userData: IUser | null;
+    loginAttempts: number;
+    maxAttemptsCountAchieved: boolean;
+    loginAttemptsTime: number;
 }
 
 export enum IThunkNames {

@@ -25,6 +25,8 @@ export enum SearchParamsKeys {
 
 export enum StorageKeys {
     userId = 'userId',
+    loginAttempts = 'loginAttempts',
+    loginAttemptsTime = 'loginAttemptsTime',
 }
 
 export enum AuthSearchParamsValues {
