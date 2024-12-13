@@ -1,4 +1,4 @@
-import {ComponentType, ReactElement} from 'react';
+import {ReactElement} from 'react';
 
 type StringValues<T> = {
     [K in keyof T]: T[K] extends string ? T[K] : never;
@@ -35,10 +35,6 @@ export type TMenuOption = {
     onClick?: () => void;
 } & OptionalMenuOption;
 
-export type TMenu = {
-    name: MenusEnum;
-};
-
 export interface IMenuItem {
-    [key: string]: ReactElement<ComponentType<TMenu>>;
+    [key: string]: ReactElement;
 }

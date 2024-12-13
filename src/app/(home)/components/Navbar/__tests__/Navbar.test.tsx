@@ -1,55 +1,52 @@
-import {describe, it, expect, afterEach, vi, beforeEach} from 'vitest';
-import {cleanup, waitFor} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import mockRouter from 'next-router-mock';
-import Router from 'next/router';
-import {MemoryRouterProvider} from 'next-router-mock/MemoryRouterProvider';
-
-import {renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import Navbar from '..';
 import {pages} from '../constants';
+import {notAuthPreloadedState, authPreloadedState} from '@/app/tests/constants';
 
 describe('Navbar component', () => {
-    const spies: any = {};
-
-    beforeEach(() => {
-        spies.routerChangeStart = vi.fn();
-        Router.events.on('routeChangeStart', spies.routerChangeStart);
-    });
-
-    afterEach(() => {
-        cleanup();
-        vi.clearAllMocks();
-        vi.resetAllMocks();
-
-        Router.events.off('routeChangeStart', spies.routerChangeStart);
-    });
-
-    for (const page of pages) {
-        it(`should render ${page.label} link in navbar`, async () => {
-            const {getByRole} = renderWithProvider(<Navbar />);
-
-            const link = getByRole('link', {
-                name: page.label,
-            });
-
-            expect(link).toBeDefined();
+    it('should render navbar items and login button if user is not logged in', async () => {
+        const {getAllByRole, getByRole} = renderWithProviders(<Navbar />, {
+            preloadedState: {
+                ...notAuthPreloadedState,
+                navbar: {
+                    data: {
+                        isNavbarOpen: true,
+                    },
+                    statuses: {},
+                    errors: {},
+                    lastRequestId: {},
+                },
+            },
         });
 
-        it(`Link should have href that route to ${page.path}`, async () => {
-            const {getByRole} = renderWithProvider(<Navbar />, {} as any, {wrapper: MemoryRouterProvider});
+        expect(getAllByRole('listitem').length).toBe(pages.length);
+        expect(
+            getByRole('button', {
+                name: /log in/i,
+            }),
+        ).toBeInTheDocument();
+    });
 
-            const link = getByRole('link', {
-                name: page.label,
-            });
-
-            await waitFor(() => {
-                userEvent.click(link);
-            });
-
-            await waitFor(() => {
-                expect(mockRouter.asPath).toEqual(page.path);
-            });
+    it('should render only navbar items if user is logged in', async () => {
+        const {getAllByRole, queryByRole} = renderWithProviders(<Navbar />, {
+            preloadedState: {
+                ...authPreloadedState,
+                navbar: {
+                    data: {
+                        isNavbarOpen: true,
+                    },
+                    statuses: {},
+                    errors: {},
+                    lastRequestId: {},
+                },
+            },
         });
-    }
+
+        expect(getAllByRole('listitem').length).toBe(pages.length);
+        expect(
+            queryByRole('button', {
+                name: /log in/i,
+            }),
+        ).toBeNull();
+    });
 });

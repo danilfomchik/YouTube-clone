@@ -1,17 +1,12 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import mockRouter from 'next-router-mock';
 
-import {renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import LoginButton from '..';
 
 describe('LoginButton component', () => {
-    afterEach(() => {
-        cleanup();
-    });
-
     it('should open Auth modal', async () => {
-        const {getByRole, queryByRole} = renderWithProvider(<LoginButton />);
+        const {getByRole, queryByRole} = renderWithProviders(<LoginButton />);
 
         expect(queryByRole('dialog')).toBeNull();
 
@@ -21,6 +16,7 @@ describe('LoginButton component', () => {
 
         await userEvent.click(logInButton);
 
+        expect(mockRouter.asPath).toBe(`/?auth=sign-in`);
         expect(getByRole('dialog')).toBeDefined();
     });
 });

@@ -1,76 +1,119 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup} from '@testing-library/react';
+import {within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {renderWithProvider} from '@/app/test-utils';
 import SignInForm from '..';
+import {maxLoginAttempts} from '@/app/services/constants';
+import {renderWithProviders} from '@/app/tests/utils';
+import {authPreloadedState, notAuthPreloadedState, preloadedState} from '@/app/tests/constants';
+import {setupStore} from '@/app/redux/store';
 
 describe('SignInForm component', () => {
-    afterEach(() => {
-        cleanup();
+    const store = setupStore(notAuthPreloadedState);
+
+    beforeEach(() => {
+        store.dispatch = vi.fn();
     });
 
     it('should render sign in form elements', async () => {
-        const {getByRole, getByText, getByPlaceholderText} = renderWithProvider(<SignInForm />);
+        const {getByRole, getByText, getByPlaceholderText} = renderWithProviders(<SignInForm />);
 
-        const welcomeHeading = getByRole('heading', {
-            name: /welcome!/i,
-        });
-        expect(welcomeHeading).toBeDefined();
+        expect(
+            getByRole('heading', {
+                name: /welcome!/i,
+            }),
+        ).toBeDefined();
 
-        const welcomeText = getByText(/sign in to rate videos, add comments and subscribe to channels\./i);
-        expect(welcomeText).toBeDefined();
+        expect(getByText(/sign in to rate videos, add comments and subscribe to channels\./i)).toBeDefined();
 
-        const forgotPasswordButton = getByRole('button', {
-            name: /forgot password/i,
-        });
-        expect(forgotPasswordButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /forgot password/i,
+            }),
+        ).toBeDefined();
 
-        const emailField = getByPlaceholderText(/enter email/i);
-        expect(emailField).toBeDefined();
+        expect(getByPlaceholderText(/enter email/i)).toBeDefined();
 
-        const passwordField = getByPlaceholderText(/enter password/i);
-        expect(passwordField).toBeDefined();
+        expect(getByPlaceholderText(/enter password/i)).toBeDefined();
 
-        const submitSignInButton = getByRole('button', {
-            name: /log in/i,
-        });
-        expect(submitSignInButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /log in/i,
+            }),
+        ).toBeDefined();
 
-        const googleLoginButton = getByRole('button', {
-            name: /google/i,
-        });
-        expect(googleLoginButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /google/i,
+            }),
+        ).toBeDefined();
 
-        const facebookLoginButton = getByRole('button', {
-            name: /facebook/i,
-        });
-        expect(facebookLoginButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /facebook/i,
+            }),
+        ).toBeDefined();
 
-        const signUpButton = getByRole('button', {
-            name: /i don`t have account yet/i,
-        });
-        expect(signUpButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /i don`t have account yet/i,
+            }),
+        ).toBeDefined();
     });
 
     it('should do not submit sign in form with wrong values', async () => {
-        const {getByRole, queryByText} = renderWithProvider(<SignInForm />);
+        const {getByRole, queryByText} = renderWithProviders(<SignInForm />, {store});
 
         const submitSignInButton = getByRole('button', {
             name: /log in/i,
         });
-
-        expect(queryByText(/password is required/i)).toBeNull();
-        expect(queryByText(/email is required/i)).toBeNull();
 
         await userEvent.click(submitSignInButton);
 
         expect(queryByText(/password is required/i)).toBeDefined();
         expect(queryByText(/email is required/i)).toBeDefined();
+        expect(store.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should show error message and attempts count if email or password are incorrect', () => {
+        const attempts = 1;
+
+        const {getByRole} = renderWithProviders(<SignInForm />, {
+            preloadedState: {
+                ...preloadedState,
+                auth: {
+                    ...authPreloadedState.auth,
+                    data: {
+                        userLoggedIn: false,
+                        userData: null,
+                        loginAttempts: attempts,
+                        maxAttemptsCountAchieved: false,
+                        loginAttemptsTime: 300,
+                    },
+                    errors: {
+                        signIn: {
+                            error: {
+                                name: '',
+                                message: 'Rejected',
+                            },
+                            payload: {} as any,
+                            requestId: '',
+                        },
+                    },
+                },
+            },
+        });
+
+        const alert = getByRole('alert');
+
+        const errorMessage = within(alert).getByText(
+            `Incorrect email or password. Attempt ${attempts}/${maxLoginAttempts}`,
+        );
+
+        expect(errorMessage).toBeDefined();
     });
 
     it('should submit sign in form with correct values', async () => {
-        const {getByRole, queryByText, getByPlaceholderText} = renderWithProvider(<SignInForm />);
+        const {getByRole, queryByText, getByPlaceholderText} = renderWithProviders(<SignInForm />, {store});
 
         const submitSignInButton = getByRole('button', {
             name: /log in/i,
@@ -85,5 +128,6 @@ describe('SignInForm component', () => {
 
         expect(queryByText(/password is required/i)).toBeNull();
         expect(queryByText(/email is required/i)).toBeNull();
+        expect(store.dispatch).toHaveBeenCalled();
     });
 });

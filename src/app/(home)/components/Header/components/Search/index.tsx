@@ -21,7 +21,7 @@ const Search = () => {
 
     const {control, handleSubmit, watch, setValue} = methods;
 
-    const searchValue = watch('search');
+    const searchValue = watch('search') || '';
     const searchQuery = searchParams.get(SearchParamsKeys.searchKey);
 
     useEffect(() => {

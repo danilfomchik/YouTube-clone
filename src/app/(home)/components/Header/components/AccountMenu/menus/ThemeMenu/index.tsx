@@ -6,13 +6,13 @@ import MenuItem from '../../MenuItem';
 
 export const themes = [
     {
-        text: 'Dark',
-    },
-    {
         text: 'Light',
     },
     {
-        text: 'Device',
+        text: 'Dark',
+    },
+    {
+        text: 'System',
     },
 ];
 

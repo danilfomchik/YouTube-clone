@@ -2,19 +2,20 @@ import {Dispatch} from 'react';
 import type {AnyAction} from '@reduxjs/toolkit';
 
 import {IGenericState} from './createGenericSlice';
-import {StatusesTypes, IRootState} from './types';
+import {StatusesTypes} from './types';
+import {AppStoreState} from './store';
 
 export interface ICommonThunkParams {
     force?: boolean;
 }
 
 export const thunkCondition =
-    (sliceName: keyof IRootState, thunkName: string) => (arg: ICommonThunkParams | any, helpers: any) => {
+    (sliceName: keyof AppStoreState, thunkName: string) => (arg: ICommonThunkParams | any, helpers: any) => {
         if (arg?.force) {
             return true;
         }
 
-        const state = helpers.getState() as IRootState;
+        const state = helpers.getState() as AppStoreState;
 
         const slice = state[sliceName] as unknown as IGenericState<any>;
 

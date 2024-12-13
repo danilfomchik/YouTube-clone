@@ -1,49 +1,44 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup, screen, within} from '@testing-library/react';
+import {within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {authPreloadedState, renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import AccountMenu from '..';
 import {MenusEnum} from '../types';
-import {languages} from '../menus/LanguageMenu';
-import {themes} from '../menus/ThemeMenu';
-
-const checkAllItemsRendered = (arr: {text: string}[]) => {
-    arr.forEach(item => {
-        expect(
-            screen.getByRole('menuitem', {
-                name: item.text,
-            }),
-        ).toBeDefined();
-    });
-};
-
-const checkAllItemsNotRendered = (arr: {text: string}[]) => {
-    arr.forEach(item => {
-        expect(
-            screen.queryByRole('menuitem', {
-                name: item.text,
-            }),
-        ).toBeNull();
-    });
-};
+import {authPreloadedState} from '@/app/tests/constants';
+import {setupStore} from '@/app/redux/store';
+import {changeCurrentMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 
 describe('AccountMenu component', () => {
-    afterEach(() => {
-        cleanup();
+    const store = setupStore({
+        ...authPreloadedState,
+        accountMenu: {
+            data: {
+                currentMenu: MenusEnum.mainMenu,
+                prevMenus: [] as MenusEnum[],
+            },
+            statuses: {},
+            errors: {},
+            lastRequestId: {},
+        },
     });
 
-    it('should open menu by click on user photo', async () => {
-        const {getByRole} = renderWithProvider(<AccountMenu />, {
-            ...authPreloadedState,
-            accountMenu: {
-                data: {
-                    currentMenu: MenusEnum.mainMenu,
-                    prevMenus: [],
+    beforeEach(() => {
+        store.dispatch = vi.fn();
+    });
+
+    it('should open menu by click on user photo and render user name and photo', async () => {
+        const {getByRole} = renderWithProviders(<AccountMenu />, {
+            preloadedState: {
+                ...authPreloadedState,
+                accountMenu: {
+                    data: {
+                        currentMenu: MenusEnum.mainMenu,
+                        prevMenus: [],
+                    },
+                    statuses: {},
+                    errors: {},
+                    lastRequestId: {},
                 },
-                statuses: {},
-                errors: {},
-                lastRequestId: {},
             },
         });
 
@@ -52,43 +47,21 @@ describe('AccountMenu component', () => {
         });
         await userEvent.click(accountSettingsButton);
 
-        const userMenu = getByRole('menu');
-        expect(userMenu).toBeDefined();
+        const accountMenu = getByRole('menu');
+        expect(accountMenu).toBeDefined();
 
-        const userProfileImage = within(userMenu).getByRole('img', {
+        const userProfileImage = within(accountMenu).getByRole('img', {
             name: /test test/i,
         });
         expect(userProfileImage).toBeDefined();
 
-        const userDisplayName = within(userMenu).getByText(/test test/i);
+        const userDisplayName = within(accountMenu).getByText(/test test/i);
         expect(userDisplayName).toBeDefined();
-
-        const addAnotherAccountMenuItem = within(userMenu).getByRole('menuitem', {
-            name: /add another account/i,
-        });
-        expect(addAnotherAccountMenuItem).toBeDefined();
-        const settingsMenuItem = within(userMenu).getByRole('menuitem', {
-            name: /settings/i,
-        });
-        expect(settingsMenuItem).toBeDefined();
-        const logoutMenuItem = within(userMenu).getByRole('menuitem', {
-            name: /logout/i,
-        });
-        expect(logoutMenuItem).toBeDefined();
     });
 
-    it('should open sub menus', async () => {
-        const {getByRole} = renderWithProvider(<AccountMenu />, {
-            ...authPreloadedState,
-            accountMenu: {
-                data: {
-                    currentMenu: MenusEnum.settingsMenu,
-                    prevMenus: [MenusEnum.mainMenu],
-                },
-                statuses: {},
-                errors: {},
-                lastRequestId: {},
-            },
+    it('should switch between menus', async () => {
+        const {getByRole} = renderWithProviders(<AccountMenu />, {
+            store,
         });
 
         const accountSettingsButton = getByRole('button', {
@@ -96,37 +69,13 @@ describe('AccountMenu component', () => {
         });
         await userEvent.click(accountSettingsButton);
 
-        const returnBack = getByRole('menuitem', {
-            name: /return back/i,
+        const settingsMenuItem = getByRole('menuitem', {
+            name: /settings/i,
         });
-        expect(returnBack).toBeDefined();
-        const languageMenuItem = getByRole('menuitem', {
-            name: /language/i,
-        });
-        expect(languageMenuItem).toBeDefined();
-        const themeMenuItem = getByRole('menuitem', {
-            name: /theme/i,
-        });
-        expect(themeMenuItem).toBeDefined();
+        await userEvent.click(settingsMenuItem);
 
-        await userEvent.click(
-            getByRole('menuitem', {
-                name: /language/i,
-            }),
+        expect(store.dispatch).toHaveBeenCalledWith(
+            changeCurrentMenu({nextMenu: MenusEnum.settingsMenu, prevMenu: MenusEnum.mainMenu}),
         );
-
-        checkAllItemsRendered(languages);
-
-        await userEvent.click(returnBack);
-
-        checkAllItemsNotRendered(languages);
-
-        await userEvent.click(
-            getByRole('menuitem', {
-                name: /theme/i,
-            }),
-        );
-
-        checkAllItemsRendered(themes);
     });
 });

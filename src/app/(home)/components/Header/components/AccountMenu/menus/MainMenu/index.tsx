@@ -7,20 +7,16 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
-import {MenusEnum, TMenu} from '../../types';
+import {MenusEnum} from '../../types';
 import {useAppDispatch} from '@/app/redux/store';
 import MenuItem from '../../MenuItem';
 import {selectUserData} from '@/app/redux/auth/selectors';
-import {changeCurrentMenu} from '@/app/redux/accountMenu/accountMenuSlice';
 import {onUserSignOut} from '@/app/redux/auth/thunks';
+import {onChangeMenu} from '../utils';
 
-const MainMenu = ({name}: TMenu) => {
+const MainMenu = () => {
     const dispatch = useAppDispatch();
     const {photoURL, displayName} = useSelector(selectUserData)!;
-
-    const onOpenSettings = () => {
-        dispatch(changeCurrentMenu({nextMenu: MenusEnum.settingsMenu, prevMenu: name}));
-    };
 
     const handleUserSignOut = () => {
         dispatch(onUserSignOut());
@@ -35,7 +31,12 @@ const MainMenu = ({name}: TMenu) => {
             </Grid2>
 
             <MenuItem icon={<PersonAdd fontSize="small" />} text="Add another account" hasNested={false} />
-            <MenuItem icon={<Settings fontSize="small" />} text="Settings" onClick={onOpenSettings} hasNested={true} />
+            <MenuItem
+                icon={<Settings fontSize="small" />}
+                text="Settings"
+                onClick={() => onChangeMenu({dispatch, nextMenu: MenusEnum.settingsMenu, prevMenu: MenusEnum.mainMenu})}
+                hasNested={true}
+            />
             <MenuItem icon={<Logout fontSize="small" />} text="Logout" onClick={handleUserSignOut} hasNested={false} />
         </>
     );

@@ -1,3 +1,3 @@
-import {IRootState} from '../types';
+import {AppStoreState} from '../store';
 
-export const selectNavbarStatus = (state: IRootState) => state.navbar.data.isNavbarOpen;
+export const selectNavbarStatus = (state: AppStoreState) => state.navbar.data.isNavbarOpen;

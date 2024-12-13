@@ -20,7 +20,8 @@ export default defineConfig({
     test: {
         environment: 'jsdom',
         cache: false,
-        setupFiles: ['./src/app/setupTests.ts'],
+        globals: true,
+        setupFiles: ['./src/app/tests/setup.ts'],
         env: loadEnv('', process.cwd(), ''),
     },
 });
