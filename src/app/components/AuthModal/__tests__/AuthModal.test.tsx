@@ -1,24 +1,17 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup, within} from '@testing-library/react';
+import {within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import mockRouter from 'next-router-mock';
 
-import {renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import AuthModal from '..';
 
 describe('AuthModal component', () => {
-    afterEach(() => {
-        cleanup();
-    });
-
     it('should close Auth modal', async () => {
         mockRouter.push('/?auth=sign-in');
 
-        const {getByTestId, queryByRole} = renderWithProvider(<AuthModal />);
+        const {getByTestId, queryByRole} = renderWithProviders(<AuthModal />);
 
         const closeIcon = getByTestId('CloseRoundedIcon');
-        expect(closeIcon).toBeDefined();
-
         await userEvent.click(closeIcon);
 
         expect(
@@ -28,52 +21,46 @@ describe('AuthModal component', () => {
         ).toBeNull();
     });
 
-    it('should switch between sign in and sign up forms', async () => {
+    it('should open sign up form', async () => {
         mockRouter.push('/?auth=sign-in');
 
-        const {getByRole, queryByRole} = renderWithProvider(<AuthModal />);
+        const {getByRole} = renderWithProviders(<AuthModal />);
 
-        const authModal = getByRole('dialog');
-
-        expect(
-            within(authModal).getByText(/sign in to rate videos, add comments and subscribe to channels\./i),
-        ).toBeDefined();
-
-        expect(
-            within(authModal).queryByText(/sign up to rate videos, add comments and subscribe to channels\./i),
-        ).toBeNull();
-
-        const signUpButton = queryByRole('button', {
+        const signUpButton = getByRole('button', {
             name: /i don`t have account yet/i,
         });
 
-        if (signUpButton) {
-            await userEvent.click(signUpButton);
-        }
+        await userEvent.click(signUpButton);
 
-        expect(
-            within(authModal).queryByText(/sign in to rate videos, add comments and subscribe to channels\./i),
-        ).toBeNull();
-        expect(
-            within(authModal).getByText(/sign up to rate videos, add comments and subscribe to channels\./i),
-        ).toBeDefined();
+        expect(mockRouter.asPath).toBe('/?auth=sign-up');
+    });
+
+    it('should open sign in form', async () => {
+        mockRouter.push('/?auth=sign-up');
+
+        const {getByRole} = renderWithProviders(<AuthModal />);
+
+        const signInButton = getByRole('button', {
+            name: /i already have account/i,
+        });
+
+        await userEvent.click(signInButton);
+
+        expect(mockRouter.asPath).toBe('/?auth=sign-in');
     });
 
     it('should open reset password form', async () => {
         mockRouter.push('/?auth=sign-in');
 
-        const {getByRole, getByText} = renderWithProvider(<AuthModal />);
+        const {getByRole} = renderWithProviders(<AuthModal />);
 
         const authModal = getByRole('dialog');
-
         const forgotPasswordButton = within(authModal).getByRole('button', {
             name: /forgot password/i,
         });
 
         await userEvent.click(forgotPasswordButton);
 
-        expect(
-            getByText("Enter your user account's verified email address and we will send you a password reset link."),
-        ).toBeDefined();
+        expect(mockRouter.asPath).toBe('/?auth=reset-password');
     });
 });

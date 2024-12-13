@@ -1,69 +1,63 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import {renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import SignUpForm from '..';
+import {setupStore} from '@/app/redux/store';
+import {notAuthPreloadedState} from '@/app/tests/constants';
 
 describe('SignUpForm component', () => {
-    afterEach(() => {
-        cleanup();
+    const store = setupStore(notAuthPreloadedState);
+
+    beforeEach(() => {
+        store.dispatch = vi.fn();
     });
 
     it('should render sign up form elements', async () => {
-        const {getByRole, getByText, getByPlaceholderText} = renderWithProvider(<SignUpForm />);
+        const {getByRole, getByText, getByPlaceholderText} = renderWithProviders(<SignUpForm />);
 
-        const welcomeHeading = getByRole('heading', {
-            name: /welcome!/i,
-        });
-        expect(welcomeHeading).toBeDefined();
+        expect(
+            getByRole('heading', {
+                name: /welcome!/i,
+            }),
+        ).toBeDefined();
 
-        const welcomeText = getByText(/sign up to rate videos, add comments and subscribe to channels\./i);
-        expect(welcomeText).toBeDefined();
+        expect(getByText(/sign up to rate videos, add comments and subscribe to channels\./i)).toBeDefined();
 
-        const firstNameField = getByPlaceholderText(/enter firstname/i);
-        expect(firstNameField).toBeDefined();
+        expect(getByPlaceholderText(/enter firstname/i)).toBeDefined();
 
-        const lastNameField = getByPlaceholderText(/enter lastname/i);
-        expect(lastNameField).toBeDefined();
+        expect(getByPlaceholderText(/enter lastname/i)).toBeDefined();
 
-        const emailField = getByPlaceholderText(/enter email/i);
-        expect(emailField).toBeDefined();
+        expect(getByPlaceholderText(/enter email/i)).toBeDefined();
 
-        const passwordField = getByPlaceholderText(/enter password/i);
-        expect(passwordField).toBeDefined();
+        expect(getByPlaceholderText(/enter password/i)).toBeDefined();
 
-        const confirmPasswordField = getByPlaceholderText(/confirm password/i);
-        expect(confirmPasswordField).toBeDefined();
+        expect(getByPlaceholderText(/confirm password/i)).toBeDefined();
 
-        const uploadFileButton = getByRole('button', {
-            name: /choose profile photo/i,
-        });
-        expect(uploadFileButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /choose profile photo/i,
+            }),
+        ).toBeDefined();
 
-        const submitSignupButton = getByRole('button', {
-            name: /sign up/i,
-        });
-        expect(submitSignupButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /sign up/i,
+            }),
+        ).toBeDefined();
 
-        const signInButton = getByRole('button', {
-            name: /i already have account/i,
-        });
-        expect(signInButton).toBeDefined();
+        expect(
+            getByRole('button', {
+                name: /i already have account/i,
+            }),
+        ).toBeDefined();
     });
 
     it('should do not submit sign up form with wrong values', async () => {
-        const {getByRole, queryByText, getByPlaceholderText} = renderWithProvider(<SignUpForm />);
+        const {getByRole, queryByText, getByPlaceholderText} = renderWithProviders(<SignUpForm />, {store});
 
         const submitSignUpButton = getByRole('button', {
             name: /sign up/i,
         });
-
-        expect(queryByText(/enter your first name/i)).toBeNull();
-        expect(queryByText(/enter your lastname/i)).toBeNull();
-        expect(queryByText(/email is required/i)).toBeNull();
-        expect(queryByText(/password is required/i)).toBeNull();
-        expect(queryByText(/confirm your password/i)).toBeNull();
 
         await userEvent.click(submitSignUpButton);
 
@@ -106,10 +100,11 @@ describe('SignUpForm component', () => {
         await userEvent.type(passwordField, 'g1test123');
 
         expect(queryByText(/password should not contain last name/i)).toBeDefined();
+        expect(store.dispatch).not.toHaveBeenCalled();
     });
 
     it('should submit sign up form with correct values', async () => {
-        const {getByRole, queryByText, getByPlaceholderText} = renderWithProvider(<SignUpForm />);
+        const {getByRole, queryByText, getByPlaceholderText} = renderWithProviders(<SignUpForm />, {store});
 
         const submitSignUpButton = getByRole('button', {
             name: /sign up/i,
@@ -133,7 +128,6 @@ describe('SignUpForm component', () => {
         expect(queryByText(/email is required/i)).toBeNull();
         expect(queryByText(/password is required/i)).toBeNull();
         expect(queryByText(/confirm your password/i)).toBeNull();
-
         expect(queryByText(/first name should be greater than 2 characters/i)).toBeNull();
         expect(queryByText(/only Latin letters, spaces and hyphens are allowed/i)).toBeNull();
         expect(queryByText(/enter correct email/i)).toBeNull();
@@ -143,5 +137,6 @@ describe('SignUpForm component', () => {
         expect(queryByText(/passwords do not match/i)).toBeNull();
         expect(queryByText(/password should not contain first name/i)).toBeNull();
         expect(queryByText(/password should not contain last name/i)).toBeNull();
+        expect(store.dispatch).toHaveBeenCalled();
     });
 });

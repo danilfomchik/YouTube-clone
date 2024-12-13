@@ -1,3 +1,3 @@
 export interface NotAuthorizedProps {
-    navbarStatus: boolean;
+    isNavbarOpen: boolean;
 }

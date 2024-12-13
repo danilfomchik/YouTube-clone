@@ -1,97 +1,125 @@
-import {describe, it, expect, afterEach, vi, test} from 'vitest';
-import {cleanup, waitFor, within} from '@testing-library/react';
+import {waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import mockRouter from 'next-router-mock';
 
-import {renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import Search from '..';
-import {mock, query} from '@/app/mocks/handlers';
+import {searchQueryMock, searchQuery} from '@/app/tests/mocks/handlers';
 
 describe('Search component', () => {
-    afterEach(() => {
-        cleanup();
-        vi.clearAllMocks();
-        vi.resetAllMocks();
-    });
-
-    it(`should render without options`, async () => {
-        const {getByRole, queryByRole, queryByTestId} = renderWithProvider(<Search />);
+    it(`should render all elements`, async () => {
+        const {getByRole, getByTestId} = renderWithProviders(<Search />);
 
         const combobox = getByRole('combobox');
         await userEvent.click(combobox);
 
+        const searchButton = getByTestId('SearchIcon');
+
         expect((combobox as HTMLInputElement).value).toBe('');
-        expect(queryByRole('listbox')).toBeNull();
-        expect(queryByTestId('CloseIcon')).toBeNull();
+        expect(searchButton).toBeInTheDocument();
     });
 
-    it(`should render with options`, async () => {
-        const {getByRole, queryByRole, queryByTestId, getByText} = renderWithProvider(<Search />);
+    it(`should change input value`, async () => {
+        const {getByRole, getByTestId} = renderWithProviders(<Search />);
 
         const combobox = getByRole('combobox');
-        await userEvent.type(combobox, query);
+        await userEvent.type(combobox, searchQuery);
 
-        expect((combobox as HTMLInputElement).value).toBe(query);
+        const clearButton = getByTestId('CloseIcon');
 
-        const listbox = queryByRole('listbox');
-        const closeButton = queryByTestId('CloseIcon');
-
-        expect(listbox).toBeDefined();
-        expect(closeButton).toBeDefined();
-
-        for (const suggestion of mock[1] as string[]) {
-            expect(getByText(suggestion)).toBeDefined();
-        }
-    });
-
-    it(`should clear options by clicking clear button`, async () => {
-        const {getByRole, queryByRole, queryByTestId} = renderWithProvider(<Search />);
-
-        const combobox = getByRole('combobox');
-        await userEvent.type(combobox, query);
-
-        const closeButton = queryByTestId('CloseIcon');
-        await userEvent.click(closeButton as Element);
-
-        const listbox = queryByRole('listbox');
-
-        await waitFor(() => {
-            expect((combobox as HTMLInputElement).value).toBe('');
-            expect(listbox).toBeNull();
-        });
+        expect(clearButton).toBeDefined();
+        expect((combobox as HTMLInputElement).value).toBe(searchQuery);
     });
 
     it(`should change input value by clicking on option`, async () => {
-        const {getByRole, queryByRole} = renderWithProvider(<Search />);
+        mockRouter.push(`/?search_query=${searchQuery}`);
 
-        const combobox = getByRole('combobox');
-        await userEvent.type(combobox, query);
+        const {getByRole} = renderWithProviders(<Search />);
+        await userEvent.click(getByRole('combobox'));
 
-        const listbox = queryByRole('listbox');
-        const optionsList = within(listbox as HTMLElement).queryAllByRole('option');
-        const firstOption = optionsList[0];
-
+        const listbox = getByRole('listbox');
+        const firstOption = within(listbox).getAllByRole('option')[0];
         await userEvent.click(firstOption);
 
-        expect((combobox as HTMLInputElement).value).toBe(firstOption.textContent);
+        expect((getByRole('combobox') as HTMLInputElement).value).toBe(firstOption.textContent);
     });
 
-    it(`should submit form by clicking on search button`, async () => {
-        const handleOnSubmitMock = vi.fn();
+    it(`should clear input value by clicking on clear button`, async () => {
+        mockRouter.push(`/?search_query=${searchQuery}`);
 
-        const {getByRole, getByTestId} = renderWithProvider(<Search />);
+        const {getByRole, getByTestId} = renderWithProviders(<Search />);
+
+        const clearButton = getByTestId('CloseIcon');
+        await userEvent.click(clearButton);
+
+        expect((getByRole('combobox') as HTMLInputElement).value).toBe('');
+    });
+
+    it(`should render list of options if input has value`, async () => {
+        mockRouter.push(`/?search_query=${searchQuery}`);
+
+        const {getByRole} = renderWithProviders(<Search />);
+        await userEvent.click(getByRole('combobox'));
+
+        const listbox = getByRole('listbox');
+        const options = within(listbox).getAllByRole('option');
+
+        expect(options.length).toBe(searchQueryMock[1].length);
+
+        for (const suggestion of searchQueryMock[1]) {
+            expect(getByRole('option', {name: suggestion})).toBeDefined();
+        }
+    });
+
+    it(`should not render list of options`, async () => {
+        const {getByRole, queryByRole, getByTestId} = renderWithProviders(<Search />);
 
         const combobox = getByRole('combobox');
-        await userEvent.type(combobox, query);
+        await userEvent.type(combobox, 'not correct search value');
 
-        const searchButton = getByTestId('Search submit');
-        const searchForm = getByTestId('Search form');
+        const listbox = queryByRole('listbox');
+        const clearButton = getByTestId('CloseIcon');
 
-        searchForm.onsubmit = handleOnSubmitMock;
-
-        await userEvent.click(searchButton);
-
-        expect(handleOnSubmitMock).toHaveBeenCalled();
+        expect(clearButton).toBeDefined();
+        expect(listbox).toBeNull();
     });
 
-    test.todo('add test for not submitting form');
+    it(`should clear options by clicking clear button`, async () => {
+        mockRouter.push(`/?search_query=${searchQuery}`);
+
+        const {queryByRole, getByTestId} = renderWithProviders(<Search />);
+
+        const clearButton = getByTestId('CloseIcon');
+        await userEvent.click(clearButton);
+
+        await waitFor(() => {
+            expect(queryByRole('listbox')).toBeNull();
+        });
+    });
+
+    it(`should submit form with value by clicking on search button`, async () => {
+        const {getByRole, getByTestId} = renderWithProviders(<Search />);
+
+        const combobox = getByRole('combobox');
+        await userEvent.type(combobox, searchQuery);
+
+        const searchButton = getByTestId('Search submit');
+        await userEvent.click(searchButton);
+
+        expect(mockRouter.asPath).toBe(`/?search_query=${searchQuery}`);
+    });
+
+    it(`should submit form without value by clicking on search button`, async () => {
+        mockRouter.push(`/?search_query=${searchQuery}`);
+
+        const {getByTestId} = renderWithProviders(<Search />);
+
+        const clearButton = getByTestId('CloseIcon');
+        await userEvent.click(clearButton);
+
+        const searchButton = getByTestId('Search submit');
+        await userEvent.click(searchButton);
+
+        expect(mockRouter.asPath).toBe(`/`);
+    });
 });

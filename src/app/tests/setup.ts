@@ -1,18 +1,23 @@
-import {afterAll, afterEach, beforeAll, vi} from 'vitest';
+import {cleanup} from '@testing-library/react';
 import mockRouter from 'next-router-mock';
 import {createDynamicRouteParser} from 'next-router-mock/dynamic-routes';
+import '@testing-library/jest-dom/vitest';
 
-import {server} from './mocks/api/server';
+import {server} from '@/app/tests/mocks/api/server';
 
+// setup msw
 beforeAll(() => {
     server.listen();
 });
 afterEach(() => {
+    cleanup();
+
     server.resetHandlers();
     mockRouter.push('/');
 });
 afterAll(() => server.close());
 
+// mock next/router
 vi.mock('next/router', () => vi.importActual('next-router-mock'));
 
 mockRouter.useParser(
@@ -21,6 +26,7 @@ mockRouter.useParser(
     ]),
 );
 
+// mock next/navigation
 vi.mock('next/navigation', async () => {
     const {useRouter} = await require('next-router-mock');
     const usePathname = () => {

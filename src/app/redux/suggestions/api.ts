@@ -4,7 +4,7 @@ export const suggestionApi = createApi({
     reducerPath: 'suggestionApi',
     // fails when I use process.env variable inside suggestionApi
     // api works only with EN queries
-    baseQuery: fetchBaseQuery({baseUrl: `https://corsproxy.io/?${process.env.NEXT_PUBLIC_AUTOCOMPLETE_URL}`}),
+    baseQuery: fetchBaseQuery({baseUrl: `https://corsproxy.io/?url=${process.env.NEXT_PUBLIC_AUTOCOMPLETE_URL}`}),
     endpoints: builder => ({
         getSuggestions: builder.query<any, string>({
             query: queryString => `?client=chrome&ds=yt&q=${queryString}`,

@@ -5,8 +5,8 @@ import ThemeMenu from './menus/ThemeMenu';
 import {IMenuItem, MenusEnum} from './types';
 
 export const menus: IMenuItem = {
-    [MenusEnum.mainMenu]: <MainMenu name={MenusEnum.mainMenu} />,
-    [MenusEnum.settingsMenu]: <SettingsMenu name={MenusEnum.settingsMenu} />,
+    [MenusEnum.mainMenu]: <MainMenu />,
+    [MenusEnum.settingsMenu]: <SettingsMenu />,
     [MenusEnum.languageMenu]: <LanguageMenu />,
     [MenusEnum.themeMenu]: <ThemeMenu />,
 };

@@ -1,3 +1,3 @@
-import {IRootState} from '../types';
+import {AppStoreState} from '../store';
 
-export const selectMessages = (state: IRootState) => state.snackbar;
+export const selectMessages = (state: AppStoreState) => state.snackbar;

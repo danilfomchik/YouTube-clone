@@ -5,7 +5,6 @@ import {useSelector} from 'react-redux';
 import {Grid2, IconButton, Toolbar, Typography, Link as MuiLink} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenTwoToneIcon from '@mui/icons-material/MenuOpenTwoTone';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Link from 'next/link';
 import SmartDisplayRoundedIcon from '@mui/icons-material/SmartDisplayRounded';
 
@@ -13,10 +12,9 @@ import {MuiAppBar} from './Styles';
 import {useAppDispatch} from '@/app/redux/store';
 import {toggleNavbar} from '@/app/redux/navbar/navbarSlice';
 import {selectNavbarStatus} from '@/app/redux/navbar/selectors';
-import AccountMenu from './components/AccountMenu';
-import LoginButton from '@/app/components/Buttons/LoginButton';
 import Search from './components/Search';
 import {selectIsUserLoggedIn} from '@/app/redux/auth/selectors';
+import User from './components/User';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -32,7 +30,10 @@ const Header = () => {
             <MuiAppBar position="fixed" open={isNavbarOpen}>
                 <Toolbar>
                     <Grid2 mr={2}>
-                        <IconButton aria-label="open drawer" onClick={onDrawerOpen} edge="start">
+                        <IconButton
+                            aria-label={!isNavbarOpen ? 'open drawer' : 'close drawer'}
+                            onClick={onDrawerOpen}
+                            edge="start">
                             {isNavbarOpen ? <MenuOpenTwoToneIcon /> : <MenuIcon />}
                         </IconButton>
                     </Grid2>
@@ -51,14 +52,7 @@ const Header = () => {
                     </Grid2>
 
                     <Grid2>
-                        {isUserLoggedIn ? (
-                            <AccountMenu />
-                        ) : (
-                            <LoginButton
-                                open={isNavbarOpen}
-                                startIcon={<AccountCircleOutlinedIcon color="secondary" />}
-                            />
-                        )}
+                        <User isUserLoggedIn={isUserLoggedIn} />
                     </Grid2>
                 </Toolbar>
             </MuiAppBar>

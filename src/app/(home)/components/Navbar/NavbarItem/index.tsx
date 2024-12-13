@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 import {NavbarItemProps} from './types';
 
-const NavbarItem = ({page, navbarStatus, handleListItemClick, isSelected, pageIndex}: NavbarItemProps) => {
+const NavbarItem = ({page, isNavbarOpen, handleListItemClick, isSelected, pageIndex}: NavbarItemProps) => {
     return (
         <MuiLink key={page.label} href={page.path} underline="none" component={Link}>
-            <ListItem disablePadding open={navbarStatus}>
+            <ListItem disablePadding open={isNavbarOpen}>
                 <ListItemButton disableRipple selected={isSelected} onClick={() => handleListItemClick(pageIndex)}>
                     <ListItemIcon>{isSelected ? page.activeIcon : page.defaultIcon}</ListItemIcon>
                     <ListItemText primary={page.label} />

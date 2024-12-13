@@ -1,12 +1,13 @@
 import {isArray, compact, isEqual, keys} from 'lodash';
 import {createSelectorCreator, defaultMemoize} from 'reselect';
 
-import {SliceNames, StatusesTypes, IRootState} from './types';
+import {SliceNames, StatusesTypes} from './types';
 import {IGenericState} from './createGenericSlice';
+import {AppStoreState} from './store';
 
 export const selectLoading =
     <T>(sliceName: SliceNames, thunkName: string | string[]) =>
-    (state: IRootState) => {
+    (state: AppStoreState) => {
         // @ts-ignore
         // TODO fix typing
         const slice = state[sliceName] as IGenericState<T>;
@@ -21,7 +22,7 @@ export const selectLoading =
         return slice.statuses[thunkName] === StatusesTypes.loading;
     };
 
-const selectSliceErrors = (sliceName: SliceNames) => (state: IRootState) => {
+const selectSliceErrors = (sliceName: SliceNames) => (state: AppStoreState) => {
     // @ts-ignore
     // TODO fix typing
     const slice = state[sliceName] as unknown as IGenericState<string>;

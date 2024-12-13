@@ -1,22 +1,13 @@
-import {describe, it, expect, afterEach} from 'vitest';
-import {cleanup, within} from '@testing-library/react';
+import {within} from '@testing-library/react';
 
-import {authPreloadedState, renderWithProvider} from '@/app/test-utils';
+import {renderWithProviders} from '@/app/tests/utils';
 import Header from '..';
 import {MenusEnum} from '../components/AccountMenu/types';
+import {authPreloadedState} from '@/app/tests/constants';
 
-// TODO: add logs to gitignore
-
-const preloadedUserState = {
+const preloadedState = {
     ...authPreloadedState,
-    navbar: {
-        data: {
-            isNavbarOpen: true,
-        },
-        statuses: {},
-        errors: {},
-        lastRequestId: {},
-    },
+
     accountMenu: {
         data: {
             currentMenu: MenusEnum.mainMenu,
@@ -29,12 +20,8 @@ const preloadedUserState = {
 };
 
 describe('Header component', () => {
-    afterEach(() => {
-        cleanup();
-    });
-
     it('should render all elements', () => {
-        const {getByRole} = renderWithProvider(<Header />);
+        const {getByRole} = renderWithProviders(<Header />);
 
         const banner = getByRole('banner');
 
@@ -50,25 +37,49 @@ describe('Header component', () => {
 
         const searchForm = within(banner).getByTestId('Search form');
         expect(searchForm).toBeDefined();
-
-        const logInButton = within(banner).getByRole('button', {
-            name: /log in/i,
-        });
-        expect(logInButton).toBeDefined();
     });
 
-    it('should render user photo instead of log in button if user signed in', async () => {
-        const {getByRole} = renderWithProvider(<Header />, preloadedUserState);
-
-        const banner = getByRole('banner');
-        const logInButton = within(banner).queryByRole('button', {
-            name: /log in/i,
+    it('should show open drawer icon', () => {
+        const {getByRole} = renderWithProviders(<Header />, {
+            preloadedState: {
+                ...preloadedState,
+                navbar: {
+                    data: {
+                        isNavbarOpen: false,
+                    },
+                    statuses: {},
+                    errors: {},
+                    lastRequestId: {},
+                },
+            },
         });
-        const userMenu = getByRole('img', {
-            name: /test test/i,
+
+        const menuButton = getByRole('button', {
+            name: /open drawer/i,
         });
 
-        expect(userMenu).toBeDefined();
-        expect(logInButton).toBeNull();
+        expect(menuButton).toBeInTheDocument();
+    });
+
+    it('should show close drawer icon', () => {
+        const {getByRole} = renderWithProviders(<Header />, {
+            preloadedState: {
+                ...preloadedState,
+                navbar: {
+                    data: {
+                        isNavbarOpen: true,
+                    },
+                    statuses: {},
+                    errors: {},
+                    lastRequestId: {},
+                },
+            },
+        });
+
+        const menuButton = getByRole('button', {
+            name: /close drawer/i,
+        });
+
+        expect(menuButton).toBeInTheDocument();
     });
 });

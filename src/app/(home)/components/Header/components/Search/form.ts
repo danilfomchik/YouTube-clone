@@ -5,5 +5,5 @@ export const defaultValues = {
 };
 
 export const validation = object().shape({
-    search: string().min(1, '').required(''),
+    search: string(),
 });

@@ -96,6 +96,7 @@
         ]
     },
     "globals": {
-        "google": "readonly"
+        "google": "readonly",
+        "vi": true
     }
 }

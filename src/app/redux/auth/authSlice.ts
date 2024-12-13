@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 
 import createGenericSlice, {IGenericState} from '../createGenericSlice';
 import {ISlicesNames} from '../types';
-import {onUserSignInWithEmailAndPassword} from './thunks';
+import {onUserSignInWithEmailAndPassword, onUserSignOut} from './thunks';
 import {ICommonState, IUser} from './types';
 import {StorageKeys} from '@/app/services/types';
 import {initialSecondsValue, maxLoginAttempts} from '@/app/services/constants';
@@ -65,6 +65,11 @@ export const authData = createGenericSlice<ICommonState, typeof reducers>({
                 state.data.userLoggedIn = true;
 
                 authData.caseReducers.clearLoginAttempts(state);
+            })
+            .addCase(onUserSignOut.fulfilled, state => {
+                authData.caseReducers.resetSlice(state);
+
+                Cookies.remove(StorageKeys.userId);
             });
     },
 });
