@@ -96,7 +96,7 @@ const SignUpForm = () => {
                 </DialogContentText>
 
                 <FormProvider {...methods}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} data-testid="Sign up form">
                         <Grid2 container justifyContent="center" flexDirection="column" alignItems="center" size={12}>
                             <Grid2 container columnSpacing={2} size={12}>
                                 <Grid2 py={2} size={{xs: 12, sm: 6}}>
