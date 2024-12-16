@@ -201,6 +201,10 @@ const createCommonTheme = (theme: Theme) =>
                         height: 40,
                         background: theme.palette.primary.main,
                     },
+                    startIcon: {
+                        marginRight: theme.spacing(0),
+                        marginLeft: theme.spacing(0),
+                    },
                     containedPrimary: {
                         color: theme.palette.background.white,
                         background: theme.palette.background.default,
@@ -250,6 +254,10 @@ const createCommonTheme = (theme: Theme) =>
                                 props: ({open}) => open,
                                 style: {
                                     ...openedMixin(theme),
+
+                                    '& .MuiButton-icon': {
+                                        marginRight: theme.spacing(1),
+                                    },
                                 },
                             },
                             {
@@ -269,11 +277,6 @@ const createCommonTheme = (theme: Theme) =>
                                     borderRadius: theme.spacing(2),
                                     padding: theme.spacing(1.5),
                                     ...closedMixin(theme),
-
-                                    '& .MuiButton-icon': {
-                                        marginRight: theme.spacing(0),
-                                        marginLeft: theme.spacing(0),
-                                    },
                                 },
                             },
                         ],

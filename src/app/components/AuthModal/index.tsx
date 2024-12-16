@@ -43,7 +43,7 @@ const AuthModal = () => {
     }, [authParam, setIsModalOpen]);
 
     return (
-        <Dialog open={isModalOpen} onClose={closeAuthModal}>
+        <Dialog open={isModalOpen} onClose={closeAuthModal} closeAfterTransition={false}>
             {authParam && (
                 <>
                     <DialogTitle>
