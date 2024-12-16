@@ -7,7 +7,8 @@
         "plugin:react/recommended",
         "plugin:import/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:cypress/recommended"
     ],
     "ignorePatterns": ["node_modules/", ".next/", "public/"],
     "settings": {
@@ -23,7 +24,7 @@
             }
         }
     },
-    "plugins": ["prettier", "react", "@next/eslint-plugin-next", "@typescript-eslint"],
+    "plugins": ["prettier", "react", "@next/eslint-plugin-next", "@typescript-eslint", "cypress"],
     "env": {
         "browser": true,
         "node": true,
@@ -35,6 +36,7 @@
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-namespace": "off",
         "max-len": ["warn", 120],
         "react/prop-types": "off",
         "import/no-cycle": [
