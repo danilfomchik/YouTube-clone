@@ -160,7 +160,7 @@ const SignUpForm = () => {
                                     variant="outlined"
                                     name="photoURL"
                                     accept="image/*">
-                                    Choose profile photo
+                                    {photoURL?.name ? 'Choose another profile photo' : 'Choose profile photo'}
                                 </FileInputControl>
                             </Grid2>
 
