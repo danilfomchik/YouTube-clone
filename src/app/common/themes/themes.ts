@@ -202,7 +202,6 @@ const createCommonTheme = (theme: Theme) =>
                         background: theme.palette.primary.main,
                     },
                     startIcon: {
-                        marginRight: theme.spacing(0),
                         marginLeft: theme.spacing(0),
                     },
                     containedPrimary: {
@@ -211,6 +210,12 @@ const createCommonTheme = (theme: Theme) =>
                         borderRadius: theme.spacing(3),
                         padding: theme.spacing(1, 6),
                         border: `1px solid ${theme.palette.secondary.main}`,
+
+                        '&.Mui-disabled': {
+                            color: theme.palette.text.disabled,
+                            background: theme.palette.background.default,
+                            border: 'none',
+                        },
 
                         '&:hover': {
                             background: theme.palette.secondary.light,
@@ -277,6 +282,10 @@ const createCommonTheme = (theme: Theme) =>
                                     borderRadius: theme.spacing(2),
                                     padding: theme.spacing(1.5),
                                     ...closedMixin(theme),
+
+                                    '& .MuiButton-icon': {
+                                        marginRight: theme.spacing(0),
+                                    },
                                 },
                             },
                         ],

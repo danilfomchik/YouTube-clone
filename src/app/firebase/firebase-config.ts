@@ -2,7 +2,7 @@
 
 import {initializeApp} from 'firebase/app';
 import {getFirestore, connectFirestoreEmulator} from 'firebase/firestore';
-import {getAuth, GoogleAuthProvider, connectAuthEmulator} from 'firebase/auth';
+import {getAuth, GoogleAuthProvider, connectAuthEmulator, FacebookAuthProvider, signInWithPopup} from 'firebase/auth';
 import {getStorage, connectStorageEmulator} from 'firebase/storage';
 
 import 'firebase/compat/auth';
@@ -19,9 +19,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage();
+
+export const googleProvider = new GoogleAuthProvider();
+export const facebookProvider = new FacebookAuthProvider();
+
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithFacebookPopup = () => signInWithPopup(auth, facebookProvider);
 
 // Connect to Firebase Emulators for local development
 if (process.env.NODE_ENV === 'development') {

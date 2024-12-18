@@ -1,4 +1,5 @@
 import {UseFormSetError} from 'react-hook-form';
+import {Auth} from 'firebase/auth';
 
 import {SearchParamsKeys} from '@/app/services/types';
 
@@ -34,11 +35,29 @@ export enum FirebaseErrors {
     alreadyExistedEmail = 'auth/email-already-in-use',
 }
 
-export interface ISignInWithEmailAndPasswordThunkProps {
-    email: string;
-    password: string;
-    deleteParams: (key: string) => void;
+export enum AuthMethods {
+    emailAndPassword = 'email-and-password',
+    google = 'google',
+    facebook = 'facebook',
 }
+
+export type AuthMethodsWithProviders = Exclude<AuthMethods, AuthMethods.emailAndPassword>;
+
+export type TLoginPayload = [Auth, string, string];
+
+export type UserSignInProps =
+    | {
+          loginMethod: AuthMethods.emailAndPassword;
+          loginPayload: TLoginPayload;
+      }
+    | {
+          loginMethod: AuthMethodsWithProviders;
+          loginPayload?: never;
+      };
+
+export type IUserSignInThunkProps = {
+    deleteParams: (key: string) => void;
+} & UserSignInProps;
 export interface IResetPasswordThunkProps {
     email: string;
     addParams: ([key, value]: [SearchParamsKeys, string]) => void;

@@ -22,12 +22,13 @@ import {SearchParamsKeys, AuthSearchParamsValues} from '@/app/services/types';
 import InputPasswordControl from '../../form/InputPasswordControl';
 import {validation, defaultValues} from './form';
 import {useAppDispatch} from '@/app/redux/store';
-import {onUserSignInWithEmailAndPassword} from '@/app/redux/auth/thunks';
+import {onUserSignIn} from '@/app/redux/auth/thunks';
 import {selectLoginAttemptsCount, selectMaxAttemptsCountAchieved, selectSignInError} from '@/app/redux/auth/selectors';
 import {resetError} from '@/app/redux/auth/authSlice';
-import {IThunkNames} from '@/app/redux/auth/types';
+import {AuthMethods, IThunkNames, TLoginPayload, UserSignInProps} from '@/app/redux/auth/types';
 import {maxLoginAttempts} from '@/app/services/constants';
 import SignInAttempts from './SignInAttempts';
+import {auth} from '@/app/firebase/firebase-config';
 
 const SignInForm = () => {
     const dispatch = useAppDispatch();
@@ -45,10 +46,30 @@ const SignInForm = () => {
 
     const {control, handleSubmit} = methods;
 
+    const handleUserLogin = async ({loginMethod, loginPayload}: UserSignInProps) => {
+        if (loginMethod === AuthMethods.emailAndPassword) {
+            dispatch(
+                onUserSignIn({
+                    loginMethod: AuthMethods.emailAndPassword,
+                    loginPayload,
+                    deleteParams,
+                }),
+            );
+        } else {
+            dispatch(
+                onUserSignIn({
+                    loginMethod,
+                    deleteParams,
+                }),
+            );
+        }
+    };
+
     const onSubmit: SubmitHandler<typeof defaultValues> = data => {
         const {email, password} = data;
+        const loginPayload: TLoginPayload = [auth, email, password];
 
-        dispatch(onUserSignInWithEmailAndPassword({email, password, deleteParams}));
+        handleUserLogin({loginMethod: AuthMethods.emailAndPassword, loginPayload});
     };
 
     const onOpenSignUpForm = () => {
@@ -143,13 +164,25 @@ const SignInForm = () => {
                     </Grid2>
 
                     <Grid2 py={2} size={{xs: 12, sm: 6}}>
-                        <Button fullWidth variant="contained" color="primary" startIcon={<GoogleIcon />}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            startIcon={<GoogleIcon />}
+                            disabled={maxAttemptsCountAchieved}
+                            onClick={() => handleUserLogin({loginMethod: AuthMethods.google})}>
                             Google
                         </Button>
                     </Grid2>
 
                     <Grid2 py={2} size={{xs: 12, sm: 6}}>
-                        <Button fullWidth variant="contained" color="primary" startIcon={<FacebookIcon />}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            startIcon={<FacebookIcon />}
+                            disabled={maxAttemptsCountAchieved}
+                            onClick={() => handleUserLogin({loginMethod: AuthMethods.facebook})}>
                             Facebook
                         </Button>
                     </Grid2>

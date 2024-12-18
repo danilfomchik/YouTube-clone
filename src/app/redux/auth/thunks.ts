@@ -1,11 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {
-    createUserWithEmailAndPassword,
-    sendPasswordResetEmail,
-    signInWithEmailAndPassword,
-    signOut,
-    updateProfile,
-} from 'firebase/auth';
+import {createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, updateProfile} from 'firebase/auth';
 import Cookies from 'js-cookie';
 
 import {showSuccess} from '../snackbar/snackbarSlice';
@@ -13,14 +7,17 @@ import {ISlicesNames, IThunkErrorState} from '../types';
 import {
     IThunkNames,
     FirebaseErrors,
-    ISignInWithEmailAndPasswordThunkProps,
+    IUserSignInThunkProps,
     ISignUpWithEmailAndPasswordThunkProps,
     IResetPasswordThunkProps,
+    AuthMethods,
+    TLoginPayload,
 } from './types';
 import {auth} from '@/app/firebase/firebase-config';
 import {SearchParamsKeys, StorageKeys, AuthSearchParamsValues} from '@/app/services/types';
 import {prepareUserData} from './utils';
 import {onAddImageToStorage, onAddUserToDatabase} from '@/app/firebase/firebase-utils';
+import {authMethods} from '@/app/firebase/auth-methods';
 
 export const onUserSignUpWithEmailAndPassword = createAsyncThunk(
     `${ISlicesNames.auth}/${IThunkNames.signUp}`,
@@ -61,11 +58,14 @@ export const onUserSignUpWithEmailAndPassword = createAsyncThunk(
     },
 );
 
-export const onUserSignInWithEmailAndPassword = createAsyncThunk(
+export const onUserSignIn = createAsyncThunk(
     `${ISlicesNames.auth}/${IThunkNames.signIn}`,
-    async ({email, password, deleteParams}: ISignInWithEmailAndPasswordThunkProps, {rejectWithValue, dispatch}) => {
+    async ({loginMethod, loginPayload, deleteParams}: IUserSignInThunkProps, {rejectWithValue, dispatch}) => {
         try {
-            const {user} = await signInWithEmailAndPassword(auth, email, password);
+            const currentLoginMethod = authMethods[loginMethod];
+            const loginParams = loginMethod === AuthMethods.emailAndPassword ? loginPayload : [];
+
+            const {user} = await currentLoginMethod(...(loginParams as TLoginPayload));
 
             Cookies.set(StorageKeys.userId, JSON.stringify(user.uid), {secure: true});
 

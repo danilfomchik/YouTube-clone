@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 
 import createGenericSlice, {IGenericState} from '../createGenericSlice';
 import {ISlicesNames} from '../types';
-import {onUserSignInWithEmailAndPassword, onUserSignOut} from './thunks';
+import {onUserSignIn, onUserSignOut} from './thunks';
 import {ICommonState, IUser} from './types';
 import {StorageKeys} from '@/app/services/types';
 import {initialSecondsValue, maxLoginAttempts} from '@/app/services/constants';
@@ -51,7 +51,7 @@ export const authData = createGenericSlice<ICommonState, typeof reducers>({
     reducers,
     extraReducers: builder => {
         builder
-            .addCase(onUserSignInWithEmailAndPassword.rejected, state => {
+            .addCase(onUserSignIn.rejected, state => {
                 let loginAttempts = state.data.loginAttempts;
 
                 state.data.loginAttempts = ++loginAttempts;
@@ -60,7 +60,7 @@ export const authData = createGenericSlice<ICommonState, typeof reducers>({
                     state.data.maxAttemptsCountAchieved = true;
                 }
             })
-            .addCase(onUserSignInWithEmailAndPassword.fulfilled, (state, {payload}) => {
+            .addCase(onUserSignIn.fulfilled, (state, {payload}) => {
                 state.data.userData = payload as IUser;
                 state.data.userLoggedIn = true;
 
