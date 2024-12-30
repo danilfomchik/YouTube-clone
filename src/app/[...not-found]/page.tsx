@@ -4,7 +4,8 @@ import React from 'react';
 import {useRouter} from 'next/navigation';
 
 import Button from '../components/Buttons';
-import {BoxContainer, Title} from './Styles';
+import {BoxContainer} from './Styles';
+import ErrorMessage from '../components/ErrorMessage';
 
 const Notfound = () => {
     const router = useRouter();
@@ -14,7 +15,7 @@ const Notfound = () => {
 
     return (
         <BoxContainer>
-            <Title variant="h1">{'404'}</Title>
+            <ErrorMessage status="404" message="Page not found" mb={3} />
             <Button color="primary" onClick={handleGoBack}>
                 {'go back'}
             </Button>

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-    Avatar,
     Badge,
     DialogActions,
     DialogContent,
@@ -28,6 +27,7 @@ import {selectSignUpStatus} from '@/app/redux/auth/selectors';
 import {StatusesTypes} from '@/app/redux/types';
 import {IUserFormData} from '../types';
 import FileInputControl from '../../form/FileInputControl';
+import {UserAvatar} from './Styles';
 
 const SignUpForm = () => {
     const dispatch = useAppDispatch();
@@ -85,7 +85,7 @@ const SignUpForm = () => {
                         </IconButton>
                     ) : null
                 }>
-                <Avatar alt={'alt'} src={avatarUrl} sx={{width: '100px', height: '100px'}} />
+                <UserAvatar alt="User avatar" src={avatarUrl} />
             </Badge>
             <DialogContent>
                 <DialogContentText component={Grid2} display="flex" flexDirection="column" gap={2}>
