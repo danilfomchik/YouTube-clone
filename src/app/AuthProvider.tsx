@@ -5,10 +5,13 @@ import {useSelector} from 'react-redux';
 
 import {useAppDispatch} from './redux/store';
 import {auth} from './firebase/firebase-config';
-import {resetSlice, setLoginAttemptsTime, setUserData} from './redux/auth/authSlice';
+import {resetSlice, setLoginAttemptsTime, setUserData, setUserLocation} from './redux/auth/authSlice';
 import {StorageKeys} from './services/types';
 import {prepareUserData} from './redux/auth/utils';
 import {selectLoginAttemptsTime, selectMaxAttemptsCountAchieved} from './redux/auth/selectors';
+import {fetchWrap} from './services/common';
+import {showError} from './redux/snackbar/snackbarSlice';
+import {USER_LOCATION_API_URL} from './services/constants';
 
 const AuthProvider = ({children}: PropsWithChildren) => {
     const dispatch = useAppDispatch();
@@ -16,12 +19,46 @@ const AuthProvider = ({children}: PropsWithChildren) => {
     const loginAttemptsTime = useSelector(selectLoginAttemptsTime);
 
     const userId = Cookies.get(StorageKeys.userId);
+    const regionCode = Cookies.get(StorageKeys.regionCode);
+
+    const getUserLocation = async () => {
+        const {country_code}: {country_code: string} = await fetchWrap({
+            request: {
+                url: USER_LOCATION_API_URL,
+            },
+        });
+
+        return country_code;
+    };
+
+    const allowUserLocation = useCallback(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async () => {
+                    const country_code = await getUserLocation();
+
+                    dispatch(setUserLocation(country_code));
+                },
+                () => {
+                    dispatch(showError({message: 'Геолокацію вимкнено.'}));
+                },
+            );
+        } else {
+            alert('Geolocation is not supported by this browser');
+        }
+    }, [dispatch]);
 
     const initializeUser = useCallback(
         async (user: User | null) => {
             if (user) {
-                if (userId && user.uid === JSON.parse(userId)) dispatch(setUserData(prepareUserData(user)));
+                if (userId && user.uid === userId) dispatch(setUserData(prepareUserData(user)));
+
+                if (!regionCode) {
+                    allowUserLocation();
+                }
             } else {
+                Cookies.remove(StorageKeys.regionCode);
+
                 if (userId) {
                     dispatch(resetSlice());
 
@@ -29,7 +66,7 @@ const AuthProvider = ({children}: PropsWithChildren) => {
                 }
             }
         },
-        [dispatch, userId],
+        [dispatch, userId, regionCode, allowUserLocation],
     );
 
     const onAttemptsTimerEnd = useCallback(() => {
@@ -39,6 +76,7 @@ const AuthProvider = ({children}: PropsWithChildren) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, initializeUser);
+
         return unsubscribe;
     }, [initializeUser]);
 

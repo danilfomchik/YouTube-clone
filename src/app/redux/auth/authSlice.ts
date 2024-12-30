@@ -5,7 +5,7 @@ import {ISlicesNames} from '../types';
 import {onUserSignIn, onUserSignOut} from './thunks';
 import {ICommonState, IUser} from './types';
 import {StorageKeys} from '@/app/services/types';
-import {initialSecondsValue, maxLoginAttempts} from '@/app/services/constants';
+import {initialLocation, initialSecondsValue, maxLoginAttempts} from '@/app/services/constants';
 import {getParsedStorageValue} from '@/app/services/utils';
 
 const reducers = {
@@ -22,22 +22,39 @@ const reducers = {
         if (payload === 0) {
             Cookies.remove(StorageKeys.loginAttemptsTime);
         } else {
-            Cookies.set(StorageKeys.loginAttemptsTime, JSON.stringify(payload));
+            Cookies.set(StorageKeys.loginAttemptsTime, payload.toString(), {
+                sameSite: 'Strict',
+            });
         }
 
         state.data.loginAttemptsTime = payload;
+    },
+    setUserLocation: (state: IGenericState<ICommonState>, {payload}: {payload: string}) => {
+        Cookies.set(StorageKeys.regionCode, payload, {
+            secure: true,
+            sameSite: 'Strict',
+        });
+
+        state.data.userLocation = payload;
+    },
+    clearUserLocation: (state: IGenericState<ICommonState>) => {
+        Cookies.remove(StorageKeys.regionCode);
+
+        state.data.userLocation = initialLocation;
     },
 };
 
 const loginAttemptsCount = getParsedStorageValue(StorageKeys.loginAttempts, 0);
 const initialLoginAttemptsTime = getParsedStorageValue(StorageKeys.loginAttemptsTime, initialSecondsValue);
+const regionCode = getParsedStorageValue(StorageKeys.regionCode, initialLocation);
 
 const initialData = {
     userLoggedIn: false,
     userData: null,
-    loginAttempts: loginAttemptsCount,
-    maxAttemptsCountAchieved: loginAttemptsCount === maxLoginAttempts,
-    loginAttemptsTime: initialLoginAttemptsTime,
+    userLocation: regionCode,
+    loginAttempts: +loginAttemptsCount,
+    maxAttemptsCountAchieved: +loginAttemptsCount === maxLoginAttempts,
+    loginAttemptsTime: +initialLoginAttemptsTime,
 };
 
 export const authData = createGenericSlice<ICommonState, typeof reducers>({
@@ -67,12 +84,14 @@ export const authData = createGenericSlice<ICommonState, typeof reducers>({
                 authData.caseReducers.clearLoginAttempts(state);
             })
             .addCase(onUserSignOut.fulfilled, state => {
-                authData.caseReducers.resetSlice(state);
-
                 Cookies.remove(StorageKeys.userId);
+
+                authData.caseReducers.resetSlice(state);
+                authData.caseReducers.clearUserLocation(state);
             });
     },
 });
 
-export const {resetSlice, resetError, setUserData, clearLoginAttempts, setLoginAttemptsTime} = authData.actions;
+export const {resetSlice, resetError, setUserData, clearLoginAttempts, setLoginAttemptsTime, setUserLocation} =
+    authData.actions;
 export default authData.reducer;

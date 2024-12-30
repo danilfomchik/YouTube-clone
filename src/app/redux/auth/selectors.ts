@@ -2,6 +2,7 @@ import {AppStoreState} from '../store';
 import {IThunkNames} from './types';
 
 export const selectUserData = (state: AppStoreState) => state.auth.data.userData;
+export const selectUserLocation = (state: AppStoreState) => state.auth.data.userLocation;
 export const selectIsUserLoggedIn = (state: AppStoreState) => state.auth.data.userLoggedIn;
 export const selectLoginAttemptsCount = (state: AppStoreState) => state.auth.data.loginAttempts;
 export const selectMaxAttemptsCountAchieved = (state: AppStoreState) => state.auth.data.maxAttemptsCountAchieved;
