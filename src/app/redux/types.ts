@@ -43,6 +43,7 @@ export enum ISlicesNames {
     navbar = 'navbar',
     accountMenu = 'accountMenu',
     auth = 'auth',
+    videosData = 'videosData',
 }
 
 export type SliceNames = ISlicesNames;
