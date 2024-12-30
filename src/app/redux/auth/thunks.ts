@@ -67,7 +67,7 @@ export const onUserSignIn = createAsyncThunk(
 
             const {user} = await currentLoginMethod(...(loginParams as TLoginPayload));
 
-            Cookies.set(StorageKeys.userId, JSON.stringify(user.uid), {secure: true});
+            Cookies.set(StorageKeys.userId, user.uid, {secure: true, sameSite: 'Strict'});
 
             if (deleteParams) {
                 deleteParams(SearchParamsKeys.authKey);
@@ -81,11 +81,15 @@ export const onUserSignIn = createAsyncThunk(
             const loginAttempts = Cookies.get(StorageKeys.loginAttempts);
 
             if (loginAttempts) {
-                let loginAttemptsCount = JSON.parse(loginAttempts);
+                let loginAttemptsCount = Number(loginAttempts);
 
-                Cookies.set(StorageKeys.loginAttempts, JSON.stringify(++loginAttemptsCount));
+                Cookies.set(StorageKeys.loginAttempts, (++loginAttemptsCount).toString(), {
+                    sameSite: 'Strict',
+                });
             } else {
-                Cookies.set(StorageKeys.loginAttempts, JSON.stringify(1));
+                Cookies.set(StorageKeys.loginAttempts, (1).toString(), {
+                    sameSite: 'Strict',
+                });
             }
 
             return rejectWithValue({name, message, stack, code});

@@ -1,5 +1,6 @@
-import {MenusEnum} from '@/app/(home)/components/Header/components/AccountMenu/types';
-import createGenericSlice, {IGenericState} from '../createGenericSlice';
+import {createSlice} from '@reduxjs/toolkit';
+
+import {MenusEnum} from '@/app/components/Header/components/AccountMenu/types';
 import {ISlicesNames} from '../types';
 import {ICommonState} from './types';
 
@@ -7,7 +8,7 @@ const defaultMenu = MenusEnum.mainMenu;
 
 const reducers = {
     changeCurrentMenu: (
-        state: IGenericState<ICommonState>,
+        state: {data: ICommonState},
         {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}},
     ) => {
         const {prevMenu, nextMenu} = payload;
@@ -17,11 +18,11 @@ const reducers = {
         state.data.currentMenu = nextMenu;
         state.data.prevMenus = [...(prevMenuState || []), prevMenu];
     },
-    resetMenu: (state: IGenericState<ICommonState>) => {
+    resetMenu: (state: {data: ICommonState}) => {
         state.data.currentMenu = defaultMenu;
         state.data.prevMenus = [];
     },
-    returnToPrevMenu: (state: IGenericState<ICommonState>) => {
+    returnToPrevMenu: (state: {data: ICommonState}) => {
         const prevMenuState = state.data.prevMenus;
         const prevMenuStateLastItem = prevMenuState!.length - 1;
 
@@ -38,17 +39,14 @@ const initialData = {
     prevMenus: [],
 };
 
-export const accountMenuData = createGenericSlice<ICommonState, typeof reducers>({
+export const accountMenuData = createSlice({
     name: ISlicesNames.accountMenu,
     initialState: {
         data: initialData,
-        statuses: {},
-        errors: {},
-        lastRequestId: {},
     },
     reducers,
     extraReducers: () => {},
 });
 
-export const {resetSlice, returnToPrevMenu, resetMenu, changeCurrentMenu} = accountMenuData.actions;
+export const {returnToPrevMenu, resetMenu, changeCurrentMenu} = accountMenuData.actions;
 export default accountMenuData.reducer;
