@@ -29,7 +29,7 @@ const Header = () => {
         <>
             <MuiAppBar position="fixed" open={isNavbarOpen}>
                 <Toolbar>
-                    <Grid2 mr={2}>
+                    <Grid2 sx={{mr: {xs: 0, md: 2}}}>
                         <IconButton
                             aria-label={!isNavbarOpen ? 'open drawer' : 'close drawer'}
                             onClick={onDrawerOpen}

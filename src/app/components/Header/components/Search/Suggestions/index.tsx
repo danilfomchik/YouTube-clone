@@ -3,7 +3,9 @@ import {useGetSuggestionsQuery} from '@/app/redux/suggestions/api';
 import {ISuggestionsProps} from './types';
 
 const Suggestions = ({searchValue, control}: ISuggestionsProps) => {
-    const {data: options, isFetching} = useGetSuggestionsQuery(searchValue);
+    const {data: options, isFetching} = useGetSuggestionsQuery(searchValue, {
+        skip: !searchValue,
+    });
 
     return (
         <AutocompleteControl

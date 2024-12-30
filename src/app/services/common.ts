@@ -2,11 +2,8 @@ import type {AxiosResponse} from 'axios';
 import axios, {AxiosError} from 'axios';
 
 import {IError, IFetch} from './types';
-import {API_URL} from './constants';
 
 export const fetchWrap = async ({request, method = 'GET', override = {}}: IFetch) => {
-    axios.defaults.baseURL = API_URL;
-
     const headers = {
         'Content-Type': 'application/json',
         Accept: '*/*',

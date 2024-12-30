@@ -1,6 +1,6 @@
 import {CSSObject, Drawer, styled, Theme} from '@mui/material';
 
-const drawerWidth = 220;
+export const drawerWidth = 220;
 
 export const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -18,7 +18,7 @@ export const closedMixin = (theme: Theme): CSSObject => ({
     }),
     overflowX: 'hidden',
     [theme.breakpoints.up('xs')]: {
-        width: `calc(${theme.spacing(8.5)} + 1px)`,
+        width: 0,
     },
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(11.875)} + 1px)`,
@@ -35,6 +35,14 @@ export const MuiDrawer = styled(Drawer, {shouldForwardProp: prop => prop !== 'op
             style: {
                 ...openedMixin(theme),
                 '& .MuiDrawer-paper': openedMixin(theme),
+                '& .MuiPaper-root': {
+                    [theme.breakpoints.up('xs')]: {
+                        padding: theme.spacing(1, 1.5, 0),
+                    },
+                    [theme.breakpoints.up('sm')]: {
+                        padding: theme.spacing(2, 1.5, 0),
+                    },
+                },
             },
         },
         {
@@ -42,11 +50,15 @@ export const MuiDrawer = styled(Drawer, {shouldForwardProp: prop => prop !== 'op
             style: {
                 ...closedMixin(theme),
                 '& .MuiDrawer-paper': closedMixin(theme),
+                '& .MuiPaper-root': {
+                    [theme.breakpoints.up('xs')]: {
+                        padding: 0,
+                    },
+                    [theme.breakpoints.up('sm')]: {
+                        padding: theme.spacing(2, 1.5, 0),
+                    },
+                },
             },
         },
     ],
-
-    '& .MuiPaper-root': {
-        padding: theme.spacing(2, 1.5, 0),
-    },
 }));

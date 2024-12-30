@@ -35,29 +35,31 @@ const Navbar = () => {
     }, [pathname]);
 
     return (
-        <MuiDrawer variant="permanent" open={isNavbarOpen}>
-            <DrawerHeader />
-            <List component="nav" dense>
-                {pages.map(page => {
-                    const pageIndex = pages.indexOf(page);
+        <>
+            <MuiDrawer variant="permanent" open={isNavbarOpen}>
+                <DrawerHeader />
+                <List component="nav" dense>
+                    {pages.map(page => {
+                        const pageIndex = pages.indexOf(page);
 
-                    return (
-                        <NavbarItem
-                            key={page.label}
-                            page={page}
-                            isNavbarOpen={isNavbarOpen}
-                            handleListItemClick={handleListItemClick}
-                            isSelected={selectedIndex === pageIndex}
-                            pageIndex={pageIndex}
-                        />
-                    );
-                })}
-            </List>
-            <Divider />
-            <Grid2 container p={isNavbarOpen ? 2 : 0} pt={2} gap={1.5}>
-                {!isUserLoggedIn && <NotAuthorized isNavbarOpen={isNavbarOpen} />}
-            </Grid2>
-        </MuiDrawer>
+                        return (
+                            <NavbarItem
+                                key={page.label}
+                                page={page}
+                                isNavbarOpen={isNavbarOpen}
+                                handleListItemClick={handleListItemClick}
+                                isSelected={selectedIndex === pageIndex}
+                                pageIndex={pageIndex}
+                            />
+                        );
+                    })}
+                </List>
+                <Divider />
+                <Grid2 container p={isNavbarOpen ? 2 : 0} pt={2} gap={1.5}>
+                    {!isUserLoggedIn && <NotAuthorized isNavbarOpen={isNavbarOpen} />}
+                </Grid2>
+            </MuiDrawer>
+        </>
     );
 };
 

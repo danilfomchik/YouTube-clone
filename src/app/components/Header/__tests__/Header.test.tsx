@@ -13,9 +13,6 @@ const preloadedState = {
             currentMenu: MenusEnum.mainMenu,
             prevMenus: [],
         },
-        statuses: {},
-        errors: {},
-        lastRequestId: {},
     },
 };
 
@@ -26,7 +23,7 @@ describe('Header component', () => {
         const banner = getByRole('banner');
 
         const menuButton = within(banner).getByRole('button', {
-            name: /open drawer/i,
+            name: /close drawer/i,
         });
         expect(menuButton).toBeDefined();
 
@@ -47,9 +44,6 @@ describe('Header component', () => {
                     data: {
                         isNavbarOpen: false,
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });
@@ -69,9 +63,6 @@ describe('Header component', () => {
                     data: {
                         isNavbarOpen: true,
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });

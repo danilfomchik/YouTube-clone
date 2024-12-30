@@ -7,13 +7,16 @@ import {navbarData} from './navbar/navbarSlice';
 import {accountMenuData} from './accountMenu/accountMenuSlice';
 import {suggestionApi} from './suggestions/api';
 import {authData} from './auth/authSlice';
+import {videosData} from './videosList/videosListSlice';
+import {ISlicesNames} from './types';
 
 const combinedReducer = combineReducers({
-    snackbar: snackbarData.reducer,
-    navbar: navbarData.reducer,
-    accountMenu: accountMenuData.reducer,
-    auth: authData.reducer,
+    [ISlicesNames.snackbar]: snackbarData.reducer,
+    [ISlicesNames.navbar]: navbarData.reducer,
+    [ISlicesNames.accountMenu]: accountMenuData.reducer,
+    [ISlicesNames.auth]: authData.reducer,
     [suggestionApi.reducerPath]: suggestionApi.reducer,
+    [ISlicesNames.videosData]: videosData.reducer,
 });
 
 const store = configureStore({

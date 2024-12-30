@@ -56,9 +56,9 @@ const customThemeValues = createTheme({
             white: '#ffffff',
         },
         text: {
-            disabled: '#aaaaaa',
             primary: '#ffffff',
             secondary: '#D1D5DB',
+            disabled: '#aaaaaa',
         },
     },
 });

@@ -23,9 +23,6 @@ describe('User component', () => {
                         currentMenu: MenusEnum.mainMenu,
                         prevMenus: [],
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });

@@ -40,7 +40,7 @@ const Search = () => {
 
     return (
         <FormProvider {...methods}>
-            <Grid2 container flexGrow={1} justifyContent="center">
+            <Grid2 container flexGrow={1} justifyContent="center" sx={{mr: {xs: 1, md: 0}}}>
                 <form onSubmit={handleSubmit(onSubmit)} data-testid="Search form">
                     <Suggestions control={control} searchValue={searchValue} />
                 </form>

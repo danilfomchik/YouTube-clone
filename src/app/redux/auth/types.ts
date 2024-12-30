@@ -19,6 +19,7 @@ export interface IDataBaseUser {
 export interface ICommonState {
     userLoggedIn: boolean;
     userData: IUser | null;
+    userLocation: string;
     loginAttempts: number;
     maxAttemptsCountAchieved: boolean;
     loginAttemptsTime: number;

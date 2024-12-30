@@ -2,7 +2,7 @@
 import {Theme, createTheme} from '@mui/material';
 
 import customThemeValues from './customThemeValues';
-import {closedMixin, openedMixin} from '@/app/(home)/components/Navbar/Styles';
+import {closedMixin, openedMixin} from '@/app/components/Navbar/Styles';
 
 export const toolbarHeights = {
     mobilePortrait: 60,
@@ -38,7 +38,7 @@ const createCommonTheme = (theme: Theme) =>
                 styleOverrides: {
                     root: {
                         fontFamily: 'inherit',
-                        color: theme.palette.text.primary,
+                        color: theme.palette.text.secondary,
                     },
                     h1: {
                         fontSize: '3.8rem',
@@ -68,12 +68,6 @@ const createCommonTheme = (theme: Theme) =>
                         fontSize: '1.5rem',
                         lineHeight: '150%',
                         fontWeight: '600',
-
-                        [theme.breakpoints.down('md')]: {
-                            fontSize: '1.25rem',
-                            lineHeight: '140%',
-                            fontWeight: '500',
-                        },
                     },
                     body1: {
                         fontWeight: '500',
@@ -82,11 +76,6 @@ const createCommonTheme = (theme: Theme) =>
                         fontSize: '1rem',
                         lineHeight: '150%',
                         fontWeight: '400',
-
-                        [theme.breakpoints.down('md')]: {
-                            fontSize: '1rem',
-                            opacity: 0.9,
-                        },
                     },
                     caption: {
                         fontSize: '0.8 rem',
@@ -365,7 +354,6 @@ const createCommonTheme = (theme: Theme) =>
 
                         '& .MuiTypography-h6': {
                             display: 'flex',
-                            marginRight: theme.spacing(2),
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',

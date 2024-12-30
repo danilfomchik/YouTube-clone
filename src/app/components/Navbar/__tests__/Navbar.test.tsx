@@ -12,9 +12,6 @@ describe('Navbar component', () => {
                     data: {
                         isNavbarOpen: true,
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });
@@ -35,9 +32,6 @@ describe('Navbar component', () => {
                     data: {
                         isNavbarOpen: true,
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });
