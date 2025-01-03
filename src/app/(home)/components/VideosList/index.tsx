@@ -50,14 +50,7 @@ const VideosList = ({loadVideosList}: IVideosListProps) => {
 
                         // youtube api has some issues with duplicating items,
                         // so I decided to use {videoId-index} as key
-                        return (
-                            <VideoItem
-                                key={`${_videoId}-${index}`}
-                                video={video}
-                                videoId={_videoId}
-                                kind={video.kind}
-                            />
-                        );
+                        return <VideoItem key={`${_videoId}-${index}`} video={video} videoId={_videoId} />;
                     })}
             </VideosListWrapper>
         </InfiniteScroll>

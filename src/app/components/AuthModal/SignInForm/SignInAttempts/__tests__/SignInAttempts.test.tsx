@@ -1,4 +1,4 @@
-import {maxLoginAttempts} from '@/app/services/constants';
+import {initialLocation, maxLoginAttempts} from '@/app/services/constants';
 import {renderWithProviders} from '@/app/tests/utils';
 import SignInAttempts from '..';
 import {notAuthPreloadedState} from '@/app/tests/constants';
@@ -12,6 +12,7 @@ describe('group', () => {
                     data: {
                         userLoggedIn: false,
                         userData: null,
+                        userLocation: initialLocation,
                         loginAttempts: maxLoginAttempts,
                         maxAttemptsCountAchieved: true,
                         loginAttemptsTime: 300,

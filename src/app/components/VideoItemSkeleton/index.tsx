@@ -6,7 +6,7 @@ import {VideoDescriptionSkeletonWrapper, VideoPreviewSkeleton} from './Styles';
 
 const VideoItemSkeleton = ({withChannelInfo = true}: IVideoItemSkeletonProps) => {
     return (
-        <Grid2 container wrap="wrap" size={{xs: 12}} height="100%">
+        <Grid2 container wrap="wrap" size={{xs: 12}} height="100%" data-testid="Video item skeleton">
             <VideoPreviewSkeleton size={{xs: 12}}>
                 <Skeleton variant="rectangular" />
             </VideoPreviewSkeleton>

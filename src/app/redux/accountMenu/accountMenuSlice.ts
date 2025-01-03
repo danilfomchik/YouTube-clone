@@ -7,10 +7,7 @@ import {ICommonState} from './types';
 const defaultMenu = MenusEnum.mainMenu;
 
 const reducers = {
-    changeCurrentMenu: (
-        state: {data: ICommonState},
-        {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}},
-    ) => {
+    changeCurrentMenu: (state: ICommonState, {payload}: {payload: {prevMenu: MenusEnum; nextMenu: MenusEnum}}) => {
         const {prevMenu, nextMenu} = payload;
 
         const prevMenuState = state.data.prevMenus;
@@ -18,11 +15,11 @@ const reducers = {
         state.data.currentMenu = nextMenu;
         state.data.prevMenus = [...(prevMenuState || []), prevMenu];
     },
-    resetMenu: (state: {data: ICommonState}) => {
+    resetMenu: (state: ICommonState) => {
         state.data.currentMenu = defaultMenu;
         state.data.prevMenus = [];
     },
-    returnToPrevMenu: (state: {data: ICommonState}) => {
+    returnToPrevMenu: (state: ICommonState) => {
         const prevMenuState = state.data.prevMenus;
         const prevMenuStateLastItem = prevMenuState!.length - 1;
 
@@ -39,7 +36,7 @@ const initialData = {
     prevMenus: [],
 };
 
-export const accountMenuData = createSlice({
+export const accountMenuData = createSlice<ICommonState, typeof reducers>({
     name: ISlicesNames.accountMenu,
     initialState: {
         data: initialData,

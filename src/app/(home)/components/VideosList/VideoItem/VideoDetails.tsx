@@ -32,7 +32,7 @@ const VideoDetails = ({video}: {video: IVideo}) => {
                         />
                     </Grid2>
                 )}
-                <Grid2>
+                <Grid2 container flexDirection="column" size={{xs: 12}}>
                     <VideoTitle variant="h5" mb={0.5}>
                         {title}
                     </VideoTitle>
@@ -56,12 +56,21 @@ const VideoDetails = ({video}: {video: IVideo}) => {
                             {channelTitle || video?.channelInfo?.snippet.title}
                         </VideoItemChannelLink>
                     </Tooltip>
-                    <Typography variant="body2" fontSize={14} color="text.disabled">
-                        {Intl.NumberFormat('en', {
-                            notation: 'compact',
-                        }).format(+video?.statistics?.viewCount)}
-                        &nbsp;view(s) •&nbsp;{moment(publishedAt).fromNow()}
-                    </Typography>
+                    <Grid2 container gap={'3px'}>
+                        <Typography variant="body2" fontSize={14} color="text.disabled" component="span">
+                            {Intl.NumberFormat('en', {
+                                notation: 'compact',
+                            }).format(+video?.statistics?.viewCount)}
+                        </Typography>
+
+                        <Typography variant="body2" fontSize={14} color="text.disabled" component="span">
+                            view(s) •
+                        </Typography>
+
+                        <Typography variant="body2" fontSize={14} color="text.disabled" component="span">
+                            {moment(publishedAt).fromNow()}
+                        </Typography>
+                    </Grid2>
                 </Grid2>
             </Grid2>
         </CardContent>

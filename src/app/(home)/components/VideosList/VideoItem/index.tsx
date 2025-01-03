@@ -14,11 +14,12 @@ import VideoDetails from './VideoDetails';
 import {useAppDispatch} from '@/app/redux/store';
 import {onLoadVideoInfo} from '@/app/redux/videosList/thunks';
 
-const VideoItem = ({video, videoId, kind}: IVideoItemProps) => {
+const VideoItem = ({video, videoId}: IVideoItemProps) => {
     const dispatch = useAppDispatch();
     const isVideoLoading = useSelector(selectIsVideoLoading(videoId));
 
     const {
+        kind,
         snippet: {title, channelId, thumbnails},
         contentDetails,
     } = video;
@@ -29,8 +30,10 @@ const VideoItem = ({video, videoId, kind}: IVideoItemProps) => {
     const thumbnail = thumbnails?.maxres?.url || thumbnails?.high?.url || thumbnails?.medium?.url;
 
     useEffect(() => {
-        dispatch(onLoadVideoInfo({videoId, channelId, kind}));
-    }, [dispatch, videoId, channelId, kind]);
+        if (!video?.channelInfo) {
+            dispatch(onLoadVideoInfo({videoId, channelId, kind}));
+        }
+    }, [dispatch, videoId, video?.channelInfo, channelId, kind]);
 
     return (
         <>
@@ -38,7 +41,10 @@ const VideoItem = ({video, videoId, kind}: IVideoItemProps) => {
                 <VideoItemSkeleton withChannelInfo={true} />
             ) : (
                 <VideoItemCard>
-                    <VideoItemCardLink href={`https://www.youtube.com/watch?v=${videoId}`} target="_blank">
+                    <VideoItemCardLink
+                        href={`https://www.youtube.com/watch?v=${videoId}`}
+                        data-testid={`Video ${videoId} card link`}
+                        target="_blank">
                         <Grid2 container position="relative">
                             <VideoItemCardMedia title={title}>
                                 <Image alt={title} src={thumbnail} priority fill sizes="100%" width={0} height={0} />

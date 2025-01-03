@@ -15,9 +15,6 @@ describe('ReturnBack component', () => {
                 currentMenu: MenusEnum.languageMenu,
                 prevMenus: ['mainMenu', 'settingsMenu'] as MenusEnum[],
             },
-            statuses: {},
-            errors: {},
-            lastRequestId: {},
         },
     });
 
