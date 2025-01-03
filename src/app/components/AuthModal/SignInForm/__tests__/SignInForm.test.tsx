@@ -82,6 +82,7 @@ describe('SignInForm component', () => {
                 ...preloadedState,
                 auth: {
                     ...authPreloadedState.auth,
+                    // TODO: fix types
                     data: {
                         userLoggedIn: false,
                         userData: null,

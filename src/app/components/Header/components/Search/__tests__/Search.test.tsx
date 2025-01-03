@@ -4,7 +4,7 @@ import mockRouter from 'next-router-mock';
 
 import {renderWithProviders} from '@/app/tests/utils';
 import Search from '..';
-import {searchQueryMock, searchQuery} from '@/app/tests/mocks/handlers';
+import {searchQuery, searchQueryMock} from '@/app/redux/suggestions/__test__/mswHandlers';
 
 describe('Search component', () => {
     it(`should render all elements`, async () => {

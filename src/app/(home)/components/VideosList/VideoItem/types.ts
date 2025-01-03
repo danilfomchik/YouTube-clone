@@ -12,11 +12,11 @@ export interface IVideo {
         };
     };
     contentDetails: {
-        videoId: string;
+        videoId?: string;
         duration: string;
     };
     statistics: {viewCount: string};
-    channelInfo: {
+    channelInfo?: {
         snippet: {
             title: string;
             thumbnails: {
@@ -51,5 +51,4 @@ export enum Responses {
 export interface IVideoItemProps {
     video: IVideo;
     videoId: string;
-    kind: Responses;
 }
