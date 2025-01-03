@@ -20,31 +20,22 @@ describe('SignUpForm component', () => {
                 name: /welcome!/i,
             }),
         ).toBeDefined();
-
         expect(getByText(/sign up to rate videos, add comments and subscribe to channels\./i)).toBeDefined();
-
         expect(getByPlaceholderText(/enter firstname/i)).toBeDefined();
-
         expect(getByPlaceholderText(/enter lastname/i)).toBeDefined();
-
         expect(getByPlaceholderText(/enter email/i)).toBeDefined();
-
         expect(getByPlaceholderText(/enter password/i)).toBeDefined();
-
         expect(getByPlaceholderText(/confirm password/i)).toBeDefined();
-
         expect(
             getByRole('button', {
                 name: /choose profile photo/i,
             }),
         ).toBeDefined();
-
         expect(
             getByRole('button', {
                 name: /sign up/i,
             }),
         ).toBeDefined();
-
         expect(
             getByRole('button', {
                 name: /i already have account/i,

@@ -14,11 +14,8 @@ describe('AccountMenu component', () => {
         accountMenu: {
             data: {
                 currentMenu: MenusEnum.mainMenu,
-                prevMenus: [] as MenusEnum[],
+                prevMenus: [],
             },
-            statuses: {},
-            errors: {},
-            lastRequestId: {},
         },
     });
 
@@ -35,9 +32,6 @@ describe('AccountMenu component', () => {
                         currentMenu: MenusEnum.mainMenu,
                         prevMenus: [],
                     },
-                    statuses: {},
-                    errors: {},
-                    lastRequestId: {},
                 },
             },
         });

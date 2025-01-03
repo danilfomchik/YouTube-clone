@@ -2,7 +2,7 @@ import {within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import SignInForm from '..';
-import {maxLoginAttempts} from '@/app/services/constants';
+import {initialLocation, maxLoginAttempts} from '@/app/services/constants';
 import {renderWithProviders} from '@/app/tests/utils';
 import {authPreloadedState, notAuthPreloadedState, preloadedState} from '@/app/tests/constants';
 import {setupStore} from '@/app/redux/store';
@@ -86,6 +86,7 @@ describe('SignInForm component', () => {
                     data: {
                         userLoggedIn: false,
                         userData: null,
+                        userLocation: initialLocation,
                         loginAttempts: attempts,
                         maxAttemptsCountAchieved: false,
                         loginAttemptsTime: 300,
