@@ -8,6 +8,7 @@ export const preloadedState: AppStoreState = {
     navbar: {} as any,
     accountMenu: {} as any,
     videosData: {} as any,
+    categoriesData: {} as any,
 };
 
 export const authPreloadedState: AppStoreState = {

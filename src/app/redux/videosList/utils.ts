@@ -12,7 +12,7 @@ export const defaultUrls = {
         `&part=snippet,contentDetails,statistics`,
 };
 
-export const loadInfo = async (id: string, kind: Exclude<URLS, URLS.search>) => {
+export const loadInfo = async (id: string, kind: URLS.videos | URLS.channels) => {
     const videoInfo = await fetchWrap({
         request: {
             url: `${defaultUrls[kind]}&id=${id}`,

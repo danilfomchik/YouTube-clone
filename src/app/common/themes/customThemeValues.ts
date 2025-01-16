@@ -7,6 +7,8 @@ declare module '@mui/material/styles/createPalette' {
         grey: string;
         border: string;
         lightGrey: string;
+        lightWhite: string;
+        hover: string;
     }
 }
 
@@ -50,10 +52,12 @@ const customThemeValues = createTheme({
         },
         background: {
             default: '#121214',
-            grey: '#202024',
             black: '#24262a',
+            grey: '#202024',
             lightGrey: '#d9d9d9',
             white: '#ffffff',
+            lightWhite: '#f1f1f1',
+            hover: '#fff3',
         },
         text: {
             primary: '#ffffff',

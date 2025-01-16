@@ -35,9 +35,7 @@ const MainPageLayout = ({children}: Props) => {
                     <Header />
                     <Navbar />
 
-                    <Grid2
-                        component="main"
-                        sx={{px: {xs: 2, sm: 3}, py: {xs: 3, sm: 4}, width: {xs: '100%'}, minWidth: 'auto'}}>
+                    <Grid2 component="main" sx={{px: {xs: 2, sm: 3}, width: {xs: '100%'}, minWidth: 'auto'}}>
                         <DrawerHeader />
                         {children}
                     </Grid2>
