@@ -1,25 +1,36 @@
 import {http, HttpResponse} from 'msw';
 
 import {
-    channelInfoMockTest1,
-    channelInfoMockTest2,
+    searchChannelInfoMock1,
+    searchChannelInfoMock2,
+    categoryChannelInfoMock1,
+    categoryChannelInfoMock2,
     emptySearchQuery,
+    mockedCategories,
     mockedSearchVideosList,
+    mockedVideosByCategory,
     mockedVideosList,
     searchQuery,
-    videoInfoMockTest1,
-    videoInfoMockTest2,
+    testCategory,
+    searchVideoInfoMock1,
+    searchVideoInfoMock2,
+    categoryVideoInfoMock1,
+    categoryVideoInfoMock2,
 } from './mocks';
 import {MockedChannelInfo, MockedVideoInfo} from './types';
 
 const mockedChannelInfo = {
-    [MockedChannelInfo.test1]: channelInfoMockTest1,
-    [MockedChannelInfo.test2]: channelInfoMockTest2,
+    [MockedChannelInfo.searchChannel1]: searchChannelInfoMock1,
+    [MockedChannelInfo.searchChannel2]: searchChannelInfoMock2,
+    [MockedChannelInfo.categoryChannel1]: categoryChannelInfoMock1,
+    [MockedChannelInfo.categoryChannel2]: categoryChannelInfoMock2,
 };
 
 const mockedVideoInfo = {
-    [MockedVideoInfo.test1]: videoInfoMockTest1,
-    [MockedVideoInfo.test2]: videoInfoMockTest2,
+    [MockedVideoInfo.searchVideo1]: searchVideoInfoMock1,
+    [MockedVideoInfo.searchVideo2]: searchVideoInfoMock2,
+    [MockedVideoInfo.categoryVideo1]: categoryVideoInfoMock1,
+    [MockedVideoInfo.categoryVideo2]: categoryVideoInfoMock2,
 };
 
 export const channelsInfoHandler = http.get('https://youtube.googleapis.com/youtube/v3/channels', async ({request}) => {
@@ -38,6 +49,7 @@ export const searchVideosHandler = http.get('https://youtube.googleapis.com/yout
     const url = new URL(request.url);
 
     const videoQuery = url.searchParams.get('q');
+    const categoryId = url.searchParams.get('videoCategoryId');
 
     if (videoQuery === searchQuery) {
         return HttpResponse.json(mockedSearchVideosList);
@@ -45,6 +57,10 @@ export const searchVideosHandler = http.get('https://youtube.googleapis.com/yout
         return HttpResponse.json({
             items: [],
         });
+    }
+
+    if (categoryId === testCategory) {
+        return HttpResponse.json(mockedVideosByCategory);
     }
 
     return HttpResponse.json(
@@ -65,4 +81,10 @@ export const videosInfoHandler = http.get('https://youtube.googleapis.com/youtub
     }
 
     return HttpResponse.json(mockedVideosList);
+});
+
+export const categoriesHandler = http.get('https://youtube.googleapis.com/youtube/v3/videoCategories', () => {
+    return HttpResponse.json({
+        items: mockedCategories,
+    });
 });
