@@ -64,6 +64,7 @@ describe('MainPage component', () => {
                 name: /oops!/i,
             }),
         ).toBeInTheDocument();
+        // test
 
         expect(getByText(/nothing to show/i)).toBeInTheDocument();
     });
