@@ -1,8 +1,16 @@
 import {waitFor} from '@testing-library/react';
 import mockRouter from 'next-router-mock';
+import userEvent from '@testing-library/user-event';
 
 import {renderWithProviders} from '@/app/tests/utils';
-import {emptySearchQuery, mockedSearchVideosList, mockedVideosList, searchQuery} from './mocks';
+import {
+    emptySearchQuery,
+    mockedCategories,
+    mockedSearchVideosList,
+    mockedVideosByCategory,
+    mockedVideosList,
+    searchQuery,
+} from './mocks';
 import Main from '../page';
 
 describe('MainPage component', () => {
@@ -76,5 +84,28 @@ describe('MainPage component', () => {
         ).toBeInTheDocument();
 
         expect(getByText(/something went wrong/i)).toBeInTheDocument();
+    });
+
+    it('should render video items by category', async () => {
+        const {queryAllByTestId, getByRole, getAllByTestId, getByTestId} = renderWithProviders(<Main />);
+
+        await waitFor(() => {
+            expect(queryAllByTestId('Video item skeleton').length).toBe(0);
+        });
+
+        const categoryItem = getByRole('tab', {
+            name: mockedCategories[0].snippet.title,
+        });
+
+        await userEvent.click(categoryItem);
+
+        expect(getAllByTestId(/card link/i).length).toBe(mockedVideosByCategory.items.length);
+
+        for (const video of mockedVideosByCategory.items) {
+            const videoItemCardLink = getByTestId(`Video ${video.id.videoId} card link`);
+            expect(videoItemCardLink).toBeInTheDocument();
+            // TODO: change href after adding Video Page
+            expect(videoItemCardLink).toHaveAttribute('href', `https://www.youtube.com/watch?v=${video.id.videoId}`);
+        }
     });
 });
