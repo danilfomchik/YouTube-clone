@@ -13,11 +13,6 @@ const reducers = {
         state.data.userData = payload;
         state.data.userLoggedIn = true;
     },
-    clearLoginAttempts: (state: IGenericState<ICommonState>) => {
-        state.data.loginAttempts = 0;
-        state.data.maxAttemptsCountAchieved = false;
-        Cookies.remove(StorageKeys.loginAttempts);
-    },
     setLoginAttemptsTime: (state: IGenericState<ICommonState>, {payload}: {payload: number}) => {
         if (payload === 0) {
             Cookies.remove(StorageKeys.loginAttemptsTime);
@@ -37,21 +32,15 @@ const reducers = {
 
         state.data.userLocation = payload;
     },
-    clearUserLocation: (state: IGenericState<ICommonState>) => {
-        Cookies.remove(StorageKeys.regionCode);
-
-        state.data.userLocation = initialLocation;
-    },
 };
 
 const loginAttemptsCount = getParsedStorageValue(StorageKeys.loginAttempts, 0);
 const initialLoginAttemptsTime = getParsedStorageValue(StorageKeys.loginAttemptsTime, initialSecondsValue);
-const regionCode = getParsedStorageValue(StorageKeys.regionCode, initialLocation);
 
 const initialData = {
     userLoggedIn: false,
     userData: null,
-    userLocation: regionCode,
+    userLocation: initialLocation,
     loginAttempts: +loginAttemptsCount,
     maxAttemptsCountAchieved: +loginAttemptsCount === maxLoginAttempts,
     loginAttemptsTime: +initialLoginAttemptsTime,
@@ -80,18 +69,19 @@ export const authData = createGenericSlice<ICommonState, typeof reducers>({
             .addCase(onUserSignIn.fulfilled, (state, {payload}) => {
                 state.data.userData = payload as IUser;
                 state.data.userLoggedIn = true;
+                state.data.loginAttempts = 0;
+                state.data.maxAttemptsCountAchieved = false;
 
-                authData.caseReducers.clearLoginAttempts(state);
+                Cookies.remove(StorageKeys.loginAttempts);
             })
             .addCase(onUserSignOut.fulfilled, state => {
+                Cookies.remove(StorageKeys.regionCode);
                 Cookies.remove(StorageKeys.userId);
 
                 authData.caseReducers.resetSlice(state);
-                authData.caseReducers.clearUserLocation(state);
             });
     },
 });
 
-export const {resetSlice, resetError, setUserData, clearLoginAttempts, setLoginAttemptsTime, setUserLocation} =
-    authData.actions;
+export const {resetSlice, resetError, setUserData, setLoginAttemptsTime, setUserLocation} = authData.actions;
 export default authData.reducer;

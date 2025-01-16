@@ -9,6 +9,7 @@ import {suggestionApi} from './suggestions/api';
 import {authData} from './auth/authSlice';
 import {videosData} from './videosList/videosListSlice';
 import {ISlicesNames} from './types';
+import {categoriesData} from './categories/categoriesSlice';
 
 const combinedReducer = combineReducers({
     [ISlicesNames.snackbar]: snackbarData.reducer,
@@ -17,6 +18,7 @@ const combinedReducer = combineReducers({
     [ISlicesNames.auth]: authData.reducer,
     [suggestionApi.reducerPath]: suggestionApi.reducer,
     [ISlicesNames.videosData]: videosData.reducer,
+    [ISlicesNames.categoriesData]: categoriesData.reducer,
 });
 
 const store = configureStore({

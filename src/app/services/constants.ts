@@ -12,4 +12,8 @@ export const initialSecondsValue = 300;
 export const initialLocation = 'US';
 
 // videos
-export const maxVideosResults = 4;
+export const maxVideosResults = 16;
+
+// categories
+export const initialCategory = '';
+export const initialCategoryIndex = 0;

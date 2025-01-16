@@ -39,11 +39,11 @@ export interface IThunkErrorState {
 
 export enum ISlicesNames {
     snackbar = 'snackbar',
-    stories = 'stories',
     navbar = 'navbar',
     accountMenu = 'accountMenu',
     auth = 'auth',
     videosData = 'videosData',
+    categoriesData = 'categoriesData',
 }
 
 export type SliceNames = ISlicesNames;

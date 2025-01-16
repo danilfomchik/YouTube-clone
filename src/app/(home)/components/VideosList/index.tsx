@@ -14,6 +14,7 @@ import ErrorMessage from '@/app/components/ErrorMessage';
 import {selectNavbarStatus} from '@/app/redux/navbar/selectors';
 import {IVideosListProps} from './types';
 import SkeletonList from '@/app/components/SkeletonList';
+import {categoriesHeight} from '../Categories/Styles';
 
 const VideosList = ({loadVideosList}: IVideosListProps) => {
     const videos = useSelector(selectVideos);
@@ -39,6 +40,13 @@ const VideosList = ({loadVideosList}: IVideosListProps) => {
                 <ErrorMessage
                     status="Oops!"
                     message={videosListError ? 'Something went wrong...' : 'Nothing to show...'}
+                    sx={theme => ({
+                        paddingTop: `calc(${categoriesHeight}px + ${theme.spacing(6)})`,
+
+                        [theme.breakpoints.down('sm')]: {
+                            paddingTop: `calc(${categoriesHeight}px + ${theme.spacing(4)})`,
+                        },
+                    })}
                 />
             )}
 

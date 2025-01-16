@@ -2,6 +2,9 @@
 
 import {Box, styled} from '@mui/material';
 
+import {gridWrapperMixin} from './common/themes/mixins';
+import {categoriesHeight} from './(home)/components/Categories/Styles';
+
 export const MainContainer = styled(Box)(() => ({
     display: 'flex',
     flexDirection: 'column',
@@ -23,16 +26,12 @@ interface VideosListWrapperProps {
     isNavbarOpen?: boolean;
 }
 
-enum ItemsSizes {
-    small = 250,
-    large = 330,
-}
-
 export const VideosListWrapper = styled(Box, {
     shouldForwardProp: prop => prop !== 'itemsSize' && prop !== 'isNavbarOpen',
 })<VideosListWrapperProps>(({theme, itemsSize, isNavbarOpen}) => ({
-    gridTemplateColumns: `repeat(auto-fill, minmax(${ItemsSizes[itemsSize]}px, 1fr))`,
-    display: 'grid',
+    ...gridWrapperMixin(theme, itemsSize, isNavbarOpen),
+
+    paddingTop: `calc(${categoriesHeight}px + ${theme.spacing(6)})`,
     gap: '1rem',
     alignItems: 'start',
     justifyItems: 'center',
@@ -40,10 +39,6 @@ export const VideosListWrapper = styled(Box, {
     width: '100%',
 
     [theme.breakpoints.down('sm')]: {
-        gridTemplateColumns: `repeat(auto-fill, minmax(${
-            !isNavbarOpen ? `calc(320px - 48px)` : `${ItemsSizes[itemsSize]}px`
-        }, 1fr))`,
+        paddingTop: `calc(${categoriesHeight}px + ${theme.spacing(4)})`,
     },
-
-    [theme.breakpoints.up('sm')]: {},
 }));

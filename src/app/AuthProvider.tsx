@@ -5,13 +5,13 @@ import {useSelector} from 'react-redux';
 
 import {useAppDispatch} from './redux/store';
 import {auth} from './firebase/firebase-config';
-import {resetSlice, setLoginAttemptsTime, setUserData, setUserLocation} from './redux/auth/authSlice';
+import {resetSlice as resetAuthSlice, setLoginAttemptsTime, setUserData, setUserLocation} from './redux/auth/authSlice';
 import {StorageKeys} from './services/types';
 import {prepareUserData} from './redux/auth/utils';
 import {selectLoginAttemptsTime, selectMaxAttemptsCountAchieved} from './redux/auth/selectors';
 import {fetchWrap} from './services/common';
 import {showError} from './redux/snackbar/snackbarSlice';
-import {USER_LOCATION_API_URL} from './services/constants';
+import {initialLocation, USER_LOCATION_API_URL} from './services/constants';
 
 const AuthProvider = ({children}: PropsWithChildren) => {
     const dispatch = useAppDispatch();
@@ -40,7 +40,7 @@ const AuthProvider = ({children}: PropsWithChildren) => {
                     dispatch(setUserLocation(country_code));
                 },
                 () => {
-                    dispatch(showError({message: 'Геолокацію вимкнено.'}));
+                    dispatch(showError({message: 'Geolocation is disabled.'}));
                 },
             );
         } else {
@@ -51,26 +51,21 @@ const AuthProvider = ({children}: PropsWithChildren) => {
     const initializeUser = useCallback(
         async (user: User | null) => {
             if (user) {
-                if (userId && user.uid === userId) dispatch(setUserData(prepareUserData(user)));
-
                 if (!regionCode) {
                     allowUserLocation();
                 }
-            } else {
-                Cookies.remove(StorageKeys.regionCode);
 
-                if (userId) {
-                    dispatch(resetSlice());
-
-                    Cookies.remove(StorageKeys.userId);
+                if (userId && user.uid === userId) {
+                    dispatch(setUserLocation(regionCode || initialLocation));
+                    dispatch(setUserData(prepareUserData(user)));
                 }
             }
         },
-        [dispatch, userId, regionCode, allowUserLocation],
+        [allowUserLocation, dispatch, regionCode, userId],
     );
 
     const onAttemptsTimerEnd = useCallback(() => {
-        dispatch(resetSlice());
+        dispatch(resetAuthSlice());
         Cookies.remove(StorageKeys.loginAttempts);
     }, [dispatch]);
 

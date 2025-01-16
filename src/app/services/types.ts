@@ -33,6 +33,8 @@ export enum StorageKeys {
     loginAttempts = 'loginAttempts',
     loginAttemptsTime = 'loginAttemptsTime',
     regionCode = 'regionCode',
+    currentCategory = 'currentCategory',
+    currentCategoryIndex = 'currentCategoryIndex',
 }
 
 export enum AuthSearchParamsValues {
@@ -45,4 +47,5 @@ export enum URLS {
     videos = 'videos',
     search = 'search',
     channels = 'channels',
+    videoCategories = 'videoCategories',
 }
